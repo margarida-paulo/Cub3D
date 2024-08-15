@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_free_strarray.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 15:02:52 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/10/02 10:25:24 by maggie            #+#    #+#             */
+/*   Updated: 2024/05/03 18:23:01 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "libft.h"
 
-int main()
+void	ft_free_strarray(char **array)
 {
-	void	*mlx;
+	size_t	i;
 
-	mlx = mlx_init();
+	i = 0;
+	while (array && array[i])
+	{
+		free (array[i]);
+		i++;
+	}
+	free (array);
+	return ;
 }

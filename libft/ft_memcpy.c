@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 15:02:52 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/11 19:06:13 by mvalerio          #+#    #+#             */
+/*   Updated: 2023/04/19 11:23:48 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "libft.h"
 
-int main()
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	void	*mlx;
+	size_t	i;
 
-	mlx = mlx_init();
+	if (!src && !dest)
+		return (NULL);
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
+		i++;
+	}
+	return ((void *)dest);
 }
