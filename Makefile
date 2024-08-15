@@ -6,7 +6,7 @@
 #    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/15 14:58:48 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/08/15 17:24:30 by mvalerio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,10 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 MINILIBX_DIR = mlx_linux
 
 SRC = \
-	src/main.c
+	src/main.c \
+	src/exit.c \
+	src/init.c \
+	src/key_press.c
 
 OBJ = $(SRC:.c=.o)
 

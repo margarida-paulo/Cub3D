@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   key_press.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 17:22:51 by mvalerio         ###   ########.fr       */
+/*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
+/*   Updated: 2024/08/15 17:22:10 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-// game is the structure with the minilibx info.
-
-
-int main()
+int	ft_key_press(int key_code, t_game *game)
 {
-	t_game	*game;
-	game = minilibx_init();
-	mlx_hook(game->mlx_win, 17, 0, exit_program, game);
-	mlx_key_hook(game->mlx_win, ft_key_press, game);
-	mlx_loop(game->mlx);
+	if (key_code == 0xff1b)
+		exit_program(game);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 17:15:25 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:24:01 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ typedef struct s_game
 	int		width;
 } t_game;
 
-int	ft_key_press(int key_code, t_game *game);
-
+// Exit
 int	exit_program(t_game *game);
 
+// Key Press
+int	ft_key_press(int key_code, t_game *game);
+
+// Init
 t_game	*minilibx_init();
 

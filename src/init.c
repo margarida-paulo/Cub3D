@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 17:22:51 by mvalerio         ###   ########.fr       */
+/*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
+/*   Updated: 2024/08/15 17:23:10 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-// game is the structure with the minilibx info.
-
-
-int main()
+// Initializes the instance and the window of the minilibx into the game struct.
+t_game	*minilibx_init()
 {
-	t_game	*game;
-	game = minilibx_init();
-	mlx_hook(game->mlx_win, 17, 0, exit_program, game);
-	mlx_key_hook(game->mlx_win, ft_key_press, game);
-	mlx_loop(game->mlx);
+	t_game *game = malloc(sizeof(t_game));
+	if (!game)
+		exit (1);
+	game->height = 1000;
+	game->width = 1000;
+	game->mlx = mlx_init();
+	game->mlx_win = mlx_new_window(game->mlx, game->width, \
+	game->height, "The best Cub3D you've ever seen");
+	return (game);
 }
