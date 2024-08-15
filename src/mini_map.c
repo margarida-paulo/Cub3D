@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 19:55:38 by mvalerio         ###   ########.fr       */
+/*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
+/*   Updated: 2024/08/15 20:04:05 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-// game is the structure with the minilibx info.
-
-
-int main()
+void	ft_put_player_map(t_game *game)
 {
-	t_game	*game;
-	game = minilibx_init();
-	mlx_loop_hook(game->mlx, ft_move, game);
-	mlx_hook(game->mlx_win, 17, 0, exit_program, game);
-	mlx_key_hook(game->mlx_win, ft_key_press, game);
-	mlx_loop(game->mlx);
+	int	x;
+	int y;
+
+	x = -MAP_PX/2;
+	while (x <= MAP_PX / 2)
+	{
+		y = -MAP_PX/2;
+		while (y <= MAP_PX / 2)
+		{
+			mlx_pixel_put(game->mlx, game->mlx_win, game->p_orient[0] + x, game->p_orient[1] + y, PLAYER_COLOUR);
+			y++;
+		}
+		x++;
+	}
+
+}
+
+int	ft_move(t_game *game)
+
+{
+	(void)game;
+	return (0);
 }
