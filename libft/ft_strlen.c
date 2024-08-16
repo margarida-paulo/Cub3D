@@ -3,38 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 18:57:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/05/01 19:02:24 by plashkar         ###   ########.fr       */
+/*   Created: 2023/04/12 18:28:09 by plashkar          #+#    #+#             */
+/*   Updated: 2023/09/07 18:21:18 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *str)
 {
-	size_t	i;
+	size_t	len;
 
-	i = 0;
-	if (!s)
+	len = 0;
+	if (!str)
 		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	while (str[len] != '\0')
+		len++;
+	return (len);
 }
+/*#include <stdio.h>
 
-/* Returns the length of the string s up to the first ocurrence of the char,
-not including the character itself.
-*/
-size_t	ft_strlen_until_char(const char *s, char character)
+int main (void)
 {
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] && s[i] != '\0' && s[i] != character)
-		i++;
-	return (i);
-}
+char str[]
+= "What if Soy milk is just regular milk introducing itself in Spanish.";
+printf ("The size of the string is %ld", ft_strlen(str));
+printf ("\n");
+return (0);
+}*/

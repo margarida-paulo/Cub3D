@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 11:24:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/14 16:13:45 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/12 16:33:51 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/17 16:55:46 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 int	ft_toupper(int c)
 {
 	if (c >= 'a' && c <= 'z')
-		return (c - 32);
+		c -= 32;
 	return (c);
 }
+
+/*#include <stdio.h>
+int main (void)
+{
+    char input;
+    printf ("Enter letter: ");
+    scanf("%c", &input);
+    printf ("%c", ft_toupper(input));
+    printf ("\n");
+    return (0);
+}*/

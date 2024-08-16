@@ -6,13 +6,13 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 20:04:34 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:48:05 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	print_error(int error, char *str)
+int	print_error_0(int error, char *str)
 {
 
 	if (error == INVALID_ARG_CNT)
@@ -32,8 +32,22 @@ int	print_error(int error, char *str)
 	{
 		ft_putstr_fd("\033[0;31mError:\nCan not open the file: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd("\033[0mCheck the permissions of the file", 2);
+		ft_putstr_fd("\033[0m\n", 2);
 		exit(error);
 	}
 	return (error);
 }
+
+int	print_error_1(int error)
+{
+	if (error == MISSING_ELEMENTS)
+	{
+		ft_putstr_fd("\033[0;31mError:\nMissing element in the .cub", 2);
+		ft_putstr_fd(" file\n\033[0m", 2);
+		exit(error);
+	}
+	return (error);
+}
+
+
+

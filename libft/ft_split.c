@@ -3,68 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 15:57:52 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/20 13:41:45 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/24 17:34:00 by plashkar          #+#    #+#             */
+/*   Updated: 2023/09/07 15:19:16 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_countwords(char const *string, char delimiter)
+int	wordcnt(const char *s, char delimit)
 {
-	size_t	i;
-	size_t	words;
+	int	wrdcnt;
+	int	i;
 
 	i = 0;
-	words = 0;
-	if (string[i] && string[i] != delimiter)
+	wrdcnt = 0;
+	while (s[i] != '\0')
 	{
-		words++;
+		if (s[i] != delimit && (s[i + 1] == delimit || s[i + 1] == '\0'))
+			wrdcnt++;
 		i++;
 	}
-	while (string[i])
-	{
-		if (string[i] == delimiter && string[i + 1] != \
-			delimiter && string[i + 1] != '\0')
-			words++;
-		i++;
-	}
-	return (words);
+	return (wrdcnt);
 }
 
-size_t	ft_countletters(char const *string, char delimiter)
+int	lettercnt(const char *s, char delimit, int i)
 {
-	size_t	i;
+	int	ltcnt;
+
+	ltcnt = 0;
+	while (s[i] != delimit && s[i] != '\0')
+	{
+		if (s[i] != delimit && (s[i + 1] == delimit || s[i + 1] == '\0'))
+			break ;
+		i++;
+		ltcnt++;
+	}
+	return (ltcnt + 1);
+}
+
+char	**freecntsubstr(char **substring)
+{
+	int	i;
 
 	i = 0;
-	while (string[i] && string[i] != (const char) delimiter)
+	while (substring[i] != NULL)
 	{
+		free(substring[i]);
 		i++;
 	}
-	return (i);
+	free(substring);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**final;
-	size_t	i;
-	size_t	a;
+	char	**result;
+	int		a;
+	int		start;
 
-	final = (char **) malloc(sizeof(char *) * (ft_countwords(s, c) + 1));
-	if (!final)
-		return (NULL);
-	i = 0;
 	a = 0;
-	while (i < ft_countwords(s, c))
+	start = 0;
+	result = malloc(sizeof(char *) * (wordcnt(s, c) + 1));
+	if (!result)
+		return (NULL);
+	while (s[start] != '\0')
 	{
-		while (s[a] == (const char)c)
-			a++;
-		final[i] = ft_substr(s, a, ft_countletters(&s[a], c));
-		a = a + ft_countletters(&s[a], c);
+		if (s[start] == c)
+		{
+			start++;
+			continue ;
+		}
+		result[a] = ft_substr(s, start, lettercnt(s, c, start));
+		if (result[a] == NULL)
+			return (freecntsubstr(result));
+		start = start + lettercnt(s, c, start);
+		a++;
+	}
+	result[a] = NULL;
+	return (result);
+}
+
+/*int main (void)
+{
+	int i = 0;
+	char str1[] = "Abc,sdt,sffg,,,h,";
+	//char str2[] = "almocar,imhungry,abc";
+	char **arrstr = ft_split(str1, ',');
+	if (!arrstr)
+		return (1);
+	while (arrstr[i] != NULL)
+	{
+		printf("%s\n", arrstr[i]);
 		i++;
 	}
-	final[ft_countwords(s, c)] = 0;
-	return (final);
-}
+	free (arrstr);
+	return (0);
+}*/

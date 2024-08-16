@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 18:56:46 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/14 16:13:45 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/12 15:55:23 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/17 16:42:48 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,3 +19,16 @@ int	ft_isascii(int c)
 	else
 		return (0);
 }
+
+/*#include <stdio.h>
+int main (void)
+{
+    int input;
+    printf ("Enter your digit: ");
+    scanf("%d", &input);
+    if (ft_isascii(input))
+    printf ("Yep\n");
+    else
+    printf ("Nope\n");
+    return (0);
+}*/

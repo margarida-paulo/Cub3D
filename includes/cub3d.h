@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 19:56:16 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:53:38 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,47 @@ enum exit_codes {
 	INVALID_ARG_CNT = 1,
 	INVALID_EXTENTION,
 	CAN_NOT_OPEN,
+	MISSING_ELEMENTS,
 	INVALID_BORDERS,
     // Add other exit codes here
 };
 
+typedef struct s_game t_game;
 
 typedef struct	s_map
 {
-	char*	map_as_str;
+	t_game	*game;
+	int		map_start; //the starting index of the map in the .cub file
 	char**	map_array;
 	double	p_orient[3]; // x y angle
-	char*	NO; //./path_to_the_north_texture
-	char*	SO; //./path_to_the_south_texture
-	char*	WE; //./path_to_the_west_texture
-	char*	EA; //./path_to_the_east_texture
-	char*	F_color; //∗ Floor color: F 220,100,0
-	char*	C_color; //* Ceiling color: C 225,30,0
+	char*	no_texture; //./path_to_the_north_texture
+	char*	so_texture; //./path_to_the_south_texture
+	char*	we_texture; //./path_to_the_west_texture
+	char*	ea_texture; //./path_to_the_east_texture
+	char*	f_color; //∗ Floor color: F 220,100,0
+	char*	c_color; //* Ceiling color: C 225,30,0
 }	t_map;
 
 typedef struct	s_game
 {
 	t_map	map;
+	int		height;
+	int		width;
 }	t_game;
 
 
-int	print_error(int exit_code, char *str);
+int		print_error_0(int exit_code, char *str);
+int		print_error_1(int exit_code);
 
+int		is_valid_extension(char *map_file_name);
+int		cub_file_cnt_lines(char **argv);
+char	**get_cub_file_arr(char **argv);
+void	parse_elements(t_map *map, char *line);
+void	parse_map(t_map *map, char **argv);
+char	*trim_leading_spaces(char *str);
+void	check_map_requirements(t_map *map);
 
-char*	get_map_str(char **argv);
+void	test_print_2D_array(char** arr);
+void	test_print_map_struct_data(t_map *map);
 
 #endif

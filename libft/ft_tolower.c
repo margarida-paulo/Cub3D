@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 11:27:00 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/14 16:13:45 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/12 17:02:16 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/18 17:08:06 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 int	ft_tolower(int c)
 {
 	if (c >= 'A' && c <= 'Z')
-		return (c + 32);
+		c += 32;
 	return (c);
 }
+
+/*#include <stdio.h>
+int main (void)
+{
+    char input;
+    printf ("Enter your letter: ");
+    scanf ("%c", &input);
+    printf ("%c", ft_tolower(input));
+    printf ("\n");
+    return (0);
+}*/
