@@ -4,5 +4,12 @@
 		"math.h": "c",
 		"libft.h": "c",
 		"mlx.h": "c"
-	}
+	},
+	"makefile.launchConfigurations": [
+		{
+			"cwd": "/home/mvalerio/Documents/Cub3D",
+			"binaryPath": "/home/mvalerio/Documents/Cub3D/cub3D",
+			"binaryArgs": []
+		}
+	]
 }

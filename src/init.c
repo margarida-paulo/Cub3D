@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 16:25:49 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/16 18:15:13 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ t_game	*minilibx_init()
 	if (!game)
 		exit (1);
 	ft_make_example_map(game);
-	game->height = ft_arrlen(game->map) * PLAYER_SIZE;
-	game->width = ft_strlen(game->map[0]) * PLAYER_SIZE;
+	game->height = ft_arrlen(game->map) * GRID_SIZE;
+	game->width = ft_strlen(game->map[0]) * GRID_SIZE;
 	game->mlx = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx, game->width, \
 	game->height, "The best Cub3D you've ever seen");
 	game->p_orient[0] = M_PI;
 	game->p_orient[1] = M_PI;
 	game->p_orient[2] = M_PI;
-	game->p_position[0] = PLAYER_X;
-	game->p_position[1] = PLAYER_Y;
+	game->p_orient[0] = PLAYER_X;
+	game->p_orient[1] = PLAYER_Y;
 	game->img_list = malloc(sizeof(t_pics));
 	ft_minimap_bckg(game);
 	ft_put_player_map(game);
