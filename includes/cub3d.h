@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 18:15:00 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:23:47 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 
 #define MAP_PX 30
 #define PLAYER_COLOUR 0x00FFC0CB
-#define MINIMAP_COLOUR 0x00333333
+#define MINI_WALL_COLOUR 0x00FFFFFF
+#define MINI_FLOOR_COLOUR 0x00333333
 
-#define PLAYER_X 0
-#define PLAYER_Y 0
+
+#define PLAYER_X 1
+#define PLAYER_Y 1
 // GRID_SIZE / 3 is the size of the player.
 #define GRID_SIZE 50
 

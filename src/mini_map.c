@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 18:15:26 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:24:18 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 		temp_curr_x = curr_x + 1;
 		while (temp_curr_x < curr_x + GRID_SIZE)
 		{
-			mlx_px(game->img_list->bckg, temp_curr_x, temp_curr_y, MINIMAP_COLOUR);
+			if(game->map[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
+				mlx_px(game->img_list->bckg, temp_curr_x, temp_curr_y, MINI_WALL_COLOUR);
+			else
+				mlx_px(game->img_list->bckg, temp_curr_x, temp_curr_y, MINI_FLOOR_COLOUR);
 			temp_curr_x++;
 		}
 		temp_curr_y++;
@@ -81,7 +84,7 @@ void	ft_put_player_map(t_game *game)
 		}
 		curr_y++;
 	}
-	mlx_put_image_to_window(game->mlx, game->mlx_win, img->img, game->p_orient[0], game->p_orient[1]);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, img->img, game->p_orient[0] * GRID_SIZE + 1, game->p_orient[1] * GRID_SIZE + 1);
 }
 
 int	ft_move(t_game *game)
