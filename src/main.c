@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 19:55:38 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:28:49 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int main()
 {
 	t_game	*game;
+
 	game = minilibx_init();
 	mlx_loop_hook(game->mlx, ft_move, game);
 	mlx_hook(game->mlx_win, 17, 0, exit_program, game);

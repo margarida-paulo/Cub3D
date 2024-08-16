@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 18:55:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/14 16:13:45 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/12 15:18:47 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/17 18:22:59 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,3 +19,18 @@ int	ft_isdigit(int c)
 	else
 		return (0);
 }
+
+/*#include <stdio.h>
+int main()
+{
+    char input;
+    printf("Enter a character: ");
+    scanf("%c", &input);
+
+    if (ft_isdigit(input))
+        printf("%c is a digit.\n", input);
+    else
+        printf("%c is not a digit.\n", input);
+
+    return 0;
+}*/

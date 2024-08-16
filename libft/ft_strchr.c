@@ -3,27 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 11:49:50 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/17 17:41:43 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/15 16:11:35 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/19 16:01:03 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*ft_strchr replicates the behavior of the standard library function strchr
+ as it searches for the first occurrence of the character c in the string str
+ and returns a pointer to that location in the string.*/
 
 #include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
-	unsigned int	i;
+	unsigned char	c1;
 
-	i = 0;
-	while (s[i] != '\0')
+	c1 = c;
+	while (*s != '\0')
 	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
-		i++;
+		if (*s == c1)
+			return ((char *)s);
+		s++;
 	}
-	if ((unsigned char)c == '\0' && s[i] == '\0')
-		return ((char *)&s[i]);
+	if (c1 == '\0')
+		return ((char *)s);
 	return (NULL);
 }
+
+/*#include <stdio.h>
+
+int main (void)
+{/MY OG*why does this not work? char	*ft_strchr(const char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	if (c == '\0')
+		return((char *)&str[ft_strlen(str)]);
+	while (str[i] != '\0' && str[i] !=
+	i++;
+	if (str[i] == '\0')
+		return (NULL);
+	else
+		return ((char *)&str[i]);
+}
+int main (void)
+	char *res;
+	char *res2;
+	char str[] = "if you gaze into the abyss, the abyss gazes also into you.";
+	res = ft_strchr(str, 'g');
+	printf ("My ft: %s\n", res);
+	printf ("OG ft: %s\n", res2);
+	return(0);
+}*/

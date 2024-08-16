@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maggie <maggie@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 14:27:45 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/02/19 10:53:21 by maggie           ###   ########.fr       */
+/*   Created: 2023/04/20 15:32:56 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/20 18:15:15 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,32 @@
 
 char	*ft_strdup(const char *s)
 {
-	int		i;
-	char	*dest;
+	char	*dup;
+	size_t	i;
 
 	i = 0;
-	while (s[i])
-		i++;
-	dest = malloc(sizeof(char) * i + 1);
-	if (!dest)
+	dup = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!dup)
 		return (NULL);
-	i = 0;
-	while (s[i])
+	while (s[i] != '\0')
 	{
-		dest[i] = s[i];
+		dup[i] = s[i];
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	dup[i] = '\0';
+	return (dup);
 }
 
-/* Copies the string s up to max_size characters or, in case its length
-is smaller that max_size, up to its end. 
-*/
-char	*ft_strndup(const char *s, int max_size)
+/*#include <string.h>
+#include <stdio.h>
+//I forgot to consider the null terminator in my amlloc and also after while loop
+//was done! don't forget!!!
+int main(void)
 {
-	int		i;
-	char	*dest;
-
-	i = 0;
-	while (s[i] && i < max_size)
-		i++;
-	dest = malloc(sizeof(char) * i + 1);
-	if (!dest)
-		return (NULL);
-	i = 0;
-	while (s[i] && i < max_size)
-	{
-		dest[i] = s[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+	char src[] = "There are some who call me ... Tim.";
+	char *dest1 = strdup(src);
+	char *dest2 = ft_strdup(src);
+	printf("OG ft: %s\n", dest1);
+	printf("my ft: %s\n", dest2);
+	return(0);
+}*/

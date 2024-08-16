@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_strarray.c                                 :+:      :+:    :+:   */
+/*   ft_countchar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 10:25:24 by maggie            #+#    #+#             */
-/*   Updated: 2024/05/03 18:23:01 by plashkar         ###   ########.fr       */
+/*   Created: 2023/10/03 10:49:25 by plashkar          #+#    #+#             */
+/*   Updated: 2023/10/03 11:05:10 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_strarray(char **array)
+int	ft_countchar(char *str, char c)
 {
-	size_t	i;
+	int	cnt;
+	int	i;
 
+	cnt = 0;
 	i = 0;
-	while (array && array[i])
+	while (str[i])
 	{
-		free (array[i]);
+		if (str[i] == c)
+			cnt++;
 		i++;
 	}
-	free (array);
-	return ;
+	return (cnt);
 }

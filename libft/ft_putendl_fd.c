@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 19:13:37 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/24 12:09:00 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/24 17:20:55 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/24 17:24:14 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,25 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
+	while (*s)
 	{
-		write (fd, &s[i], 1);
-		i++;
+		write(fd, s, 1);
+		s++;
 	}
-	ft_putchar_fd('\n', fd);
+	write (fd, "\n", 1);
 }
+
+/*int main(void)
+{
+	int fd = STDOUT_FILENO; // Standard output file descriptor
+
+	char s1[] = "Hello darkness my old friend";
+	char s2[] = "Ive come to talk with you again";
+	char s3[] = "Because a vision softly creeping";
+	// Test the function with a few different characters
+		ft_putendl_fd(s1, fd);
+
+		ft_putendl_fd(s2, fd);
+		ft_putendl_fd(s3, fd);
+	return (0);
+}*/

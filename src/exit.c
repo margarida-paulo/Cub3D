@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:32 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/15 17:22:42 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:56:14 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int	exit_program(t_game *game)
 {
+	mlx_destroy_image(game->mlx, game->img_list->p_minimap->img);
+	free(game->img_list->p_minimap);
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);
+	free(game->img_list);
 	free(game->mlx);
 	free(game);
 	exit(0);

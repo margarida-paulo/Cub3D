@@ -3,24 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 12:45:12 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/05/02 16:16:37 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/17 16:20:39 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/20 14:19:27 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+void	*ft_calloc(size_t mbmb, size_t size)
 {
-	void	*ptr;
+	void	*a;
 
-	if (nmemb == 0)
-		ptr = NULL;
-	ptr = malloc(nmemb * size);
-	if (!ptr)
+	a = malloc(mbmb * size);
+	if (!a)
 		return (NULL);
-	ft_bzero(ptr, nmemb * size);
-	return (ptr);
+	if (a)
+		ft_bzero(a, mbmb * size);
+	return (a);
 }
+
+/*#include <stdlib.h>
+#include <stdio.h>
+
+int main (void)
+{//	if (mbmb == 0 || size == 0)
+//		return (NULL); why did we not need this safty measure?
+	int *a = calloc(10, sizeof(int));
+	for (int i = 0; i < 10; i++)
+		a[i] = 10 - i;
+	for (int i = 0; i < 10; i++)
+		printf("a[%d] : %d\n", i, a[i]);
+	printf("\n");
+	printf("a : %p\n", a);
+	printf("Allocated size: %lu\n", sizeof(*a));
+
+	free (a);
+}*/

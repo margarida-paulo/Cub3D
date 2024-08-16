@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 11:59:46 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/17 17:50:35 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/18 20:36:03 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/18 21:42:38 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,30 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	unsigned char	c1;
+	size_t			len;
 
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	if ((unsigned char)c == '\0')
-		return ((char *)&s[i]);
-	while (--i >= 0)
+	len = ft_strlen(s);
+	c1 = c;
+	while (len > 0)
 	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
+		if (s[len - 1] == c1)
+			return ((char *)(s + len - 1));
+		len--;
 	}
+	if (c1 == '\0')
+		return ((char *)&s[ft_strlen(s)]);
 	return (NULL);
 }
+
+/*int main (void)
+{
+	char *res;
+	char *res2;
+	char str[] = "if you gaze into the abyss, the abyss gazes also into you.";
+	res = ft_strrchr(str, '\0');
+	res2 = strrchr(str, '\0');
+	printf ("My ft: %s\n", res);
+	printf ("OG ft: %s\n", res2);
+	return(0);
+}*/

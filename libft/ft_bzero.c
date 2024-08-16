@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 19:01:35 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/16 19:13:45 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/14 18:55:30 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/17 18:13:18 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 void	ft_bzero(void *s, size_t n)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)s)[i] = '\0';
-		i++;
-	}
+	ft_memset(s, 0, n);
 }
+
+/*#include <stdio.h>
+int main (void)
+{
+	char str[] = "This is probabaly gonna be censored";
+	printf ("the original string is: %s", str);
+	printf ("\n");
+	bzero(str + 27, 8);
+	printf ("the new string is %s\n", str);
+	return (0);
+m}*/

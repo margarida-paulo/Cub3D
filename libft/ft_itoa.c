@@ -3,61 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 13:47:46 by mvalerio          #+#    #+#             */
-/*   Updated: 2023/04/20 17:38:22 by mvalerio         ###   ########.fr       */
+/*   Created: 2023/04/21 15:42:23 by plashkar          #+#    #+#             */
+/*   Updated: 2023/04/21 18:53:11 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_chars(long int a)
+int		ft_digitcnt(int a);
+char	*ft_strdup(const char *s);
+
+char	*ft_itoa(int a)
 {
-	size_t	divisors;
-	size_t	chars;
+	char	*str;
+	int		i;
+	long	b;
 
-	chars = 1;
-	if (a < 0)
-	{
-		chars++;
-		a = -a;
-	}
-	if (a == 0)
-		return (1);
-	divisors = 10;
-	while (a / divisors != 0)
-	{
-		divisors = divisors * 10;
-		chars = chars + 1;
-	}
-	return (chars);
-}
-
-char	*ft_itoa(int n)
-{
-	char			*string;
-	size_t			i;
-	unsigned int	number;
-
-	string = (char *) malloc(sizeof(char) * (ft_chars((long int)n) + 1));
-	if (!string)
+	b = a;
+	str = malloc(sizeof(char) * (ft_digitcnt(b) + 1));
+	if (!str)
 		return (NULL);
-	if (n < 0)
-		number = -n;
-	else
-		number = n;
-	i = ft_chars(n) - 1;
-	string[i + 1] = '\0';
-	while (i > 0)
+	i = ft_digitcnt(b);
+	str[i] = '\0';
+	if (b < 0)
 	{
-		string[i] = '0' + (number % 10);
-		number = number / 10;
-		i--;
+		str[0] = '-';
+		b = b * -1;
 	}
-	if (n < 0)
-		string[0] = '-';
-	else
-		string[0] = '0' + (number % 10);
-	return (string);
+	if (b == 0)
+		str[0] = '0';
+	while (b > 0)
+	{
+		str[i-- - 1] = b % 10 + '0';
+		b = b / 10;
+	}
+	return (str);
 }
+
+int	ft_digitcnt(int a)
+{
+	int		i;
+	long	b;
+	int		sign;
+
+	sign = 0;
+	b = a;
+	i = 0;
+	if (b < 0)
+		sign = 1;
+	if (b < 0)
+		b = b * -1;
+	if (b == 0)
+		return (1);
+	while (b > 0)
+	{
+		b = b / 10;
+		i++;
+	}
+	return (i + sign);
+}
+
+/*int main (void)
+{
+	int		num;
+	char	*strnum;
+	printf("what is your number?\n");
+	scanf("%d", &num);
+	strnum = ft_itoa(num);
+	printf("The string is: %s\n", strnum);
+	return (0);
+}*/

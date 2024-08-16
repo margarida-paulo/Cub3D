@@ -6,7 +6,7 @@
 #    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/15 19:46:26 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/08/16 11:31:44 by mvalerio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRC = \
 	src/exit.c \
 	src/init.c \
 	src/key_press.c \
-	src/mini_map.c
+	src/mini_map.c \
+	src/mlx_extra.c
 
 OBJ = $(SRC:.c=.o)
 
