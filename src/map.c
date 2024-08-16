@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/16 19:56:26 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:38:57 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char**	get_cub_file_arr(char **argv)
 	return(cub_file_arr);
 }
 
+
+
 void	parse_map(t_map *map, char **argv)
 {
 	char	**cub_file_arr;
@@ -84,13 +86,15 @@ void	parse_map(t_map *map, char **argv)
 		if (line[0] == '1' && !map_start_found)
 		{
 			map->map_start = i;
-			map->map_array = &cub_file_arr[i];
+			// map->map_array = &cub_file_arr[i];
+			map->map_array = copy_array_from_index(cub_file_arr, i);
 			map_start_found = 1;
 		}
 		else if (!map_start_found)
 			parse_elements(map, line);
 		i++;
 	}
+	free_2d_array(cub_file_arr);
 	check_map_requirements(map);
 }
 
@@ -111,33 +115,8 @@ void	parse_elements(t_map *map, char *line)
 		map->c_color = ft_strdup(trim_leading_spaces(line + 2));
 }
 
-char *trim_leading_spaces(char *str)
-{
-	int	i;
 
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	return (&str[i]);
-}
 
-/**
- * Frees a 2d array. used to free an array of strings.
- * @param src The array of strings to be freed.
- * @return void
-*/
-void	free_2d_array(char **src)
-{
-	int	i;
-
-	i = 0;
-	while (src && src[i])
-	{
-		free(src[i]);
-		i++;
-	}
-	free(src);
-}
 
 void	free_map_struct(t_map *map)
 {
@@ -150,18 +129,18 @@ void	free_map_struct(t_map *map)
 	free(map->c_color);
 }
 
-void	set_width(t_map *map)
-{
-	int	max_width;
-	int	i;
+// void	set_width(t_map *map)
+// {
+// 	int	max_width;
+// 	int	i;
 
-	max_width = 0;
-	while (map->map_array[i])
-	{
-		
-		i++;
-	}
-}
+// 	max_width = 0;
+// 	while (map->map_array[i])
+// 	{
+
+// 		i++;
+// 	}
+// }
 
 void	check_map_requirements(t_map *map)
 {

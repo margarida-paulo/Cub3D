@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:05:26 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/16 14:53:43 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:28:26 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+
+size_t	ft_arrlen(char **array);
 
 //Part 3 - printf functions
 

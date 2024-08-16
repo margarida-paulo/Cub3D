@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 19:53:38 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:38:44 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,11 @@ int		cub_file_cnt_lines(char **argv);
 char	**get_cub_file_arr(char **argv);
 void	parse_elements(t_map *map, char *line);
 void	parse_map(t_map *map, char **argv);
-char	*trim_leading_spaces(char *str);
 void	check_map_requirements(t_map *map);
+
+char	*trim_leading_spaces(char *str);
+void	free_2d_array(char **src);
+char	**copy_array_from_index(char **src_arr, int i);
 
 void	test_print_2D_array(char** arr);
 void	test_print_map_struct_data(t_map *map);
