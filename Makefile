@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
+#    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/15 14:58:48 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/08/15 17:05:01 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 MINILIBX_DIR = mlx_linux
 
 SRC = \
-	src/main.c
+	src/main.c \
+	src/map.c \
+	src/error.c \
 
 OBJ = $(SRC:.c=.o)
 
