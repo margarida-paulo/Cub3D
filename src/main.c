@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 14:28:49 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/18 05:27:03 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ int main()
 	t_game	*game;
 
 	game = minilibx_init();
-	mlx_loop_hook(game->mlx, ft_move, game);
+	mlx_loop_hook(game->mlx, ft_rotate, game);
 	mlx_hook(game->mlx_win, 17, 0, exit_program, game);
-	mlx_key_hook(game->mlx_win, ft_key_press, game);
+	mlx_hook(game->mlx_win, 3, (1L<<1), ft_key_release, game);
+	mlx_hook(game->mlx_win, 2, (1L<<0), ft_key_press, game);
 	mlx_loop(game->mlx);
 }

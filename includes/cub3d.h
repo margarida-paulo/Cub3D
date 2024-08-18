@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 19:23:47 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/18 05:21:05 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../mlx_linux/mlx.h"
 #include <stdlib.h>
 #include "../libft/libft.h"
+#include "keysymdef.h"
 
 #define MAP_PX 30
 #define PLAYER_COLOUR 0x00FFC0CB
@@ -22,10 +23,11 @@
 #define MINI_FLOOR_COLOUR 0x00333333
 
 
-#define PLAYER_X 1
-#define PLAYER_Y 1
+#define PLAYER_X 2
+#define PLAYER_Y 2
 // GRID_SIZE / 3 is the size of the player.
 #define GRID_SIZE 50
+#define PLAYER_SIZE (GRID_SIZE / 3)
 
 #define HEIGHT 300
 #define WIDTH 300
@@ -41,8 +43,7 @@ typedef struct	s_data
 
 typedef struct s_pics
 {
-	t_data	*bckg;
-	t_data	*p_minimap;
+	t_data	*minimap;
 }				t_pics;
 
 typedef struct s_game
@@ -54,6 +55,7 @@ typedef struct s_game
 	double	p_orient[3];
 	t_pics	*img_list;
 	char	**map;
+	int		key_press;
 } t_game;
 
 // Exit
@@ -61,13 +63,15 @@ int	exit_program(t_game *game);
 
 // Key Press
 int	ft_key_press(int key_code, t_game *game);
+int	ft_key_release(int key_code, t_game *game);
+int	ft_rotate(t_game *game);
 
 // Init
 t_game	*minilibx_init();
 
 // Mini Map
 void	ft_put_player_map(t_game *game);
-int	ft_move(t_game *pms);
+int		ft_move(t_game *pms);
 void	ft_minimap_bckg(t_game *game);
 
 // Mlx Extra

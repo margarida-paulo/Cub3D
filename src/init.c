@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 19:25:33 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/18 04:58:23 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ t_game	*minilibx_init()
 	game->mlx = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx, game->width, \
 	game->height, "The best Cub3D you've ever seen");
-	game->p_orient[0] = M_PI;
-	game->p_orient[1] = M_PI;
-	game->p_orient[2] = M_PI;
-	game->p_orient[0] = PLAYER_X;
-	game->p_orient[1] = PLAYER_Y;
+	game->p_orient[2] = 0;
+	game->p_orient[0] = PLAYER_X * GRID_SIZE + GRID_SIZE / 2;
+	game->p_orient[1] = PLAYER_Y * GRID_SIZE + GRID_SIZE / 2;
 	game->img_list = malloc(sizeof(t_pics));
+	game->img_list->minimap = NULL;
+	game->key_press = 0;
 	ft_minimap_bckg(game);
 	ft_put_player_map(game);
 	return (game);
