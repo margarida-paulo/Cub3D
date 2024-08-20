@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/18 05:14:12 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:49:48 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int		ft_move(t_game *game)
+{
+	if (game->key_press == XK_w)
+	{
+		game->p_orient[0] += 0.01 * cos(game->p_orient[2]);
+		game->p_orient[1] += 0.01 * sin(game->p_orient[2]);
+	}
+	else if (game->key_press == XK_s)
+	{
+		game->p_orient[0] -= 0.01 * cos(game->p_orient[2]);
+		game->p_orient[1] -= 0.01 * sin(game->p_orient[2]);
+	}
+
+	if (game->key_press == XK_a)
+	{
+		game->p_orient[0] += 0.01 * cos(game->p_orient[2] - M_PI / 2);
+		game->p_orient[1] += 0.01 * sin(game->p_orient[2] - M_PI / 2);
+	}
+	else if (game->key_press == XK_d)
+	{
+		game->p_orient[0] -= 0.01 * cos(game->p_orient[2] - M_PI / 2);
+		game->p_orient[1] -= 0.01 * sin(game->p_orient[2] - M_PI / 2);
+	}
+	ft_minimap_bckg(game);
+	ft_put_player_map(game);
+	return (0);
+}
 
 double	ft_distance(int x1, int y1, int x2, int y2)
 {
@@ -23,19 +51,20 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 	int	temp_curr_y;
 
 	temp_curr_y = curr_y + 1;
-	while (temp_curr_y < curr_y + GRID_SIZE)
+	while (temp_curr_y <= curr_y + GRID_SIZE)
 	{
 		temp_curr_x = curr_x + 1;
-		while (temp_curr_x < curr_x + GRID_SIZE)
+		while (temp_curr_x <= curr_x + GRID_SIZE)
 		{
-			if(game->map[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
+			if(temp_curr_x == curr_x + GRID_SIZE || temp_curr_y == curr_y + GRID_SIZE)
+				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, 0);
+			else if(game->map[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
 				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_WALL_COLOUR);
 			else
 				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_FLOOR_COLOUR);
 			temp_curr_x++;
 		}
 		temp_curr_y++;
-		mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->minimap->img, 0, 0);
 	}
 }
 
@@ -45,15 +74,13 @@ void	ft_minimap_bckg(t_game *game)
 	int		curr_x;
 	int		curr_y;
 
-	if (game->img_list->minimap != NULL)
+	if (game->img_list->minimap == NULL)
 	{
-		mlx_destroy_image(game->mlx, game->img_list->minimap->img);
-		free(game->img_list->minimap);
+		img = malloc(sizeof(t_data));
+		img->img = mlx_new_image(game->mlx, game->width, game->height);
+		img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
+		game->img_list->minimap = img;
 	}
-	img = malloc(sizeof(t_data));
-	game->img_list->minimap = img;
-	img->img = mlx_new_image(game->mlx, game->width, game->height);
-	img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
 	curr_y = 0;
 	while (curr_y < game->height)
 	{
@@ -65,6 +92,7 @@ void	ft_minimap_bckg(t_game *game)
 		}
 		curr_y += GRID_SIZE;
 	}
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->minimap->img, 0, 0);
 }
 
 void	ft_player_ray(t_game *game)

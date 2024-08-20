@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/18 05:21:05 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:26:21 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #define PLAYER_Y 2
 // GRID_SIZE / 3 is the size of the player.
 #define GRID_SIZE 50
-#define PLAYER_SIZE (GRID_SIZE / 3)
+#define PLAYER_SIZE 20
 
 #define HEIGHT 300
 #define WIDTH 300
@@ -39,6 +39,8 @@ typedef struct	s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }				t_data;
 
 typedef struct s_pics

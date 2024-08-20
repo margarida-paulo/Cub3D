@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_press.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/18 05:27:30 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:27:25 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ int	ft_rotate(t_game *game)
 {
 	if (game->key_press == XK_Right)
 	{
-		if (game->p_orient[2] + 0.1 > (2 * M_PI))
+		if (game->p_orient[2] + 0.001 > (2 * M_PI))
 			game->p_orient[2] = 0;
 		else
-			game->p_orient[2]  += 0.1;
+			game->p_orient[2]  += 0.001;
 		ft_minimap_bckg(game);
 		ft_put_player_map(game);
 	}
 	else if(game->key_press == XK_Left)
 	{
-		if (game->p_orient[2] - 0.1 > (2 * M_PI))
+		if (game->p_orient[2] - 0.001 > (2 * M_PI))
 			game->p_orient[2] = 0;
 		else
-			game->p_orient[2]  -= 0.1;
+			game->p_orient[2]  -= 0.001;
 		ft_minimap_bckg(game);
 		ft_put_player_map(game);
 	}
@@ -37,16 +37,8 @@ int	ft_rotate(t_game *game)
 
 int	ft_key_release(int key_code, t_game *game)
 {
-    printf("Key released: %d\n", key_code);
-    fflush(stdout);
-    if (key_code == XK_Right)
-    {
-        game->key_press = 0;
-    }
-    if (key_code == XK_Left)
-    {
-        game->key_press = 0;
-    }
+	(void)key_code;
+    game->key_press = 0;
     return 0;
 }
 
