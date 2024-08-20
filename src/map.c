@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/16 20:38:57 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:02:59 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,6 @@ void	parse_elements(t_map *map, char *line)
 		map->c_color = ft_strdup(trim_leading_spaces(line + 2));
 }
 
-
-
-
 void	free_map_struct(t_map *map)
 {
 	free_2d_array(map->map_array);
@@ -129,25 +126,143 @@ void	free_map_struct(t_map *map)
 	free(map->c_color);
 }
 
-// void	set_width(t_map *map)
+void	set_width_and_height(t_map *map)
+{
+	int	max_width;
+	int	i;
+
+	max_width = 0;
+	i = 0;
+	while (map->map_array[i])
+	{
+		if ((int)ft_strlen(map->map_array[i]) > max_width)
+			max_width = ft_strlen(map->map_array[i]);
+		i++;
+	}
+	map->game->width = max_width;
+	map->game->height = ft_arrlen(map->map_array);
+}
+
+int	check_map_invalid_chars(t_map *map)
+{
+	int	check;
+	int	i;
+	int	j;
+
+	check = 0;
+	i = 0;
+	while(map->map_array[i])
+	{
+		j = 0;
+		while(map->map_array[i][j])
+		{
+			if (!ft_strchr(VALID_CHARS, map->map_array[i][j]))
+			{
+				check = 1;
+				break ;
+			}
+			j++;
+		}
+		if (check == 1)
+			break ;
+		i++;
+	}
+	return (check);
+}
+
+void	set_p_orient_angle(t_map *map, char c)
+{
+	if (c == 'E')
+		map->game->p_orient[2] = 0;
+	else if (c == 'N')
+		map->game->p_orient[2] = M_PI / 2;
+	else if (c == 'W')
+		map->game->p_orient[2] = M_PI;
+	else if (c == 'S')
+		map->game->p_orient[2] = 3 * M_PI / 2;
+}
+
+int	set_p_orient_arr(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while(map->map_array[i])
+	{
+		j = 0;
+		while(map->map_array[i][j])
+		{
+			if (ft_strchr("NSWE", map->map_array[i][j]))
+			{
+				map->game->p_orient[0] = i;
+				map->game->p_orient[1] = j;
+				set_p_orient_angle(map, map->map_array[i][j]);
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	check_map_player_cnt(t_map *map)
+{
+	int	p_cnt;
+	int	i;
+	int	j;
+
+	p_cnt = 0;
+	i = 0;
+	while(map->map_array[i])
+	{
+		j = 0;
+		while(map->map_array[i][j])
+		{
+			if (ft_strchr("NSWE", map->map_array[i][j]))
+				p_cnt++;
+			j++;
+		}
+		i++;
+	}
+	if (p_cnt == 1)
+		return (set_p_orient_arr(map));
+	else
+		return (1);
+}
+
+// int	check_map_newlines(t_map *map)
 // {
-// 	int	max_width;
+// 	int	check;
 // 	int	i;
 
-// 	max_width = 0;
+// 	check = 0;
+// 	i = 0;
 // 	while (map->map_array[i])
 // 	{
-
+// 		if (map->map_array[i][0] == '\n')
+// 		{
+// 			check = 1;
+// 			break ;
+// 		}
 // 		i++;
 // 	}
+// 	return (check);
 // }
+
+
 
 void	check_map_requirements(t_map *map)
 {
+	set_width_and_height(map);
+	if (map->game->height <= 2 || map->game->width <= 2)
+		print_error_1(MAP_TOO_SMALL, map);
 	if (!map->no_texture || !map->so_texture || !map->we_texture || \
 	!map->ea_texture || !map->f_color || !map->c_color)
-	{
-		free_map_struct(map);
-		print_error_1(MISSING_ELEMENTS);
-	}
+		print_error_1(MISSING_ELEMENTS, map);
+	if (check_map_invalid_chars(map))
+		print_error_1(INVALID_CHARS, map);
+	if (check_map_player_cnt(map))
+		print_error_1(INVALID_P_CNT, map);
 }

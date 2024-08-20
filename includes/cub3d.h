@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/16 20:38:44 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:08:39 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,16 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 
+# define VALID_CHARS "01NSWE \n"
+
 enum exit_codes {
 	INVALID_ARG_CNT = 1,
 	INVALID_EXTENTION,
 	CAN_NOT_OPEN,
 	MISSING_ELEMENTS,
+	MAP_TOO_SMALL,
+	INVALID_CHARS,
+	INVALID_P_CNT,
 	INVALID_BORDERS,
     // Add other exit codes here
 };
@@ -45,7 +50,6 @@ typedef struct	s_map
 	t_game	*game;
 	int		map_start; //the starting index of the map in the .cub file
 	char**	map_array;
-	double	p_orient[3]; // x y angle
 	char*	no_texture; //./path_to_the_north_texture
 	char*	so_texture; //./path_to_the_south_texture
 	char*	we_texture; //./path_to_the_west_texture
@@ -59,11 +63,13 @@ typedef struct	s_game
 	t_map	map;
 	int		height;
 	int		width;
+	double	p_orient[3]; // x y angle
 }	t_game;
 
 
 int		print_error_0(int exit_code, char *str);
-int		print_error_1(int exit_code);
+int		print_error_1(int exit_code, t_map *map);
+void	free_map_struct(t_map *map);
 
 int		is_valid_extension(char *map_file_name);
 int		cub_file_cnt_lines(char **argv);

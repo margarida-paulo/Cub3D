@@ -6,7 +6,7 @@
 #    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/16 14:54:24 by plashkar         ###   ########.fr        #
+#    Updated: 2024/08/20 12:40:53 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC = \
 	src/map.c \
 	src/error.c \
 	src/test.c \
+	src/utils.c \
 
 OBJ = $(SRC:.c=.o)
 

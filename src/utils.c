@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 20:35:47 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/16 20:44:05 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:47:22 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	**copy_array_from_index(char **src_arr, int i)
 		j++;
 		i++;
 	}
+	dest_arr[j] = NULL;
 	return (dest_arr);
 }
 
