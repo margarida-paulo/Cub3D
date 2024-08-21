@@ -50,7 +50,7 @@ Bibliotecas X11 (para Linux)
 
 <div align="center">
 
-  
+
 ## Download PDF:
 
 <br>
@@ -60,3 +60,17 @@ Bibliotecas X11 (para Linux)
 </a>
 
 </div>
+
+# Instructions:
+1. Clone the git repository with the minilibx submodule
+~~~
+  git clone --recurse-submodules https://github.com/margarida-paulo/Cub3D.git
+~~~
+
+2. Compile the files
+~~~
+   make
+~~~
+3. Run the program
+~~~
+   ./cub3D
