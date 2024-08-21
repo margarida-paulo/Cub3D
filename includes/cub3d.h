@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/20 16:26:21 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:14:49 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct	s_data
 typedef struct s_pics
 {
 	t_data	*minimap;
+	t_data	*player;
 }				t_pics;
 
 typedef struct s_game
@@ -72,9 +73,10 @@ int	ft_rotate(t_game *game);
 t_game	*minilibx_init();
 
 // Mini Map
-void	ft_put_player_map(t_game *game);
+void	ft_build_player(t_game *game);
 int		ft_move(t_game *pms);
-void	ft_minimap_bckg(t_game *game);
+void	ft_build_minimap(t_game *game);
+t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, int pos[2]);
 
 // Mlx Extra
 void	mlx_px(t_data *img, int x, int y, int color);

@@ -1,0 +1,60 @@
+void	ft_rotate_player(t_game *game, t_data **img, double angle);
+
+void	ft_rotate_player(t_game *game, t_data **img, double angle)
+{
+	int	y;
+	int	x;
+	t_data	*r_img;
+	int		new_x;
+	int		new_y;
+
+	r_img = malloc(sizeof(t_data));
+	r_img->img = mlx_new_image(game->mlx, sqrt(2 * pow(PLAYER_SIZE, 2)), sqrt(2 * pow(PLAYER_SIZE, 2)));
+	r_img->addr = mlx_get_data_addr(r_img->img, &r_img->bits_per_pixel, &r_img->line_length, &r_img->endian);
+	y = 0;
+	while (y < (*img)->height)
+	{
+		x = 0;
+		while (x < (*img)->width)
+		{
+			new_x = (x - (*img)->width / 2) * cos(angle) - (y - (*img)->height / 2) * sin(angle) + (*img)->width / 2;
+			new_y = (y - (*img)->height / 2) * cos(angle) + (x - (*img)->width / 2) * sin(angle) + (*img)->height / 2;
+			*(unsigned int*)(r_img->addr + (new_y * r_img->line_length) + (new_x * (r_img->bits_per_pixel / 8))) = *(unsigned int*)((*img)->addr + (y * (*img)->line_length) + (x * ((*img)->bits_per_pixel / 8)));
+			x++;
+		}
+		y++;
+	}
+	mlx_destroy_image(game->mlx, (*img)->img);
+	free(*img);
+	*img = r_img;
+}
+
+
+
+// Inserts a square in the minimap.
+// game->p_orient[0] = x
+// game->p_orient[1] = y
+// The colour is, for now, PLAYER_COLOUR. In the future it would be cool if
+// the colour could be random or based on the texture colours.
+void	ft_put_player_map(t_game *game)
+{
+	t_data	*img;
+	int		curr_x;
+	int		curr_y;
+
+	img = game->img_list->minimap;
+	curr_y = - PLAYER_SIZE / 2;
+	while (curr_y < PLAYER_SIZE / 2)
+	{
+		curr_x = - PLAYER_SIZE / 2;
+		while (curr_x < PLAYER_SIZE / 2)
+		{
+			if(ft_distance(game->p_orient[0], game->p_orient[1], game->p_orient[0] + curr_x, game->p_orient[1] + curr_y) < PLAYER_SIZE/2)
+				mlx_px(img, game->p_orient[0] + curr_x, game->p_orient[1] + curr_y, PLAYER_COLOUR);
+			curr_x++;
+		}
+		curr_y++;
+	}
+	ft_player_ray(game);
+//	mlx_put_image_to_window(game->mlx, game->mlx_win, img->img, 0, 0);
+}

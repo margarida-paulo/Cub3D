@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/20 13:27:25 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:15:06 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ int	ft_rotate(t_game *game)
 			game->p_orient[2] = 0;
 		else
 			game->p_orient[2]  += 0.001;
-		ft_minimap_bckg(game);
-		ft_put_player_map(game);
+		ft_build_minimap(game);
+		ft_build_player(game);
+    	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->player->img, 10, 10);
 	}
 	else if(game->key_press == XK_Left)
 	{
@@ -29,8 +30,9 @@ int	ft_rotate(t_game *game)
 			game->p_orient[2] = 0;
 		else
 			game->p_orient[2]  -= 0.001;
-		ft_minimap_bckg(game);
-		ft_put_player_map(game);
+		ft_build_minimap(game);
+		ft_build_player(game);
+    	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->player->img, 10, 10);
 	}
 	return (0);
 }

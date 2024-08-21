@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/20 13:49:48 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:15:18 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int		ft_move(t_game *game)
 		game->p_orient[0] -= 0.01 * cos(game->p_orient[2] - M_PI / 2);
 		game->p_orient[1] -= 0.01 * sin(game->p_orient[2] - M_PI / 2);
 	}
-	ft_minimap_bckg(game);
-	ft_put_player_map(game);
+	ft_build_minimap(game);
+	ft_build_player(game);
 	return (0);
 }
 
@@ -68,7 +68,7 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 	}
 }
 
-void	ft_minimap_bckg(t_game *game)
+void	ft_build_minimap(t_game *game)
 {
 	t_data	*img;
 	int		curr_x;
@@ -92,7 +92,9 @@ void	ft_minimap_bckg(t_game *game)
 		}
 		curr_y += GRID_SIZE;
 	}
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->minimap->img, 0, 0);
+	img->width = game->width;
+	img->height = game->height;
+//	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->minimap->img, 0, 0);
 }
 
 void	ft_player_ray(t_game *game)
@@ -114,25 +116,48 @@ void	ft_player_ray(t_game *game)
 // game->p_orient[1] = y
 // The colour is, for now, PLAYER_COLOUR. In the future it would be cool if
 // the colour could be random or based on the texture colours.
-void	ft_put_player_map(t_game *game)
+void	ft_build_player(t_game *game)
+{
+	game->img_list->player = malloc(sizeof(t_data));
+	game->img_list->player->img = mlx_xpm_file_to_image(game->mlx, "/home/mvalerio/Documents/Cub3D/imgs/gps_arrow_20.xpm", &(game->img_list->player->width), &(game->img_list->player->height));
+	game->img_list->player->addr = mlx_get_data_addr(game->img_list->player->img, &(game->img_list->player->bits_per_pixel), &(game->img_list->player->line_length), &(game->img_list->player->endian));
+}
+
+t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, int pos[2])
 {
 	t_data	*img;
-	int		curr_x;
-	int		curr_y;
+	int		x;
+	int		y;
+	(void)top;
+	(void)pos;
 
-	img = game->img_list->minimap;
-	curr_y = - PLAYER_SIZE / 2;
-	while (curr_y < PLAYER_SIZE / 2)
+	img = malloc(sizeof(t_data));
+	img->img = mlx_new_image(game->mlx, game->width, game->height);
+	img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
+	y = 0;
+	while (y < bottom->height)
 	{
-		curr_x = - PLAYER_SIZE / 2;
-		while (curr_x < PLAYER_SIZE / 2)
+		x = 0;
+		while (x < bottom->width)
 		{
-			if(ft_distance(game->p_orient[0], game->p_orient[1], game->p_orient[0] + curr_x, game->p_orient[1] + curr_y) < PLAYER_SIZE/2)
-				mlx_px(img, game->p_orient[0] + curr_x, game->p_orient[1] + curr_y, PLAYER_COLOUR);
-			curr_x++;
+			if (*(unsigned int *)(bottom->addr + y * bottom->line_length + x * bottom->bits_per_pixel / 8) != 0)
+				*(unsigned int *)(img->addr + y * img->line_length + x * img->bits_per_pixel / 8) = *(unsigned int *)(bottom->addr + y * bottom->line_length + x * bottom->bits_per_pixel / 8);
+			x++;
 		}
-		curr_y++;
+		y++;
 	}
-	ft_player_ray(game);
-	mlx_put_image_to_window(game->mlx, game->mlx_win, img->img, 0, 0);
+
+	y = 0;
+	while (y < top->height)
+	{
+		x = 0;
+		while (x < top->width)
+		{
+			if (*(unsigned int *)(top->addr + y * top->line_length + x * top->bits_per_pixel / 8) != 0)
+				*(unsigned int *)(img->addr + (y + pos[1]) * img->line_length + (x + pos[0]) * img->bits_per_pixel / 8) = *(unsigned int *)(top->addr + y * top->line_length + x * top->bits_per_pixel / 8);
+			x++;
+		}
+		y++;
+	}
+	return (img);
 }
