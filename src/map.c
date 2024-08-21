@@ -6,70 +6,22 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/20 17:02:59 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:36:26 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	is_valid_extension(char *map_file_name)
-{
-	int	name_len;
-
-	name_len = ft_strlen(map_file_name);
-	if (name_len < 5 || ft_strcmp(&map_file_name[name_len - 4], ".cub"))
-		return (0);
-	return (1);
-
-}
-
-int	cub_file_cnt_lines(char **argv)
-{
-	int		map_fd;
-	int		line_cnt;
-	char*	buffer;
-
-	line_cnt = 0;
-	map_fd = open(argv[1], O_RDONLY);
-	if (map_fd < 0)
-		print_error_0(CAN_NOT_OPEN, argv[1]);
-	while((buffer = get_next_line(map_fd)) != NULL)
-	{
-		line_cnt++;
-		free(buffer);
-	}
-	close(map_fd);
-	return (line_cnt);
-}
-
-char**	get_cub_file_arr(char **argv)
-{
-	char**	cub_file_arr;
-	char*	buffer;
-	int		cub_fd;
-	int		i;
-
-	if (is_valid_extension(argv[1]) == 0)
-		print_error_0(INVALID_EXTENTION, argv[1]);
-	cub_file_arr = malloc(sizeof(char *) * (cub_file_cnt_lines(argv) + 1));
-	if (!cub_file_arr)
-		return (NULL);
-	cub_fd = open(argv[1], O_RDONLY);
-	if (cub_fd < 0)
-		print_error_0(CAN_NOT_OPEN, argv[1]);
-	i = 0;
-	while((buffer = get_next_line(cub_fd)))
-	{
-		cub_file_arr[i] = buffer;
-		i++;
-	}
-	cub_file_arr[i] = NULL;
-	close(cub_fd);
-	return(cub_file_arr);
-}
-
-
-
+/**
+ * Parses the map from the cub file and sets the elements of the map struct.
+ * starts by reading each line from the cub file and checks if the map starts.
+ * if the map starts, it will copy the rest of the lines to the map_array.
+ * if the map does not start, it will set the elements of the map struct.
+ * after the map is parsed, it will check if the map meets the requirements.
+ * @param map The map struct.
+ * @param argv The arguments passed to the program.
+ * @return void
+ */
 void	parse_map(t_map *map, char **argv)
 {
 	char	**cub_file_arr;
@@ -86,173 +38,30 @@ void	parse_map(t_map *map, char **argv)
 		if (line[0] == '1' && !map_start_found)
 		{
 			map->map_start = i;
-			// map->map_array = &cub_file_arr[i];
 			map->map_array = copy_array_from_index(cub_file_arr, i);
 			map_start_found = 1;
 		}
 		else if (!map_start_found)
-			parse_elements(map, line);
+			set_elements(map, line);
 		i++;
 	}
 	free_2d_array(cub_file_arr);
 	check_map_requirements(map);
 }
 
-void	parse_elements(t_map *map, char *line)
-{
-	line = trim_leading_spaces(line);
-	if (ft_strncmp(line, "NO", 2) == 0)
-		map->no_texture = ft_strdup(trim_leading_spaces(line + 2));
-	else if (ft_strncmp(line, "SO", 2) == 0)
-		map->so_texture = ft_strdup(trim_leading_spaces(line + 2));
-	else if (ft_strncmp(line, "WE", 2) == 0)
-		map->we_texture = ft_strdup(trim_leading_spaces(line + 2));
-	else if (ft_strncmp(line, "EA", 2) == 0)
-		map->ea_texture = ft_strdup(trim_leading_spaces(line + 2));
-	else if (ft_strncmp(line, "F", 1) == 0)
-		map->f_color = ft_strdup(trim_leading_spaces(line + 2));
-	else if (ft_strncmp(line, "C", 1) == 0)
-		map->c_color = ft_strdup(trim_leading_spaces(line + 2));
-}
-
-void	free_map_struct(t_map *map)
-{
-	free_2d_array(map->map_array);
-	free(map->no_texture);
-	free(map->so_texture);
-	free(map->we_texture);
-	free(map->ea_texture);
-	free(map->f_color);
-	free(map->c_color);
-}
-
-void	set_width_and_height(t_map *map)
-{
-	int	max_width;
-	int	i;
-
-	max_width = 0;
-	i = 0;
-	while (map->map_array[i])
-	{
-		if ((int)ft_strlen(map->map_array[i]) > max_width)
-			max_width = ft_strlen(map->map_array[i]);
-		i++;
-	}
-	map->game->width = max_width;
-	map->game->height = ft_arrlen(map->map_array);
-}
-
-int	check_map_invalid_chars(t_map *map)
-{
-	int	check;
-	int	i;
-	int	j;
-
-	check = 0;
-	i = 0;
-	while(map->map_array[i])
-	{
-		j = 0;
-		while(map->map_array[i][j])
-		{
-			if (!ft_strchr(VALID_CHARS, map->map_array[i][j]))
-			{
-				check = 1;
-				break ;
-			}
-			j++;
-		}
-		if (check == 1)
-			break ;
-		i++;
-	}
-	return (check);
-}
-
-void	set_p_orient_angle(t_map *map, char c)
-{
-	if (c == 'E')
-		map->game->p_orient[2] = 0;
-	else if (c == 'N')
-		map->game->p_orient[2] = M_PI / 2;
-	else if (c == 'W')
-		map->game->p_orient[2] = M_PI;
-	else if (c == 'S')
-		map->game->p_orient[2] = 3 * M_PI / 2;
-}
-
-int	set_p_orient_arr(t_map *map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while(map->map_array[i])
-	{
-		j = 0;
-		while(map->map_array[i][j])
-		{
-			if (ft_strchr("NSWE", map->map_array[i][j]))
-			{
-				map->game->p_orient[0] = i;
-				map->game->p_orient[1] = j;
-				set_p_orient_angle(map, map->map_array[i][j]);
-				return (0);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	check_map_player_cnt(t_map *map)
-{
-	int	p_cnt;
-	int	i;
-	int	j;
-
-	p_cnt = 0;
-	i = 0;
-	while(map->map_array[i])
-	{
-		j = 0;
-		while(map->map_array[i][j])
-		{
-			if (ft_strchr("NSWE", map->map_array[i][j]))
-				p_cnt++;
-			j++;
-		}
-		i++;
-	}
-	if (p_cnt == 1)
-		return (set_p_orient_arr(map));
-	else
-		return (1);
-}
-
-// int	check_map_newlines(t_map *map)
-// {
-// 	int	check;
-// 	int	i;
-
-// 	check = 0;
-// 	i = 0;
-// 	while (map->map_array[i])
-// 	{
-// 		if (map->map_array[i][0] == '\n')
-// 		{
-// 			check = 1;
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// 	return (check);
-// }
 
 
-
+/**
+ * Checks if the map meets the requirements.
+ * Used in parse_map() function.
+ * It will set the width and height of the map.
+ * It will check if the map is too small, if it has all the required elements,
+ * if it has invalid characters, if it has only one player,
+ * and if it has invalid borders.
+ * If any of the requirements are not met, prints an error message and exits.
+ * @param map The map struct.
+ * @return void
+ */
 void	check_map_requirements(t_map *map)
 {
 	set_width_and_height(map);
@@ -265,4 +74,6 @@ void	check_map_requirements(t_map *map)
 		print_error_1(INVALID_CHARS, map);
 	if (check_map_player_cnt(map))
 		print_error_1(INVALID_P_CNT, map);
+	if (!check_map_borders(map))
+		print_error_2(INVALID_BORDERS, map);
 }

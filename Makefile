@@ -6,7 +6,7 @@
 #    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/20 12:40:53 by plashkar         ###   ########.fr        #
+#    Updated: 2024/08/21 17:35:44 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,13 @@ MINILIBX_DIR = mlx_linux
 SRC = \
 	src/main.c \
 	src/map.c \
+	src/map_setters.c \
+	src/map_checks.c \
+	src/args.c \
 	src/error.c \
 	src/test.c \
 	src/utils.c \
+	src/free.c
 
 OBJ = $(SRC:.c=.o)
 

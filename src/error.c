@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/20 17:08:52 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:50:46 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int	print_error_1(int error, t_map* map)
 int	print_error_2(int error, t_map* map)
 {
 	free_map_struct(map);
-	if (error == MISSING_ELEMENTS)
+	if (error == INVALID_BORDERS)
 	{
-		ft_putstr_fd("\033[0;31mError:\nMissing element in the .cub", 2);
-		ft_putstr_fd(" file\n\033[0m", 2);
+		ft_putstr_fd("\033[0;31mError:\nMap is not enclosed in walls", 2);
+		ft_putstr_fd("\n\033[0m", 2);
 		exit(error);
 	}
 	return(error);

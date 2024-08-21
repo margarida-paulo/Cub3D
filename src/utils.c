@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+//utils.c/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 20:35:47 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/20 12:47:22 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:05:55 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,4 @@ char *trim_leading_spaces(char *str)
 	return (&str[i]);
 }
 
-/**
- * Frees a 2d array. used to free an array of strings.
- * @param src The array of strings to be freed.
- * @return void
-*/
-void	free_2d_array(char **src)
-{
-	int	i;
 
-	i = 0;
-	while (src && src[i])
-	{
-		free(src[i]);
-		i++;
-	}
-	free(src);
-}

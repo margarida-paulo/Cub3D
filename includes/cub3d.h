@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/20 17:08:39 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:34:34 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include "../mlx_linux/mlx.h"
 #include "../libft/libft.h"
@@ -66,22 +67,44 @@ typedef struct	s_game
 	double	p_orient[3]; // x y angle
 }	t_game;
 
-
-int		print_error_0(int exit_code, char *str);
-int		print_error_1(int exit_code, t_map *map);
-void	free_map_struct(t_map *map);
-
+//args.c
 int		is_valid_extension(char *map_file_name);
 int		cub_file_cnt_lines(char **argv);
 char	**get_cub_file_arr(char **argv);
-void	parse_elements(t_map *map, char *line);
+
+//error.c
+int		print_error_0(int exit_code, char *str);
+int		print_error_1(int exit_code, t_map *map);
+int		print_error_2(int error, t_map* map);
+
+//free.c
+void	free_map_struct(t_map *map);
+void	free_2d_array(char **src);
+void	free_visited(int **visited, t_map *map);
+
+//map_setter.c
+void	set_elements(t_map *map, char *line);
+void	set_p_orient_angle(t_map *map, char c);
+int		set_p_orient_arr(t_map *map);
+void	set_width_and_height(t_map *map);
+
+//map_checks.c
+int		check_map_invalid_chars(t_map *map);
+int		check_map_player_cnt(t_map *map);
+int		is_within_bounds(int x, int y, t_map *map);
+int		flood_fill(t_map *map, int **visited, int x, int y);
+int		check_map_borders(t_map *map);
+
+
+//map.c
 void	parse_map(t_map *map, char **argv);
 void	check_map_requirements(t_map *map);
 
+//utils.c
 char	*trim_leading_spaces(char *str);
-void	free_2d_array(char **src);
 char	**copy_array_from_index(char **src_arr, int i);
 
+//test.c
 void	test_print_2D_array(char** arr);
 void	test_print_map_struct_data(t_map *map);
 
