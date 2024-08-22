@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maggie <maggie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/21 16:50:46 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:56:31 by maggie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	print_error_0(int error, char *str)
 
 	if (error == INVALID_ARG_CNT)
 	{
-		ft_putstr_fd("\033[0;31mError:\nInavlid number of arguments!\n", 2);
+		ft_putstr_fd("\033[0;31mError:\nInvalid number of arguments!\n", 2);
 		ft_putstr_fd("\033[0mUsage: ./cub3D <./path_to_map>\n", 2);
 		exit(error);
 	}
 	else if (error == INVALID_EXTENTION)
 	{
-		ft_putstr_fd("\033[0;31mError:\nInavlid file extention: ", 2);
+		ft_putstr_fd("\033[0;31mError:\nInvalid file extention: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("\n\033[0mThe map file should end in .cub\n", 2);
 		exit(error);
