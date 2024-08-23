@@ -6,7 +6,7 @@
 #    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/16 11:31:44 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/08/23 12:17:34 by mvalerio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,15 @@ SRC = \
 	src/init.c \
 	src/key_press.c \
 	src/mini_map.c \
-	src/mlx_extra.c
+	src/mlx_extra.c \
+	src/map.c \
+	src/map_setters.c \
+	src/map_checks.c \
+	src/args.c \
+	src/error.c \
+	src/test.c \
+	src/utils.c \
+	src/free.c
 
 OBJ = $(SRC:.c=.o)
 

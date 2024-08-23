@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/23 12:01:06 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/23 12:41:40 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 		{
 			if(temp_curr_x == curr_x + GRID_SIZE || temp_curr_y == curr_y + GRID_SIZE)
 				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, 0);
-			else if(game->map[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
+			else if(game->map.map_array[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
 				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_WALL_COLOUR);
 			else
 				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_FLOOR_COLOUR);
