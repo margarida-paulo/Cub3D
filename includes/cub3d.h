@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/21 18:14:49 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/23 11:36:40 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 #define PLAYER_Y 2
 // GRID_SIZE / 3 is the size of the player.
 #define GRID_SIZE 50
-#define PLAYER_SIZE 20
+#define PLAYER_RAY 10
+#define PLAYER_SIZE 30
 
 #define HEIGHT 300
 #define WIDTH 300
@@ -59,12 +60,15 @@ typedef struct s_game
 	t_pics	*img_list;
 	char	**map;
 	int		key_press;
+	double		origin[2];
+	t_data	*current_screen;
 } t_game;
 
 // Exit
 int	exit_program(t_game *game);
 
 // Key Press
+void	ft_render_screen(t_game *game);
 int	ft_key_press(int key_code, t_game *game);
 int	ft_key_release(int key_code, t_game *game);
 int	ft_rotate(t_game *game);
@@ -76,7 +80,7 @@ t_game	*minilibx_init();
 void	ft_build_player(t_game *game);
 int		ft_move(t_game *pms);
 void	ft_build_minimap(t_game *game);
-t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, int pos[2]);
+t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos);
 
 // Mlx Extra
 void	mlx_px(t_data *img, int x, int y, int color);

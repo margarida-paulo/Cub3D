@@ -6,11 +6,21 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/21 18:15:06 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/23 11:44:15 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+void	ft_render_screen(t_game *game)
+{
+	ft_build_minimap(game);
+	ft_build_player(game);
+	mlx_destroy_image(game->mlx, game->current_screen->img);
+	free(game->current_screen);
+	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);
+}
 
 int	ft_rotate(t_game *game)
 {
@@ -20,9 +30,7 @@ int	ft_rotate(t_game *game)
 			game->p_orient[2] = 0;
 		else
 			game->p_orient[2]  += 0.001;
-		ft_build_minimap(game);
-		ft_build_player(game);
-    	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->player->img, 10, 10);
+		ft_render_screen(game);
 	}
 	else if(game->key_press == XK_Left)
 	{
@@ -30,9 +38,7 @@ int	ft_rotate(t_game *game)
 			game->p_orient[2] = 0;
 		else
 			game->p_orient[2]  -= 0.001;
-		ft_build_minimap(game);
-		ft_build_player(game);
-    	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->player->img, 10, 10);
+		ft_render_screen(game);
 	}
 	return (0);
 }

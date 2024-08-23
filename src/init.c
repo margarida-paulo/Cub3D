@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/21 18:15:01 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/23 11:30:38 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,19 @@ t_game *minilibx_init() {
     game->width = ft_strlen(game->map[0]) * GRID_SIZE;
     game->mlx = mlx_init();
     game->mlx_win = mlx_new_window(game->mlx, game->width, game->height, "The best Cub3D you've ever seen");
-    game->p_orient[2] = 0;
+    game->p_orient[2] = M_PI / 2;
     game->p_orient[0] = PLAYER_X * GRID_SIZE + GRID_SIZE / 2;
     game->p_orient[1] = PLAYER_Y * GRID_SIZE + GRID_SIZE / 2;
     game->img_list = malloc(sizeof(t_pics));
     game->img_list->minimap = NULL;
+    game->img_list->player = NULL;
     game->key_press = 0;
+	game->origin[0] = 0;
+	game->origin[1] = 0;
     ft_build_minimap(game);
     ft_build_player(game);
-    mlx_put_image_to_window(game->mlx, game->mlx_win, game->img_list->player->img, 10, 10);
-	int bla[2];
-	bla[0] = 100;
-	bla[1] = 100;
-	t_data *test = ft_merge_images(game, game->img_list->minimap, game->img_list->player, bla);
-	mlx_put_image_to_window(game->mlx, game->mlx_win, test->img, 0, 0);
-    return game;
+	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);
+    return (game);
 }
 

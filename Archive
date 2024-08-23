@@ -58,3 +58,30 @@ void	ft_put_player_map(t_game *game)
 	ft_player_ray(game);
 //	mlx_put_image_to_window(game->mlx, game->mlx_win, img->img, 0, 0);
 }
+
+// Inserts a square in the minimap.
+// game->p_orient[0] = x
+// game->p_orient[1] = y
+// The colour is, for now, PLAYER_COLOUR. In the future it would be cool if
+// the colour could be random or based on the texture colours.
+void	ft_build_player(t_game *game)
+{
+	game->img_list->player = malloc(sizeof(t_data));
+	game->img_list->player->img = mlx_xpm_file_to_image(game->mlx, "/home/mvalerio/Documents/Cub3D/imgs/gps_arrow_20.xpm", &(game->img_list->player->width), &(game->img_list->player->height));
+	game->img_list->player->addr = mlx_get_data_addr(game->img_list->player->img, &(game->img_list->player->bits_per_pixel), &(game->img_list->player->line_length), &(game->img_list->player->endian));
+}
+
+
+void	ft_player_ray(t_game *game)
+{
+	int ray_size = 0;
+	int new_position[2];
+
+	while (ray_size < PLAYER_SIZE)
+	{
+		new_position[0] = game->p_orient[0] + ((PLAYER_SIZE / 2 + ray_size) * cos(game->p_orient[2]));
+		new_position[1] = game->p_orient[1] + ((PLAYER_SIZE / 2 + ray_size) * sin(game->p_orient[2]));
+		mlx_px(game->img_list->minimap, new_position[0], new_position[1], PLAYER_COLOUR);
+		ray_size++;
+	}
+}
