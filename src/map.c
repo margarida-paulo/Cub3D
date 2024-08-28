@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/21 17:36:26 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:44:37 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,22 @@ void	check_map_requirements(t_map *map)
 		print_error_1(INVALID_P_CNT, map);
 	if (!check_map_borders(map))
 		print_error_2(INVALID_BORDERS, map);
+	if (check_map_nl(map))
+		print_error_2(NEWLINES_IN_MAP, map);
+}
+
+int	check_map_nl(t_map *map)
+{
+	char	*curr_str;
+	int		i;
+
+	i = 0;
+	while (i < map->game->height)
+	{
+		curr_str = trim_leading_spaces(map->map_array[i]);
+		if (curr_str[0] == '\n' || curr_str[0] == '\0')
+			return (1);
+		i++;
+	}
+	return (0);
 }

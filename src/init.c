@@ -3,20 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/23 12:40:08 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:00:51 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 
+/**
+ * Initializes the visited array to keep track of visited coordinates.
+ * used in check_map_borders() function.
+ * @param map The map struct.
+ * @return The 2d array to keep track of visited coordinates.
+ */
+int	**init_visited_arr(t_map *map)
+{
+	int	**visited;
+	int	i;
+	int	j;
 
-
-
-
+	visited = malloc(sizeof(int *) * map->game->height);
+	i = 0;
+	while (i < map->game->height)
+	{
+		visited[i] = malloc(sizeof(int) * map->game->width);
+		i++;
+	}
+	i = 0;
+	while (i < map->game->height)
+	{
+		j = 0;
+		while (j < map->game->width)
+		{
+			visited[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	return (visited);
+}
 
 // Initializes the instance and the window of the minilibx into the game struct.
 void	minilibx_init(t_game *game) {
