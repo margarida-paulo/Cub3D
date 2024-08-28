@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
+#    By: plashkar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/28 11:02:00 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/08/25 17:43:58 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ $(NAME): $(OBJ)
 
 clean:
 	@rm -f src/*.o
+	@rm -f $(LIBFT_DIR)/*.o
 	@echo $(RED)Object files have been deleted.$(RESET)
 
 fclean: clean

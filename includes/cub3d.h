@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/28 11:54:47 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:02:37 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ enum exit_codes {
 	INVALID_CHARS,
 	INVALID_P_CNT,
 	INVALID_BORDERS,
+	NEWLINES_IN_MAP,
     // Add other exit codes here
 };
 
@@ -121,6 +122,7 @@ int	ft_rotate(t_game *game);
 
 // Init
 void	minilibx_init(t_game *game);
+int		**init_visited_arr(t_map *map);
 
 // Mini Map
 void	ft_build_player(t_game *game);
@@ -158,6 +160,7 @@ int		check_map_player_cnt(t_map *map);
 int		is_within_bounds(int x, int y, t_map *map);
 int		flood_fill(t_map *map, int **visited, int x, int y);
 int		check_map_borders(t_map *map);
+int		check_map_nl(t_map *map);
 
 //map.c
 void	parse_map(t_map *map, char **argv);

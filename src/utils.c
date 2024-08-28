@@ -13,6 +13,21 @@
 #include "../includes/cub3d.h"
 
 /**
+ * Checks if the given coordinates are within the bounds of the map.
+ * used in the flood_fill algo.
+ * @param x The x coordinate.
+ * @param y The y coordinate.
+ * @param map The map struct.
+ * @return 1 if the coordinates are within the bounds, 0 otherwise.
+ */
+int	is_within_bounds(int x, int y, t_map *map)
+{
+	if (x < 0 || y < 0 || x >= map->game->height || y >= map->game->width)
+		return (0);
+	return (1);
+}
+
+/**
  * Copies an array of strings starting from a given index.
  * @param src_arr The source array of strings.
  * @param i The starting index from which to copy.
@@ -20,14 +35,18 @@
  */
 char	**copy_array_from_index(char **src_arr, int i)
 {
-	char **dest_arr;
-	int	j;
+	char	**dest_arr;
+	size_t	len;
+	int		j;
 
 	j = 0;
 	dest_arr = malloc (sizeof(char *) * ((ft_arrlen(src_arr) - i + 1)));
 	while (src_arr[i])
 	{
-		dest_arr[j] = ft_strdup(src_arr[i]);
+		len = ft_strlen(src_arr[i]);
+		if (len > 0 && src_arr[i][len - 1] == '\n')
+			len--;
+		dest_arr[j] = ft_substr(src_arr[i], 0, len);
 		j++;
 		i++;
 	}
