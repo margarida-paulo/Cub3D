@@ -42,7 +42,8 @@ SRC = \
 	src/error.c \
 	src/test.c \
 	src/utils.c \
-	src/free.c
+	src/free.c \
+	src/raycasting.c
 
 OBJ = $(SRC:.c=.o)
 

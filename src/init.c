@@ -49,17 +49,17 @@ int	**init_visited_arr(t_map *map)
 // Initializes the instance and the window of the minilibx into the game struct.
 void	minilibx_init(t_game *game) {
 
+	game->fov = FOV;
     game->height = ft_arrlen(game->map.map_array) * GRID_SIZE;
     game->width = ft_strlen(game->map.map_array[0]) * GRID_SIZE;
     game->mlx = mlx_init();
     game->mlx_win = mlx_new_window(game->mlx, game->width, game->height, "The best Cub3D you've ever seen");
-    game->p_orient[2] = M_PI / 2;
-    game->p_orient[0] = PLAYER_X * GRID_SIZE + GRID_SIZE / 2;
-    game->p_orient[1] = PLAYER_Y * GRID_SIZE + GRID_SIZE / 2;
     game->img_list = malloc(sizeof(t_pics));
     game->img_list->minimap = NULL;
     game->img_list->player = NULL;
-    game->key_press = 0;
+	game->p_orient[0] = game->p_orient[0] * GRID_SIZE + GRID_SIZE / 2;
+	game->p_orient[1] = game->p_orient[1] * GRID_SIZE + GRID_SIZE / 2;
+	game->key_press = 0;
 	game->origin[0] = 0;
 	game->origin[1] = 0;
     ft_build_minimap(game);

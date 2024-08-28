@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "/home/mvalerio/Documents/Cub3D/cub3D",
 //        "program": "/home/pouya/maggie<3/Cub3D/cub3D",
-            "args": [],
+            "args": ["test_maps/valid_maps/map1.cub"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
