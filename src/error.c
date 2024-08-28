@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maggie <maggie@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/22 16:56:31 by maggie           ###   ########.fr       */
+/*   Updated: 2024/08/25 17:57:16 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,12 @@ int	print_error_2(int error, t_map* map)
 	if (error == INVALID_BORDERS)
 	{
 		ft_putstr_fd("\033[0;31mError:\nMap is not enclosed in walls", 2);
+		ft_putstr_fd("\n\033[0m", 2);
+		exit(error);
+	}
+	if (error == NEWLINES_IN_MAP)
+	{
+		ft_putstr_fd("\033[0;31mError:\nMap has extra newlines", 2);
 		ft_putstr_fd("\n\033[0m", 2);
 		exit(error);
 	}
