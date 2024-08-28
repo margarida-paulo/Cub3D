@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/23 12:37:09 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:54:47 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ enum exit_codes {
 #define GRID_SIZE 50
 #define PLAYER_RAY 10
 #define PLAYER_SIZE 30
+#define FOV M_PI / 3
 
 #define HEIGHT 300
 #define WIDTH 300
@@ -92,6 +93,7 @@ typedef struct	s_map
 	char*	c_color; //* Ceiling color: C 225,30,0
 }	t_map;
 
+// fov = Field of Vision IN RADIANS
 typedef struct s_game
 {
 	void	*mlx;
@@ -104,6 +106,7 @@ typedef struct s_game
 	double		origin[2];
 	t_data	*current_screen;
 	t_map	map;
+	double		fov;
 } t_game;
 
 
@@ -167,4 +170,9 @@ char	**copy_array_from_index(char **src_arr, int i);
 //test.c
 void	test_print_2D_array(char** arr);
 void	test_print_map_struct_data(t_map *map);
+
+//raycasting.c
+void	cast_rays(t_game *game);
+
+
 #endif

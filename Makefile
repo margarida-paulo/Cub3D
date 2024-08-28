@@ -6,7 +6,7 @@
 #    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/23 12:17:34 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/08/28 11:02:00 by mvalerio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ SRC = \
 	src/error.c \
 	src/test.c \
 	src/utils.c \
-	src/free.c
+	src/free.c \
+	src/raycasting.c
 
 OBJ = $(SRC:.c=.o)
 

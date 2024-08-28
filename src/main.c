@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/23 12:36:24 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:35:28 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int main(int argc, char **argv)
 
 
 	minilibx_init(&game);
+	cast_rays(&game);
 	mlx_loop_hook(game.mlx, ft_gameplay, &game);
 	mlx_hook(game.mlx_win, 17, 0, exit_program, &game);
 	mlx_hook(game.mlx_win, 3, (1L<<1), ft_key_release, &game);

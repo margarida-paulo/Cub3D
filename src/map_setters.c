@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_setters.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:13:55 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/21 17:20:20 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:33:01 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	set_p_orient_angle(t_map *map, char c)
 	if (c == 'E')
 		map->game->p_orient[2] = 0;
 	else if (c == 'N')
-		map->game->p_orient[2] = M_PI / 2;
+		map->game->p_orient[2] = 3 * (M_PI / 2);
 	else if (c == 'W')
 		map->game->p_orient[2] = M_PI;
 	else if (c == 'S')
-		map->game->p_orient[2] = 3 * M_PI / 2;
+		map->game->p_orient[2] = M_PI / 2;
 }
 
 /**
