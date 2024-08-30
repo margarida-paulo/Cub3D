@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/23 12:41:40 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:24:51 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,8 @@ void	ft_build_player(t_game *game)
 		game->img_list->player->width = game->width;
 		game->img_list->player->height = game->height;
 	}
-
 	ft_clear_img(game->img_list->player, game->img_list->player->width, game->img_list->player->height);
-
+	cast_rays(game);
 	center[0] = (int)game->p_orient[0];
 	center[1] = (int)game->p_orient[1];
 

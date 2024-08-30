@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/28 16:02:37 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/30 16:39:18 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ enum exit_codes {
 #define PLAYER_RAY 10
 #define PLAYER_SIZE 30
 #define FOV M_PI / 3
-
 #define HEIGHT 300
 #define WIDTH 300
 
@@ -121,6 +120,7 @@ int	ft_key_release(int key_code, t_game *game);
 int	ft_rotate(t_game *game);
 
 // Init
+t_data	*init_img(t_game *game, int width, int height);
 void	minilibx_init(t_game *game);
 int		**init_visited_arr(t_map *map);
 
@@ -129,6 +129,7 @@ void	ft_build_player(t_game *game);
 int		ft_move(t_game *pms);
 void	ft_build_minimap(t_game *game);
 t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos);
+double	ft_distance(int x1, int y1, int x2, int y2);
 
 // Mlx Extra
 void	mlx_px(t_data *img, int x, int y, int color);

@@ -8,6 +8,7 @@ void	ft_rotate_player(t_game *game, t_data **img, double angle)
 	int		new_x;
 	int		new_y;
 
+	
 	r_img = malloc(sizeof(t_data));
 	r_img->img = mlx_new_image(game->mlx, sqrt(2 * pow(PLAYER_SIZE, 2)), sqrt(2 * pow(PLAYER_SIZE, 2)));
 	r_img->addr = mlx_get_data_addr(r_img->img, &r_img->bits_per_pixel, &r_img->line_length, &r_img->endian);

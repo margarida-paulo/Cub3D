@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: plashkar <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/25 17:43:58 by plashkar         ###   ########.fr        #
+#    Updated: 2024/08/30 12:57:41 by mvalerio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME = cub3D
 
 CC = cc
 
-STANDARD_FLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
-
+STANDARD_FLAGS = -Wall -Werror -Wextra -g
 MLX_COMPILATION_FLAGS = -I/usr/include -Imlx_linux -O3 -c
 
 MLX_LINK_FLAGS = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz

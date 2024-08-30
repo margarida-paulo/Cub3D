@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/28 16:00:51 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/08/30 15:22:51 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+t_data	*init_img(t_game *game, int width, int height)
+{
+	t_data *img;
+
+	img = malloc(sizeof(t_data));
+	img->img = mlx_new_image(game->mlx, width, height);
+	img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
+	img->width = width;
+	img->height = height;
+	return (img);
+}
 
 
 /**
