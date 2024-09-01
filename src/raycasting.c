@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 16:02:13 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:27:00 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	increment = 0;
 
 int	get_px_color(t_data *img, int x, int y)
 {
@@ -26,9 +25,9 @@ int	get_px_color(t_data *img, int x, int y)
 
 double	find_vertical_inter(t_game *game, double angle)
 {
-	int	x_n;
-	int	y_n;
-	double	h;
+	double	x_n;
+	double	y_n;
+//	double	h;
 	double	step[2];
 	// double	h_step;
 	int	multiplier_x;
@@ -49,8 +48,9 @@ double	find_vertical_inter(t_game *game, double angle)
 		x_n = (int)(game->p_orient[0] / GRID_SIZE) * GRID_SIZE;
 		multiplier_x = -1;
 	}
-	h = (x_n - game->p_orient[0]) / cos(angle);
-	y_n = h * sin(angle) + game->p_orient[1];
+//	h = (x_n - game->p_orient[0]) / cos(angle);
+//	y_n = h * sin(angle) + game->p_orient[1];
+	y_n = (x_n - game->p_orient[0]) * tan(angle) + game->p_orient[1];
 	step[0] = GRID_SIZE * multiplier_x;
 	// h_step = step[0] * cos(angle);
 	// step[1] = h_step * sin(angle);
@@ -65,9 +65,9 @@ double	find_vertical_inter(t_game *game, double angle)
 
 double	find_horizontal_inter(t_game *game, double angle)
 {
-	int	x_n;
-	int	y_n;
-	double	h;
+	double	x_n;
+	double	y_n;
+//	double	h;
 	double	step[2];
 	// double	h_step;
 	int	multiplier_y;
@@ -88,8 +88,8 @@ double	find_horizontal_inter(t_game *game, double angle)
 		multiplier_x = 1;
 	else
 		multiplier_x = -1;
-	h = (y_n - game->p_orient[1]) / sin(angle);
-	x_n = h * cos(angle) + game->p_orient[0];
+//	h = (y_n - game->p_orient[1]) / sin(angle);
+	x_n = (y_n - game->p_orient[1]) / tan(angle) + game->p_orient[0];
 	step[1] = GRID_SIZE * multiplier_y;
 	// h_step = step[1] * sin(angle);
 	// step[0] = h_step * cos(angle);
@@ -105,26 +105,25 @@ double	find_horizontal_inter(t_game *game, double angle)
 
 void	ft_player_ray(t_game *game, double ray_size, double angle)
 {
-	int	new_position[2];
-	int	i;
+	double	new_position[2];
+	double	i;
 
 	i = 0;
-	while ((double)i <= ray_size)
+	while (i <= ray_size)
 	{
 		new_position[0] = game->p_orient[0] + i * cos(angle);
 		new_position[1] = game->p_orient[1] + i * sin(angle);
-		mlx_px(game->img_list->player, new_position[0], new_position[1], 0x00ab3425 + increment);
-		i++;
+		mlx_px(game->img_list->player, round(new_position[0]), round(new_position[1]), 0x00ab3425);
+		i+= 0.5;
 	}
-	increment += 50;
 }
 
 void	cast_rays(t_game *game)
 {
 	double	initial_angle;
 	double	final_angle;
-	double vertical_inter;
-	double horizontal_inter;
+	double	vertical_inter;
+	double	horizontal_inter;
 
 	initial_angle = game->p_orient[2] - (game->fov / 2);
 	final_angle = game->p_orient[2] + (game->fov / 2);

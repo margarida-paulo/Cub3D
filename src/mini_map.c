@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 16:07:37 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:12:46 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 	int	temp_curr_x;
 	int	temp_curr_y;
 
-	temp_curr_y = curr_y + 1;
+	temp_curr_y = curr_y;
 	while (temp_curr_y <= curr_y + GRID_SIZE)
 	{
-		temp_curr_x = curr_x + 1;
+		temp_curr_x = curr_x;
 		while (temp_curr_x <= curr_x + GRID_SIZE)
 		{
 			if(game->map.map_array[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
