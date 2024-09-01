@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 17:24:24 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:15:31 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,14 @@ typedef struct s_game
 	double		fov;
 } t_game;
 
+typedef struct s_ray
+{
+	double	angle;
+	int		multiplier_x;
+	int		multiplier_y;
+	double	sin;
+	double	cos;
+} t_ray;
 
 // Exit
 int	exit_program(t_game *game);

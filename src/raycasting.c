@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 17:27:00 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:25:04 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,35 @@ int	get_px_color(t_data *img, int x, int y)
 }
 
 
-double	find_vertical_inter(t_game *game, double angle)
+void	ft_ray_init(t_ray *ray, double angle)
+{
+	ray->angle = angle;
+	ray->sin = sin(ray->angle);
+	ray->cos = cos(ray->angle);
+	if (ray->sin > 0)
+		ray->multiplier_y = 1;
+	else
+		ray->multiplier_y = -1;
+	if (ray->cos > 0)
+		ray->multiplier_x = 1;
+	else
+		ray->multiplier_x = -1;
+}
+
+double	find_vertical_inter(t_game *game, t_ray *ray)
 {
 	double	x_n;
 	double	y_n;
-//	double	h;
 	double	step[2];
-	// double	h_step;
-	int	multiplier_x;
-	int	multiplier_y;
 
-	if (sin(angle) > 0)
-		multiplier_y = 1;
-	else
-		multiplier_y = -1;
-
-	if (cos(angle) > 0)
-	{
+	if (ray->cos > 0)
 		x_n = (int)(game->p_orient[0] / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
-		multiplier_x = 1;
-	}
 	else
-	{
 		x_n = (int)(game->p_orient[0] / GRID_SIZE) * GRID_SIZE;
-		multiplier_x = -1;
-	}
-//	h = (x_n - game->p_orient[0]) / cos(angle);
-//	y_n = h * sin(angle) + game->p_orient[1];
-	y_n = (x_n - game->p_orient[0]) * tan(angle) + game->p_orient[1];
-	step[0] = GRID_SIZE * multiplier_x;
-	// h_step = step[0] * cos(angle);
-	// step[1] = h_step * sin(angle);
-	step[1] = step[0] * tan(angle);
-	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + multiplier_x, y_n + multiplier_y) != MINI_WALL_COLOUR)
+	y_n = (x_n - game->p_orient[0]) * tan(ray->angle) + game->p_orient[1];
+	step[0] = GRID_SIZE * ray->multiplier_x;
+	step[1] = step[0] * tan(ray->angle);
+	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + ray->multiplier_x, y_n + ray->multiplier_y) != MINI_WALL_COLOUR)
 	{
 		x_n += step[0];
 		y_n += step[1];
@@ -63,38 +59,21 @@ double	find_vertical_inter(t_game *game, double angle)
 	return (ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n));
 }
 
-double	find_horizontal_inter(t_game *game, double angle)
+double	find_horizontal_inter(t_game *game, t_ray *ray)
 {
 	double	x_n;
 	double	y_n;
-//	double	h;
 	double	step[2];
-	// double	h_step;
-	int	multiplier_y;
-	int	multiplier_x;
 
-	if (sin(angle) > 0)
-	{
+
+	if (ray->sin > 0)
 		y_n = (int)(game->p_orient[1] / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
-		multiplier_y = 1;
-	}
 	else
-	{
 		y_n = (int)(game->p_orient[1] / GRID_SIZE) * GRID_SIZE;
-		multiplier_y = -1;
-	}
-
-	if (cos(angle) > 0)
-		multiplier_x = 1;
-	else
-		multiplier_x = -1;
-//	h = (y_n - game->p_orient[1]) / sin(angle);
-	x_n = (y_n - game->p_orient[1]) / tan(angle) + game->p_orient[0];
-	step[1] = GRID_SIZE * multiplier_y;
-	// h_step = step[1] * sin(angle);
-	// step[0] = h_step * cos(angle);
-	step[0] = step[1] / tan(angle);
-	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + multiplier_x, y_n + multiplier_y) != MINI_WALL_COLOUR)
+	x_n = (y_n - game->p_orient[1]) / tan(ray->angle) + game->p_orient[0];
+	step[1] = GRID_SIZE * ray->multiplier_y;
+	step[0] = step[1] / tan(ray->angle);
+	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + ray->multiplier_x, y_n + ray->multiplier_y) != MINI_WALL_COLOUR)
 	{
 		x_n += step[0];
 		y_n += step[1];
@@ -124,13 +103,15 @@ void	cast_rays(t_game *game)
 	double	final_angle;
 	double	vertical_inter;
 	double	horizontal_inter;
+	t_ray	ray;
 
 	initial_angle = game->p_orient[2] - (game->fov / 2);
 	final_angle = game->p_orient[2] + (game->fov / 2);
 	while (initial_angle < final_angle)
 	{
-		vertical_inter = find_vertical_inter(game, initial_angle);
-		horizontal_inter = find_horizontal_inter(game, initial_angle);
+		ft_ray_init(&ray, initial_angle);
+		vertical_inter = find_vertical_inter(game, &ray);
+		horizontal_inter = find_horizontal_inter(game, &ray);
 		if (vertical_inter > horizontal_inter)
 			ft_player_ray(game, horizontal_inter, initial_angle);
 		else
