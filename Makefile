@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
+#    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/08/30 12:57:41 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/09/01 13:39:27 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,21 +57,27 @@ BLINK = "\033[5m"
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIBFT_A) $(MINILIBX_DIR)/libmlx_Linux.a
 	@echo $(PINK)"Compiling $@"$(RESET)
-	@make -C $(LIBFT_DIR)
-	@make -C $(MINILIBX_DIR)
 	@$(CC) $(STANDARD_FLAGS) $(MATH_LIB) $(OBJ) $(MLX_LINK_FLAGS) $(LIBFT_A) -o $(NAME)
 	@echo $(BLINK)$(BOLDPINK)"Cub3D is ready to run!"$(RESET)
 
+$(LIBFT_A):
+	@make -C $(LIBFT_DIR)
+
+$(MINILIBX_DIR)/libmlx_Linux.a:
+	@make -C $(MINILIBX_DIR)
+
 clean:
-	@rm -f src/*.o
-	@rm -f $(LIBFT_DIR)/*.o
+	@rm -f $(OBJ)
+	@make -C $(LIBFT_DIR) clean
+	@make -C $(MINILIBX_DIR) clean
 	@echo $(RED)Object files have been deleted.$(RESET)
 
 fclean: clean
 	@rm -f $(LIB)
 	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 	@echo $(RED)"All created files have been deleted."$(RESET)
 
 re: fclean all
@@ -79,4 +85,4 @@ re: fclean all
 v: all clean
 	@./$(NAME)
 
-.PHONY: fclean clean all re
+.PHONY: fclean clean all re v

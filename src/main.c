@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/30 15:20:47 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/01 14:23:28 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		print_error_0(INVALID_ARG_CNT, NULL);
 	parse_map(&game.map, argv);
-
+	test_print_map_struct_data(&game.map);
 
 	minilibx_init(&game);
 	mlx_loop_hook(game.mlx, ft_gameplay, &game);

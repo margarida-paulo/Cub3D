@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checks.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:28:54 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/28 16:04:42 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:59:42 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ int	flood_fill(t_map *map, int **visited, int x, int y)
 	visited[x][y] = 1;
 	if (map->map_array[x][y] == ' ')
 	{
-		if (x == 0 || x == map->game->height - 1 || y == 0 || y == map->game->width - 1)
-			return (0);
+		return (1);
 	}
 	else if (map->map_array[x][y] == '0')
 	{
@@ -112,8 +111,6 @@ int	flood_fill(t_map *map, int **visited, int x, int y)
 			(is_within_bounds(x, y - 1, map) && map->map_array[x][y - 1] == ' '))
 			return (0);
 	}
-	else
-		return (1);
 	return (flood_fill(map, visited, x + 1, y) &&
 			flood_fill(map, visited, x - 1, y) &&
 			flood_fill(map, visited, x, y + 1) &&

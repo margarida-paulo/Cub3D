@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/30 16:55:17 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/01 14:23:21 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	ft_build_player(t_game *game)
 	double		v1[2];
 	double		v2[2];
 	double		v3[2];
-	double	angle = game->p_orient[2];
+	double	angle = game->p_orient[2]; // Adjust angle to face south
 	double		pos[2];
 
 	if (game->img_list->player == NULL)

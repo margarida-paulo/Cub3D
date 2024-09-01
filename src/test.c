@@ -6,13 +6,13 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:37:00 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/20 17:09:19 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/01 13:32:46 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	test_print_2D_array(char** arr)
+void	test_print_2D_map_array(char** arr)
 {
 	int	i;
 
@@ -20,8 +20,10 @@ void	test_print_2D_array(char** arr)
 	while (arr[i])
 	{
 		ft_printf(arr[i]);
+		ft_printf("\n");
 		i++;
 	}
+
 }
 
 void	test_print_map_struct_data(t_map *map)
@@ -36,6 +38,7 @@ void	test_print_map_struct_data(t_map *map)
 	ft_printf("The EA string is: %s\n", map->ea_texture);
 	ft_printf("The F_color string is: %s\n", map->f_color);
 	ft_printf("The C_color string is: %s\n", map->c_color);
+	ft_printf("map width: %d map height: %d\n", map->game->width, map->game->height);
 	ft_printf("The map is: \n");
-	test_print_2D_array(map->map_array);
+	test_print_2D_map_array(map->map_array);
 }

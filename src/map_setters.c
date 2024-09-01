@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_setters.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:13:55 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/28 15:33:01 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/01 14:23:12 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int	set_p_orient_arr(t_map *map)
 		{
 			if (ft_strchr("NSWE", map->map_array[i][j]))
 			{
-				map->game->p_orient[0] = i;
-				map->game->p_orient[1] = j;
+				map->game->p_orient[0] = j;
+				map->game->p_orient[1] = i;
 				set_p_orient_angle(map, map->map_array[i][j]);
 				return (0);
 			}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/30 16:39:18 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/01 13:30:59 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ char	*trim_leading_spaces(char *str);
 char	**copy_array_from_index(char **src_arr, int i);
 
 //test.c
-void	test_print_2D_array(char** arr);
+void	test_print_2D_map_array(char** arr);
 void	test_print_map_struct_data(t_map *map);
 
 //raycasting.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/30 17:02:55 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/01 16:02:13 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ double	find_vertical_inter(t_game *game, double angle)
 	int	y_n;
 	double	h;
 	double	step[2];
-	double	h_step;
+	// double	h_step;
 	int	multiplier_x;
 	int	multiplier_y;
 
@@ -52,8 +52,9 @@ double	find_vertical_inter(t_game *game, double angle)
 	h = (x_n - game->p_orient[0]) / cos(angle);
 	y_n = h * sin(angle) + game->p_orient[1];
 	step[0] = GRID_SIZE * multiplier_x;
-	h_step = step[0] * cos(angle);
-	step[1] = h_step * sin(angle);
+	// h_step = step[0] * cos(angle);
+	// step[1] = h_step * sin(angle);
+	step[1] = step[0] * tan(angle);
 	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + multiplier_x, y_n + multiplier_y) != MINI_WALL_COLOUR)
 	{
 		x_n += step[0];
@@ -68,7 +69,7 @@ double	find_horizontal_inter(t_game *game, double angle)
 	int	y_n;
 	double	h;
 	double	step[2];
-	double	h_step;
+	// double	h_step;
 	int	multiplier_y;
 	int	multiplier_x;
 
@@ -90,8 +91,9 @@ double	find_horizontal_inter(t_game *game, double angle)
 	h = (y_n - game->p_orient[1]) / sin(angle);
 	x_n = h * cos(angle) + game->p_orient[0];
 	step[1] = GRID_SIZE * multiplier_y;
-	h_step = step[1] * sin(angle);
-	step[0] = h_step * cos(angle);
+	// h_step = step[1] * sin(angle);
+	// step[0] = h_step * cos(angle);
+	step[0] = step[1] / tan(angle);
 	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + multiplier_x, y_n + multiplier_y) != MINI_WALL_COLOUR)
 	{
 		x_n += step[0];
