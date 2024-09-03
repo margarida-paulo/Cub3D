@@ -8,7 +8,7 @@ void	ft_rotate_player(t_game *game, t_data **img, double angle)
 	int		new_x;
 	int		new_y;
 
-	
+
 	r_img = malloc(sizeof(t_data));
 	r_img->img = mlx_new_image(game->mlx, sqrt(2 * pow(PLAYER_SIZE, 2)), sqrt(2 * pow(PLAYER_SIZE, 2)));
 	r_img->addr = mlx_get_data_addr(r_img->img, &r_img->bits_per_pixel, &r_img->line_length, &r_img->endian);
@@ -35,7 +35,7 @@ void	ft_rotate_player(t_game *game, t_data **img, double angle)
 // Inserts a square in the minimap.
 // game->p_orient[0] = x
 // game->p_orient[1] = y
-// The colour is, for now, PLAYER_COLOUR. In the future it would be cool if
+// The colour is, for now, PLAYER_CLR. In the future it would be cool if
 // the colour could be random or based on the texture colours.
 void	ft_put_player_map(t_game *game)
 {
@@ -51,7 +51,7 @@ void	ft_put_player_map(t_game *game)
 		while (curr_x < PLAYER_SIZE / 2)
 		{
 			if(ft_distance(game->p_orient[0], game->p_orient[1], game->p_orient[0] + curr_x, game->p_orient[1] + curr_y) < PLAYER_SIZE/2)
-				mlx_px(img, game->p_orient[0] + curr_x, game->p_orient[1] + curr_y, PLAYER_COLOUR);
+				mlx_px(img, game->p_orient[0] + curr_x, game->p_orient[1] + curr_y, PLAYER_CLR);
 			curr_x++;
 		}
 		curr_y++;
@@ -63,7 +63,7 @@ void	ft_put_player_map(t_game *game)
 // Inserts a square in the minimap.
 // game->p_orient[0] = x
 // game->p_orient[1] = y
-// The colour is, for now, PLAYER_COLOUR. In the future it would be cool if
+// The colour is, for now, PLAYER_CLR. In the future it would be cool if
 // the colour could be random or based on the texture colours.
 void	ft_build_player(t_game *game)
 {
@@ -82,7 +82,7 @@ void	ft_player_ray(t_game *game)
 	{
 		new_position[0] = game->p_orient[0] + ((PLAYER_SIZE / 2 + ray_size) * cos(game->p_orient[2]));
 		new_position[1] = game->p_orient[1] + ((PLAYER_SIZE / 2 + ray_size) * sin(game->p_orient[2]));
-		mlx_px(game->img_list->minimap, new_position[0], new_position[1], PLAYER_COLOUR);
+		mlx_px(game->img_list->minimap, new_position[0], new_position[1], PLAYER_CLR);
 		ray_size++;
 	}
 }

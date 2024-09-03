@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 18:15:31 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:08:53 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ enum exit_codes {
 };
 
 #define MAP_PX 30
-#define PLAYER_COLOUR 0x00FFC0CB
-#define MINI_WALL_COLOUR 0x00FFFFFF
-#define MINI_FLOOR_COLOUR 0x00333333
+#define PLAYER_CLR 0x00FFC0CB
+#define WALL_CLR 0x00FFFFFF
+#define MINI_FLOOR_CLR 0x00333333
 
 
 #define PLAYER_X 2
@@ -107,6 +107,7 @@ typedef struct s_game
 	t_data	*current_screen;
 	t_map	map;
 	double		fov;
+	double		move_rate;
 } t_game;
 
 typedef struct s_ray
@@ -116,6 +117,10 @@ typedef struct s_ray
 	int		multiplier_y;
 	double	sin;
 	double	cos;
+	double	inter[2];
+	double	distance;
+	double	x_n;
+	double	y_n;
 } t_ray;
 
 // Exit
@@ -134,7 +139,7 @@ int		**init_visited_arr(t_map *map);
 
 // Mini Map
 void	ft_build_player(t_game *game);
-int		ft_move(t_game *pms);
+void		ft_move(t_game *pms);
 void	ft_build_minimap(t_game *game);
 t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos);
 double	ft_distance(int x1, int y1, int x2, int y2);
@@ -183,8 +188,15 @@ char	**copy_array_from_index(char **src_arr, int i);
 void	test_print_2D_map_array(char** arr);
 void	test_print_map_struct_data(t_map *map);
 
-//raycasting.c
-void	cast_rays(t_game *game);
+//raycasting_utils.c
+int	get_px_color(t_data *img, int x, int y);
+char	is_inside_map(t_game *game, t_ray *ray, int x_n, int y_n);
 
+//raycasting.c
+double	*find_vertical_inter(t_game *game, t_ray *ray);
+double	*find_horizontal_inter(t_game *game, t_ray *ray);
+void	ft_draw_ray(t_game *game, double ray_size, double angle);
+void	ft_ray_init(t_ray *ray, double angle, t_game *game);
+void	cast_rays(t_game *game);
 
 #endif

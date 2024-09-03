@@ -6,43 +6,32 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 18:25:04 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 11:26:30 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-
-int	get_px_color(t_data *img, int x, int y)
-{
-    int color;
-
-	color = *(int *)(img->addr + (y * img->line_length + \
-	x * (img->bits_per_pixel / 8)));
-    return color;
-}
-
-
-void	ft_ray_init(t_ray *ray, double angle)
-{
-	ray->angle = angle;
-	ray->sin = sin(ray->angle);
-	ray->cos = cos(ray->angle);
-	if (ray->sin > 0)
-		ray->multiplier_y = 1;
-	else
-		ray->multiplier_y = -1;
-	if (ray->cos > 0)
-		ray->multiplier_x = 1;
-	else
-		ray->multiplier_x = -1;
-}
-
-double	find_vertical_inter(t_game *game, t_ray *ray)
+/**
+ * @brief Finds the vertical intersection of the ray with the map.
+ *
+ * Given a ray and a game, this function finds the point of intersection of
+ * the ray with the map in the vertical direction. The intersection is found
+ * by moving the ray in the vertical direction and checking the color of the
+ * pixel at that point. If the color is not a wall, the intersection is the
+ * point at which the ray intersects the map.
+ *
+ * @param game The game structure.
+ * @param ray The ray to find the intersection for.
+ * @return A double array of size 3 containing the x, y coordinates of the
+ * intersection and the distance from the player to the intersection.
+ */
+double	*find_vertical_inter(t_game *game, t_ray *ray)
 {
 	double	x_n;
 	double	y_n;
 	double	step[2];
+	double	*info;
 
 	if (ray->cos > 0)
 		x_n = (int)(game->p_orient[0] / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
@@ -51,20 +40,38 @@ double	find_vertical_inter(t_game *game, t_ray *ray)
 	y_n = (x_n - game->p_orient[0]) * tan(ray->angle) + game->p_orient[1];
 	step[0] = GRID_SIZE * ray->multiplier_x;
 	step[1] = step[0] * tan(ray->angle);
-	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + ray->multiplier_x, y_n + ray->multiplier_y) != MINI_WALL_COLOUR)
+	while (is_inside_map(game, ray, x_n, y_n))
 	{
 		x_n += step[0];
 		y_n += step[1];
 	}
-	return (ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n));
+	info = malloc(sizeof(double *) * 3);
+	info[0] = x_n;
+	info[1] = y_n;
+	info[2] = ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n);
+	return (info);
 }
 
-double	find_horizontal_inter(t_game *game, t_ray *ray)
+/**
+ * @brief Finds the horizontal intersection of the ray with the map.
+ *
+ * Given a ray and a game, this function finds the point of intersection of
+ * the ray with the map in the horizontal direction. The intersection is found
+ * by moving the ray in the horizontal direction and checking the color of the
+ * pixel at that point. If the color is not a wall, the intersection is the
+ * point at which the ray intersects the map.
+ *
+ * @param game The game structure.
+ * @param ray The ray to find the intersection for.
+ * @return A double array of size 3 containing the x, y coordinates of the
+ * intersection and the distance from the player to the intersection.
+ */
+double	*find_horizontal_inter(t_game *game, t_ray *ray)
 {
 	double	x_n;
 	double	y_n;
 	double	step[2];
-
+	double	*info;
 
 	if (ray->sin > 0)
 		y_n = (int)(game->p_orient[1] / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
@@ -73,16 +80,31 @@ double	find_horizontal_inter(t_game *game, t_ray *ray)
 	x_n = (y_n - game->p_orient[1]) / tan(ray->angle) + game->p_orient[0];
 	step[1] = GRID_SIZE * ray->multiplier_y;
 	step[0] = step[1] / tan(ray->angle);
-	while (x_n < game->width && x_n >= 0 && y_n < game->height && y_n >= 0 && get_px_color(game->img_list->minimap, x_n + ray->multiplier_x, y_n + ray->multiplier_y) != MINI_WALL_COLOUR)
+	while (is_inside_map(game, ray, x_n, y_n))
 	{
 		x_n += step[0];
 		y_n += step[1];
 	}
-
-	return(ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n));
+	info = malloc(sizeof(double *) * 3);
+	info[0] = x_n;
+	info[1] = y_n;
+	info[2] = ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n);
+	return (info);
 }
 
-void	ft_player_ray(t_game *game, double ray_size, double angle)
+/**
+ * @brief Draws a ray from the player position.
+ *
+ * Given a game, the length of the ray and the angle of the ray, this function
+ * draws a ray from the player position in the direction given by the angle,
+ * until a wall is found.
+ * The ray is drawn on the player image.
+ *
+ * @param game The game structure.
+ * @param ray_size The length of the ray.
+ * @param angle The angle of the ray.
+ */
+void	ft_draw_ray(t_game *game, double ray_size, double angle)
 {
 	double	new_position[2];
 	double	i;
@@ -92,31 +114,71 @@ void	ft_player_ray(t_game *game, double ray_size, double angle)
 	{
 		new_position[0] = game->p_orient[0] + i * cos(angle);
 		new_position[1] = game->p_orient[1] + i * sin(angle);
-		mlx_px(game->img_list->player, round(new_position[0]), round(new_position[1]), 0x00ab3425);
-		i+= 0.5;
+		mlx_px(game->img_list->player, round(new_position[0]), \
+		round(new_position[1]), 0x00ab3425);
+		i += 0.5;
 	}
 }
 
+/**
+ * @brief Initializes a ray.
+ *
+ * Given a ray structure, an angle and a game structure, this function
+ * initializes the ray by calculating its sin and cos, and by finding its
+ * intersection with the map in both the horizontal and vertical directions.
+ *
+ * @param ray The ray structure to be initialized.
+ * @param angle The angle of the ray.
+ * @param game The game structure.
+ */
+void	ft_ray_init(t_ray *ray, double angle, t_game *game)
+{
+	double	*vertical_inter;
+	double	*horizontal_inter;
+	double	*inter;
+
+	ray->angle = angle;
+	ray->sin = sin(ray->angle);
+	ray->cos = cos(ray->angle);
+	ray->multiplier_y = copysign(1, ray->sin);
+	ray->multiplier_x = copysign(1, ray->cos);
+	vertical_inter = find_vertical_inter(game, ray);
+	horizontal_inter = find_horizontal_inter(game, ray);
+	if (vertical_inter[2] < horizontal_inter[2])
+		inter = vertical_inter;
+	else
+		inter = horizontal_inter;
+	ray->x_n = inter[0];
+	ray->y_n = inter[1];
+	ray->distance = inter[2];
+	free(horizontal_inter);
+	free(vertical_inter);
+}
+
+/**
+ * @brief Casts rays from the player's position.
+ *
+ * Given a game structure, this function casts rays from the player's position
+ * in all directions within the player's field of view. Each ray is initialized
+ * with the ft_ray_init function and then used to calculate the distance from
+ * the player to the first collision with the map in the ray's direction. The
+ * result is then used to draw the ray on the screen with the ft_draw_ray
+ * function.
+ *
+ * @param game The game structure.
+ */
 void	cast_rays(t_game *game)
 {
 	double	initial_angle;
 	double	final_angle;
-	double	vertical_inter;
-	double	horizontal_inter;
 	t_ray	ray;
 
 	initial_angle = game->p_orient[2] - (game->fov / 2);
 	final_angle = game->p_orient[2] + (game->fov / 2);
 	while (initial_angle < final_angle)
 	{
-		ft_ray_init(&ray, initial_angle);
-		vertical_inter = find_vertical_inter(game, &ray);
-		horizontal_inter = find_horizontal_inter(game, &ray);
-		if (vertical_inter > horizontal_inter)
-			ft_player_ray(game, horizontal_inter, initial_angle);
-		else
-			ft_player_ray(game, vertical_inter, initial_angle);
+		ft_ray_init(&ray, initial_angle, game);
+		ft_draw_ray(game, ray.distance, initial_angle);
 		initial_angle += game->fov / game->width;
 	}
-	return;
 }

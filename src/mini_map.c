@@ -6,12 +6,20 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 17:12:46 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:09:17 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+
+/**
+ * @brief Clears an image by setting all pixels to black.
+ *
+ * @param img The image to clear.
+ * @param width The width of the image.
+ * @param height The height of the image.
+ */
 void ft_clear_img(t_data *img, int width, int height)
 {
 	int	pos[2];
@@ -30,61 +38,91 @@ void ft_clear_img(t_data *img, int width, int height)
 }
 
 
-// Function to calculate the area of a triangle
-float area(int x1, int y1, int x2, int y2, int x3, int y3) {
-    return fabs((x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)) / 2.0);
+double area_triangle(double xy1[2], double xy2[2], double xy3[2])
+{
+	return fabs((xy1[0]*(xy2[1]-xy3[1]) + xy2[0]*(xy3[1]-xy1[1]) + xy3[0]*(xy1[1]-xy2[1])) / 2.0);
 }
 
 // Function to check if a point (x, y) is inside or on the border of the triangle
-int is_inside(int x1, int y1, int x2, int y2, int x3, int y3, int x, int y) {
-    // Calculate the area of the triangle ABC
-    float A = area(x1, y1, x2, y2, x3, y3);
-
-    // Calculate the area of the triangle PBC
-    float A1 = area(x, y, x2, y2, x3, y3);
-
-    // Calculate the area of the triangle PAC
-    float A2 = area(x1, y1, x, y, x3, y3);
-
-    // Calculate the area of the triangle PAB
-    float A3 = area(x1, y1, x2, y2, x, y);
-
-    // Check if the sum of A1, A2, and A3 is equal to A
-    return (A == A1 + A2 + A3);
-}
-
-int		ft_move(t_game *game)
+int is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double xy[2])
 {
-	if (game->key_press == XK_w)
-	{
-		game->p_orient[0] += 0.03 * cos(game->p_orient[2]);
-		game->p_orient[1] += 0.03 * sin(game->p_orient[2]);
-	}
-	else if (game->key_press == XK_s)
-	{
-		game->p_orient[0] -= 0.03 * cos(game->p_orient[2]);
-		game->p_orient[1] -= 0.03 * sin(game->p_orient[2]);
-	}
-
-	if (game->key_press == XK_a)
-	{
-		game->p_orient[0] += 0.03 * cos(game->p_orient[2] - M_PI / 2);
-		game->p_orient[1] += 0.03 * sin(game->p_orient[2] - M_PI / 2);
-	}
-	else if (game->key_press == XK_d)
-	{
-		game->p_orient[0] -= 0.03 * cos(game->p_orient[2] - M_PI / 2);
-		game->p_orient[1] -= 0.03 * sin(game->p_orient[2] - M_PI / 2);
-	}
-	ft_render_screen(game);
-	return (0);
+	float a = area_triangle(xy1, xy2, xy3);
+	float a1 = area_triangle(xy, xy2, xy3);
+	float a2 = area_triangle(xy1, xy, xy3);
+	float a3 = area_triangle(xy1, xy2, xy);
+	return (round(a) == round(a1 + a2 + a3));
 }
 
+/**
+ * @brief Handles player movement.
+ *
+ * This function changes the player's position (game->p_orient[0] and
+ * game->p_orient[1]) based on the key press (game->key_press).
+ *
+ * The move is a function of the game's width and height.
+ *
+ * @param game The game structure.
+ */
+
+void		ft_move(t_game *game)
+{
+	double		n_pos[3];
+	int			m;;
+
+	if (game->key_press == XK_w || game->key_press == XK_a)
+		m = 1;
+	else
+		m = -1;
+	n_pos[0] = game->p_orient[0];
+	n_pos[1] = game->p_orient[1];
+	if (game->key_press == XK_w || game->key_press == XK_s)
+	{
+		n_pos[0] += (game->move_rate * cos(game->p_orient[2]) * m);
+		n_pos[1] += (game->move_rate * sin(game->p_orient[2]) * m);
+	}
+	else if (game->key_press == XK_a || game->key_press == XK_d)
+	{
+		n_pos[0] += (game->move_rate * cos(game->p_orient[2] - M_PI / 2) * m);
+		n_pos[1] += (game->move_rate * sin(game->p_orient[2] - M_PI / 2) * m);
+	}
+	if(get_px_color(game->img_list->minimap, n_pos[0], n_pos[1]) != WALL_CLR)
+	{
+		game->p_orient[0] = n_pos[0];
+		game->p_orient[1] = n_pos[1];
+		ft_render_screen(game);
+	}
+}
+
+
+
+/**
+ * @brief Calculates the Euclidean distance between two points.
+ *
+ * @param x1 The x coordinate of the first point.
+ * @param y1 The y coordinate of the first point.
+ * @param x2 The x coordinate of the second point.
+ * @param y2 The y coordinate of the second point.
+ * @return The Euclidean distance between the two points.
+ */
 double	ft_distance(int x1, int y1, int x2, int y2)
 {
 	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 
+
+/**
+ * @brief Draws a background square on the minimap image.
+ *
+ * Given a game and the coordinates of the top left corner of a square,
+ * this function draws a square on the minimap image. The square is
+ * colored differently depending on the value of the corresponding
+ * character in the map array. A '1' is a wall, a ' ' is empty space, and
+ * any other character is a floor.
+ *
+ * @param game The game structure.
+ * @param curr_x The x coordinate of the top left corner of the square.
+ * @param curr_y The y coordinate of the top left corner of the square.
+ */
 void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 {
 	int	temp_curr_x;
@@ -97,17 +135,29 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 		while (temp_curr_x <= curr_x + GRID_SIZE)
 		{
 			if(game->map.map_array[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
-				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_WALL_COLOUR);
+				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, WALL_CLR);
 			else if(game->map.map_array[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == ' ')
 				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, 0x00000000);
 			else
-				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_FLOOR_COLOUR);
+				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_FLOOR_CLR);
 			temp_curr_x++;
 		}
 		temp_curr_y++;
 	}
 }
 
+
+/**
+ * @brief Builds the minimap image.
+ *
+ * Given a game, this function builds the minimap image by iterating over
+ * the map array and drawing a square on the minimap image for each cell in
+ * the map array. The colour of the square depends on the value of the
+ * corresponding character in the map array. A '1' is a wall, a ' ' is empty
+ * space, and any other character is a floor.
+ *
+ * @param game The game structure.
+ */
 void	ft_build_minimap(t_game *game)
 {
 	t_data	*img;
@@ -137,11 +187,18 @@ void	ft_build_minimap(t_game *game)
 
 }
 
-// Inserts a square in the minimap.
-// game->p_orient[0] = x
-// game->p_orient[1] = y
-// The colour is, for now, PLAYER_COLOUR. In the future it would be cool if
-// the colour could be random or based on the texture colours.
+
+/**
+ * @brief Builds the player image.
+ *
+ * Given a game, this function builds the player image by drawing a triangle
+ * on the player image. The triangle is centered at the player position and
+ * has a side length of PLAYER_RAY. The player image is part of the game
+ * structure.
+ * SUGGESTION: Make the player colour dependent on the texture.
+ *
+ * @param game The game structure.
+ */
 void	ft_build_player(t_game *game)
 {
 	int 	center[2];
@@ -180,9 +237,9 @@ void	ft_build_player(t_game *game)
 		pos[0] = center[0] - PLAYER_SIZE / 2;
 		while (pos[0] < center[0] + PLAYER_SIZE / 2)
 		{
-			if(is_inside(v1[0], v1[1], v2[0], v2[1], v3[0], v3[1], pos[0], pos[1]))
+			if(is_inside_triangle(v1, v2, v3, pos))
 			{
-				mlx_px(game->img_list->player, pos[0], pos[1], PLAYER_COLOUR);
+				mlx_px(game->img_list->player, pos[0], pos[1], PLAYER_CLR);
 			}
 			pos[0]++;
 		}
@@ -190,6 +247,25 @@ void	ft_build_player(t_game *game)
 	}
 }
 
+
+/**
+ * @brief Merges two images together.
+ *
+ * Given a game, a bottom image, a top image, and a position, this function
+ * creates a new image that is a combination of the bottom and top images.
+ * The top image is rendered at the specified position on the new image.
+ * If a pixel of the top image is not transparent, the pixel of the new
+ * image is set to the same color as the pixel of the top image. If the
+ * pixel of the top image is transparent, the pixel of the new image is
+ * set to the same color as the pixel of the bottom image.
+ *
+ * @param game The game structure.
+ * @param bottom The image that will be rendered first.
+ * @param top The image that will be rendered second.
+ * @param pos The position on the new image where the top image will be rendered.
+ *
+ * @return The new image.
+ */
 t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos)
 {
 	t_data	*img;

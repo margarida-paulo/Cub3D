@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
+#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/09/01 13:39:27 by plashkar         ###   ########.fr        #
+#    Updated: 2024/09/03 11:27:05 by mvalerio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ SRC = \
 	src/test.c \
 	src/utils.c \
 	src/free.c \
-	src/raycasting.c
+	src/raycasting.c \
+	src/raycasting_utils.c
 
 OBJ = $(SRC:.c=.o)
 

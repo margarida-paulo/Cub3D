@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/30 15:22:51 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:03:46 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	minilibx_init(t_game *game) {
 	game->key_press = 0;
 	game->origin[0] = 0;
 	game->origin[1] = 0;
+	game->move_rate = (game->width * game->height * 0.3/260000);
     ft_build_minimap(game);
     ft_build_player(game);
 	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
