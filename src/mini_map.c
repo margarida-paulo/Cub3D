@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/03 12:09:17 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:27:40 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,32 @@ void ft_clear_img(t_data *img, int width, int height)
 }
 
 
+/**
+ * @brief Calculates the area of a triangle given its vertices.
+ *
+ * @param xy1 The first vertex of the triangle.
+ * @param xy2 The second vertex of the triangle.
+ * @param xy3 The third vertex of the triangle.
+ *
+ * @return The area of the triangle.
+ */
 double area_triangle(double xy1[2], double xy2[2], double xy3[2])
 {
-	return fabs((xy1[0]*(xy2[1]-xy3[1]) + xy2[0]*(xy3[1]-xy1[1]) + xy3[0]*(xy1[1]-xy2[1])) / 2.0);
+	return fabs((xy1[0]*(xy2[1]-xy3[1]) + xy2[0]*(xy3[1]-xy1[1]) + \
+	xy3[0]*(xy1[1]-xy2[1])) / 2.0);
 }
 
-// Function to check if a point (x, y) is inside or on the border of the triangle
+
+/**
+ * @brief Checks if a given point is inside a triangle.
+ *
+ * @param xy1 The first vertex of the triangle.
+ * @param xy2 The second vertex of the triangle.
+ * @param xy3 The third vertex of the triangle.
+ * @param xy The point to check.
+ *
+ * @return 1 if the point is inside the triangle, 0 otherwise.
+ */
 int is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double xy[2])
 {
 	float a = area_triangle(xy1, xy2, xy3);
@@ -168,7 +188,8 @@ void	ft_build_minimap(t_game *game)
 	{
 		img = malloc(sizeof(t_data));
 		img->img = mlx_new_image(game->mlx, game->width, game->height);
-		img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
+		img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel),\
+		 &(img->line_length), &(img->endian));
 		img->width = game->width;
 		img->height = game->height;
 		game->img_list->minimap = img;
@@ -184,7 +205,6 @@ void	ft_build_minimap(t_game *game)
 		}
 		curr_y += GRID_SIZE;
 	}
-
 }
 
 
@@ -205,42 +225,28 @@ void	ft_build_player(t_game *game)
 	double		v1[2];
 	double		v2[2];
 	double		v3[2];
-	double	angle = game->p_orient[2]; // Adjust angle to face south
 	double		pos[2];
 
 	if (game->img_list->player == NULL)
-	{
-		game->img_list->player = malloc(sizeof(t_data));
-		game->img_list->player->img = mlx_new_image(game->mlx, game->width, game->height);
-		game->img_list->player->addr = mlx_get_data_addr(game->img_list->player->img, &(game->img_list->player->bits_per_pixel), &(game->img_list->player->line_length), &(game->img_list->player->endian));
-		game->img_list->player->width = game->width;
-		game->img_list->player->height = game->height;
-	}
+		game->img_list->player = init_img(game, game->width, game->height);
 	ft_clear_img(game->img_list->player, game->img_list->player->width, game->img_list->player->height);
 	cast_rays(game);
 	center[0] = (int)game->p_orient[0];
 	center[1] = (int)game->p_orient[1];
-
-	v1[0] = center[0] + (PLAYER_RAY * cos(angle));
-	v1[1] = center[1] + (PLAYER_RAY * sin(angle));
-
-	v2[0] = center[0] + (PLAYER_RAY * cos(angle - (2 * M_PI / 2.5)));
-	v2[1] = center[1] + (PLAYER_RAY * sin(angle - (2 * M_PI / 2.5)));
-
-	v3[0] = center[0] + (PLAYER_RAY * cos(angle + (2 * M_PI / 2.5)));
-	v3[1] = center[1] + (PLAYER_RAY * sin(angle + (2 * M_PI / 2.5)));
-
+	v1[0] = center[0] + (PLAYER_RAY * cos(game->p_orient[2]));
+	v1[1] = center[1] + (PLAYER_RAY * sin(game->p_orient[2]));
+	v2[0] = center[0] + (PLAYER_RAY * cos(game->p_orient[2] - (2 * M_PI / 2.5)));
+	v2[1] = center[1] + (PLAYER_RAY * sin(game->p_orient[2] - (2 * M_PI / 2.5)));
+	v3[0] = center[0] + (PLAYER_RAY * cos(game->p_orient[2] + (2 * M_PI / 2.5)));
+	v3[1] = center[1] + (PLAYER_RAY * sin(game->p_orient[2] + (2 * M_PI / 2.5)));
 	pos[1] = center[1] - PLAYER_SIZE / 2;
-
 	while (pos[1] < center[1] + PLAYER_SIZE / 2)
 	{
 		pos[0] = center[0] - PLAYER_SIZE / 2;
 		while (pos[0] < center[0] + PLAYER_SIZE / 2)
 		{
 			if(is_inside_triangle(v1, v2, v3, pos))
-			{
 				mlx_px(game->img_list->player, pos[0], pos[1], PLAYER_CLR);
-			}
 			pos[0]++;
 		}
 		pos[1]++;

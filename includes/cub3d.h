@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/03 12:08:53 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:37:54 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@ enum exit_codes {
 	INVALID_BORDERS,
 	NEWLINES_IN_MAP,
     // Add other exit codes here
+};
+
+#define HORIZONTAL 0
+#define VERTICAL 1
+
+enum wall_types {
+	NO = 0,
+	SO = 1,
+	WE = 2,
+	EA = 3
 };
 
 #define MAP_PX 30
@@ -117,10 +127,11 @@ typedef struct s_ray
 	int		multiplier_y;
 	double	sin;
 	double	cos;
-	double	inter[2];
 	double	distance;
 	double	x_n;
 	double	y_n;
+	int		inter_type;
+	int		wall_type;
 } t_ray;
 
 // Exit

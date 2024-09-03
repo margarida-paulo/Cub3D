@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:22:58 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/03 12:09:22 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:15:33 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_px_color(t_data *img, int x, int y)
 
 	color = *(int *)(img->addr + (y * img->line_length + \
 	x * (img->bits_per_pixel / 8)));
-	return color;
+	return (color);
 }
 
 /**

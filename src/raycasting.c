@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/03 11:26:30 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:40:34 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,24 @@ void	ft_draw_ray(t_game *game, double ray_size, double angle)
 	}
 }
 
+void	ft_set_wall_type(t_ray *ray)
+{
+	if (ray->inter_type == HORIZONTAL)
+	{
+		if (ray->multiplier_y > 0)
+			ray->wall_type = SO;
+		else
+			ray->wall_type = NO;
+	}
+	else
+	{
+		if (ray->multiplier_x > 0)
+			ray->wall_type = EA;
+		else
+			ray->wall_type = WE;
+	}
+}
+
 /**
  * @brief Initializes a ray.
  *
@@ -137,6 +155,7 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game)
 	double	*horizontal_inter;
 	double	*inter;
 
+	ray->inter_type = HORIZONTAL;
 	ray->angle = angle;
 	ray->sin = sin(ray->angle);
 	ray->cos = cos(ray->angle);
@@ -145,12 +164,16 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game)
 	vertical_inter = find_vertical_inter(game, ray);
 	horizontal_inter = find_horizontal_inter(game, ray);
 	if (vertical_inter[2] < horizontal_inter[2])
+	{
 		inter = vertical_inter;
+		ray->inter_type = VERTICAL;
+	}
 	else
 		inter = horizontal_inter;
 	ray->x_n = inter[0];
 	ray->y_n = inter[1];
 	ray->distance = inter[2];
+	ft_set_wall_type(ray);
 	free(horizontal_inter);
 	free(vertical_inter);
 }
