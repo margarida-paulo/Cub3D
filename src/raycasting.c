@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/03 13:40:34 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/04 19:22:42 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,13 +195,73 @@ void	cast_rays(t_game *game)
 	double	initial_angle;
 	double	final_angle;
 	t_ray	ray;
+	int		x;
 
+	x = 0;
 	initial_angle = game->p_orient[2] - (game->fov / 2);
 	final_angle = game->p_orient[2] + (game->fov / 2);
 	while (initial_angle < final_angle)
 	{
 		ft_ray_init(&ray, initial_angle, game);
 		ft_draw_ray(game, ray.distance, initial_angle);
+		render(game, &ray, x);
 		initial_angle += game->fov / game->width;
+		x++;
 	}
+}
+
+void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end)
+{
+	int	line_height;
+
+	line_height = (int)(WIN_HEIGHT / ray->distance);
+	*draw_start = (-line_height / 2) + (WIN_HEIGHT / 2);
+	if (*draw_start < 0)
+		*draw_start = 0;
+	*draw_end = (line_height / 2) + (WIN_HEIGHT / 2);
+	if (*draw_end > WIN_HEIGHT)
+		*draw_end = WIN_HEIGHT - 1;
+	ray->line_height = line_height;
+}
+
+void	set_texture_coordinates(t_game* game, t_ray* ray)
+{
+	double	wall_x;
+
+	if (ray->wall_type == NO || ray->wall_type == SO)
+		wall_x = ray->x_n;
+	else
+		wall_x = ray->y_n;
+	wall_x -= floor(wall_x);
+	ray->tex_x = (int)(wall_x * (double)game->img_list->wall[ray->wall_type].width);
+	if ((ray->wall_type == NO || ray->wall_type == SO) && ray->cos > 0)
+		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
+	if ((ray->wall_type == EA || ray->wall_type == WE) && ray->sin < 0)
+		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
+}
+
+void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end)
+{
+	int	y;
+	int	tex_y;
+	int	color;
+
+	y = draw_start;
+	while (y < draw_end)
+	{
+		tex_y = (int)(((y - (-ray->line_height / 2 + WIN_HEIGHT / 2)) * game->img_list->wall[ray->wall_type].height) / ray->line_height);
+		color = get_px_color(game->img_list->wall[ray->wall_type], ray->tex_x, tex_y);
+		mlx_px(game->img_list->screen, x, y, color);
+		y++;
+	}
+}
+
+void	render(t_game *game, t_ray *ray, int x)
+{
+	int	draw_start;
+	int	draw_end;
+
+	calculate_wall_height(game, ray, &draw_start, &draw_end);
+	set_texture_coordinates(game, ray);
+	draw_wall_slice(game, ray, x, draw_start, draw_end);
 }

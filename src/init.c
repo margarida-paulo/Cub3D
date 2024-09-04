@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/03 12:03:46 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/04 19:21:07 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	**init_visited_arr(t_map *map)
 }
 
 // Initializes the instance and the window of the minilibx into the game struct.
-void	minilibx_init(t_game *game) {
-
+void	minilibx_init(t_game *game)
+{
 	game->fov = FOV;
     game->height = ft_arrlen(game->map.map_array) * GRID_SIZE;
     game->width = ft_strlen(game->map.map_array[0]) * GRID_SIZE;
@@ -69,6 +69,7 @@ void	minilibx_init(t_game *game) {
     game->img_list = malloc(sizeof(t_pics));
     game->img_list->minimap = NULL;
     game->img_list->player = NULL;
+	load_wall_textures(game);
 	game->p_orient[0] = game->p_orient[0] * GRID_SIZE + GRID_SIZE / 2;
 	game->p_orient[1] = game->p_orient[1] * GRID_SIZE + GRID_SIZE / 2;
 	game->key_press = 0;
@@ -77,7 +78,37 @@ void	minilibx_init(t_game *game) {
 	game->move_rate = (game->width * game->height * 0.3/260000);
     ft_build_minimap(game);
     ft_build_player(game);
+	init_screen(game);
+	game->img_list->screen = init_img(game, game->width, game->height);
 	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);
 }
+
+void	load_wall_textures(t_game* game)
+{
+	game->img_list->wall[NO] = *load_texture(game->mlx, game->map.no_texture);
+	game->img_list->wall[SO] = *load_texture(game->mlx, game->map.so_texture);
+	game->img_list->wall[WE] = *load_texture(game->mlx, game->map.we_texture);
+	game->img_list->wall[EA] = *load_texture(game->mlx, game->map.ea_texture);
+}
+
+t_data *load_texture(void *mlx, char *path)
+{
+	t_data *texture = malloc(sizeof(t_data));
+	if (!texture)
+	{
+		ft_printf("Error: Failed to allocate memory for texture\n");
+		exit(EXIT_FAILURE);
+    }
+	texture->img = mlx_xpm_file_to_image(mlx, path, &texture->width, &texture->height);
+	if (!texture->img)
+	{
+		ft_printf("Error: Failed to load texture from %s\n", path);
+		free(texture);
+		exit(EXIT_FAILURE);
+	}
+	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
+	return texture;
+}
+
 

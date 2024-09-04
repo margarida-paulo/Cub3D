@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/03 13:37:54 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/04 19:18:52 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ enum wall_types {
 #define FOV M_PI / 3
 #define HEIGHT 300
 #define WIDTH 300
+#define WIN_HEIGHT 600
+#define WIN_WIDTH 800
 
 typedef struct	s_data
 {
@@ -86,6 +88,8 @@ typedef struct s_pics
 {
 	t_data	*minimap;
 	t_data	*player;
+	t_data	wall[4];
+	t_data	*screen;
 }				t_pics;
 
 typedef struct s_game t_game;
@@ -132,6 +136,8 @@ typedef struct s_ray
 	double	y_n;
 	int		inter_type;
 	int		wall_type;
+	int		line_height;
+	int		tex_x;
 } t_ray;
 
 // Exit
@@ -209,5 +215,9 @@ double	*find_horizontal_inter(t_game *game, t_ray *ray);
 void	ft_draw_ray(t_game *game, double ray_size, double angle);
 void	ft_ray_init(t_ray *ray, double angle, t_game *game);
 void	cast_rays(t_game *game);
+
+void	load_wall_textures(t_game* game);
+t_data	*load_texture(void *mlx, char *path);
+
 
 #endif

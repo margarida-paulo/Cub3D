@@ -1,9 +1,9 @@
 
 
-NO               ./path_to_the_north_texture
+NO               ./imgs/gps_arrow_50.xpm
 
 
-SO               ./path_to_the_south_texture
+SO               ./imgs/gps_arrow_50.xpm
 
 
 
@@ -14,8 +14,8 @@ F 220,100,0
 
 
 
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+WE ./imgs/gps_arrow_50.xpm
+EA ./imgs/gps_arrow_50.xpm
 
 C 225,30,0
 
