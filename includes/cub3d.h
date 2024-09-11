@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 09:47:47 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:01:41 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_game
 	t_map	map;
 	double		fov;
 	double		move_rate;
+	void		*game_window;
 } t_game;
 
 typedef struct s_ray
@@ -160,6 +161,7 @@ void		ft_move(t_game *pms);
 void	ft_build_minimap(t_game *game);
 t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos);
 double	ft_distance(int x1, int y1, int x2, int y2);
+void	ft_clear_img(t_data *img, int width, int height);
 
 // Mlx Extra
 void	mlx_px(t_data *img, int x, int y, int color);

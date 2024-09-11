@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:13:55 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/11 09:55:45 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:32:13 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,25 @@
 void	set_elements(t_map *map, char *line)
 {
 	char*	trimmed_line;
+	char*	tmp;
 	size_t	len;
 
 	trimmed_line = trim_leading_spaces(line);
-	len = ft_strlen(trimmed_line) - 2;
+	tmp = trim_leading_spaces(trimmed_line + 2);
+	len = ft_strlen(tmp) - 1;
 
-	if (ft_strncmp(line, "NO", 2) == 0)
-		map->no_texture = ft_substr(trim_leading_spaces(line + 2), 0 , len);
-	else if (ft_strncmp(line, "SO", 2) == 0)
-		map->so_texture = ft_substr(trim_leading_spaces(line + 2), 0 , len);
-	else if (ft_strncmp(line, "WE", 2) == 0)
-		map->we_texture = ft_substr(trim_leading_spaces(line + 2), 0 , len);
-	else if (ft_strncmp(line, "EA", 2) == 0)
-		map->ea_texture = ft_substr(trim_leading_spaces(line + 2), 0 , len);
-	else if (ft_strncmp(line, "F", 1) == 0)
-		map->f_color = ft_substr(trim_leading_spaces(line + 2), 0 , len);
-	else if (ft_strncmp(line, "C", 1) == 0)
- 		map->c_color = ft_substr(trim_leading_spaces(line + 2), 0 , len);
+	if (ft_strncmp(trimmed_line, "NO", 2) == 0)
+		map->no_texture = ft_substr(tmp, 0 , len);
+	else if (ft_strncmp(trimmed_line, "SO", 2) == 0)
+		map->so_texture = ft_substr(tmp, 0 , len);
+	else if (ft_strncmp(trimmed_line, "WE", 2) == 0)
+		map->we_texture = ft_substr(tmp, 0 , len);
+	else if (ft_strncmp(trimmed_line, "EA", 2) == 0)
+		map->ea_texture = ft_substr(tmp, 0 , len);
+	else if (ft_strncmp(trimmed_line, "F", 1) == 0)
+		map->f_color = ft_substr(tmp, 0 , len);
+	else if (ft_strncmp(trimmed_line, "C", 1) == 0)
+ 		map->c_color = ft_substr(tmp, 0 , len);
 }
 
 /**

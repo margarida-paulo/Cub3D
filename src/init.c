@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 09:46:30 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:59:01 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ void	minilibx_init(t_game *game)
     game->width = ft_strlen(game->map.map_array[0]) * GRID_SIZE;
     game->mlx = mlx_init();
     game->mlx_win = mlx_new_window(game->mlx, game->width, game->height, "The best Cub3D you've ever seen");
+	game->game_window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "gAMEY gAME!");
     game->img_list = malloc(sizeof(t_pics));
     game->img_list->minimap = NULL;
     game->img_list->player = NULL;
+	game->img_list->screen = init_img(game, WIN_WIDTH, WIN_HEIGHT);
 	load_wall_textures(game);
 	game->p_orient[0] = game->p_orient[0] * GRID_SIZE + GRID_SIZE / 2;
 	game->p_orient[1] = game->p_orient[1] * GRID_SIZE + GRID_SIZE / 2;
@@ -78,7 +80,6 @@ void	minilibx_init(t_game *game)
 	game->move_rate = (game->width * game->height * 0.3/260000);
     ft_build_minimap(game);
     ft_build_player(game);
-	game->img_list->screen = init_img(game, game->width, game->height);
 	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);
 }
@@ -94,6 +95,16 @@ void	load_wall_textures(t_game* game)
 t_data *load_texture(void *mlx, char *path)
 {
 	t_data *texture = malloc(sizeof(t_data));
+
+	ft_printf("%s", path);
+	int fd = open(path, O_RDONLY);
+    if (fd == -1)
+    {
+        ft_printf("Error: Cannot open file %s\n", path);
+        exit(EXIT_FAILURE);
+    }
+    close(fd);
+
 	if (!texture)
 	{
 		ft_printf("Error: Failed to allocate memory for texture\n");

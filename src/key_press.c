@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_press.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/30 14:46:10 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:02:11 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	ft_render_screen(t_game *game)
 {
+	ft_clear_img(game->img_list->screen, WIN_WIDTH, WIN_HEIGHT);
 	ft_build_minimap(game);
 	ft_build_player(game);
 	mlx_destroy_image(game->mlx, game->current_screen->img);
 	free(game->current_screen);
 	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->game_window, game->img_list->screen->img, 0, 0);
 }
 
 int	ft_rotate(t_game *game)
