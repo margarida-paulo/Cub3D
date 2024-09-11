@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 11:02:11 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:32:54 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	ft_rotate(t_game *game)
 			game->p_orient[2] = 0;
 		else
 			game->p_orient[2]  += 0.001;
-		ft_render_screen(game);
 	}
 	else if(game->key_press == XK_Left)
 	{
@@ -40,7 +39,6 @@ int	ft_rotate(t_game *game)
 			game->p_orient[2] = 0;
 		else
 			game->p_orient[2]  -= 0.001;
-		ft_render_screen(game);
 	}
 	return (0);
 }

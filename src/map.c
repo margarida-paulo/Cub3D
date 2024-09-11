@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/28 14:44:37 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:31:44 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,40 @@ void	parse_map(t_map *map, char **argv)
 			set_elements(map, line);
 		i++;
 	}
+	// parse_color(map);
 	free_2d_array(cub_file_arr);
 	check_map_requirements(map);
+}
+
+// void	parse_color(t_map* map)
+// {
+// 	int	c_color_val
+// }
+
+int	parse_color_c(char* color_str)
+{
+	char**	split;
+	int		colors[3];
+	int		index;
+
+	index = 0;
+	split = ft_split(color_str, ',');
+	while (split && split[index])
+		index++;
+	if (index != 3 || ft_cntchr(color_str, ',') != 2)
+		return(free_2d_array(split), -1);
+	index = 0;
+	while (split[index])
+	{
+		if (!is_numeric(split[index]) || ft_strlen(split[index]) > 3)
+			return(free_2d_array(split), -1);
+		colors[index] = ft_atoi(split[index]);
+		if (colors[index] > 255 || colors[index] < 0)
+			return(free_2d_array(split), -1);
+		index++;
+	}
+	free_2d_array(split);
+	return ((colors[0] << 16) | (colors[1] << 8) | colors[2]);
 }
 
 

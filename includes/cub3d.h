@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 11:01:41 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:29:46 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ typedef struct	s_map
 	char*	ea_texture; //./path_to_the_east_texture
 	char*	f_color; //∗ Floor color: F 220,100,0
 	char*	c_color; //* Ceiling color: C 225,30,0
+	int		f_color_val;
+	int		c_color_val;
 }	t_map;
 
 // fov = Field of Vision IN RADIANS
@@ -209,7 +211,8 @@ void	test_print_map_struct_data(t_map *map);
 
 //raycasting_utils.c
 int	get_px_color(t_data *img, int x, int y);
-char	is_inside_map(t_game *game, t_ray *ray, int x_n, int y_n);
+char	is_inside_map_ver(t_game *game, t_ray *ray, int x_n, int y_n);
+char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
 
 //raycasting.c
 double	*find_vertical_inter(t_game *game, t_ray *ray);
@@ -224,6 +227,9 @@ void	render(t_game *game, t_ray *ray, int x);
 void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end);
 void	set_texture_coordinates(t_game* game, t_ray* ray);
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
+void	render_floor_ceiling(t_game *game);
 
+int		ft_cntchr(char* str, char c);
+int		is_numeric(char* str);
 
 #endif

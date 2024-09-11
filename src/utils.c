@@ -69,4 +69,34 @@ char *trim_leading_spaces(char *str)
 	return (&str[i]);
 }
 
+int	ft_cntchr(char* str, char c)
+{
+	int	cnt;
+	int	i;
+
+	cnt = 0;
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == c)
+			cnt++;
+		i++;
+	}
+	return (cnt);
+}
+
+int	is_numeric(char* str)
+{
+	int	i;
+
+	i = 0;
+	while(str && str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 

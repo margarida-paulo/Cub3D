@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/01 14:23:28 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:32:36 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ int	ft_gameplay(t_game *game)
 	else if (game->key_press == XK_w || game->key_press == XK_a || \
 	game->key_press == XK_s || game->key_press == XK_d)
 		ft_move(game);
+	else
+		return (0);
+	// render_floor_ceiling(game);
+	ft_render_screen(game);
 	return (0);
 }
 

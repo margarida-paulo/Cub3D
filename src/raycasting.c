@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 10:57:57 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:32:15 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ double	*find_vertical_inter(t_game *game, t_ray *ray)
 	y_n = (x_n - game->p_orient[0]) * tan(ray->angle) + game->p_orient[1];
 	step[0] = GRID_SIZE * ray->multiplier_x;
 	step[1] = step[0] * tan(ray->angle);
-	while (is_inside_map(game, ray, x_n, y_n))
+	while (is_inside_map_ver(game, ray, x_n, y_n))
 	{
 		x_n += step[0];
 		y_n += step[1];
@@ -80,7 +80,7 @@ double	*find_horizontal_inter(t_game *game, t_ray *ray)
 	x_n = (y_n - game->p_orient[1]) / tan(ray->angle) + game->p_orient[0];
 	step[1] = GRID_SIZE * ray->multiplier_y;
 	step[0] = step[1] / tan(ray->angle);
-	while (is_inside_map(game, ray, x_n, y_n))
+	while (is_inside_map_hor(game, ray, x_n, y_n))
 	{
 		x_n += step[0];
 		y_n += step[1];
@@ -209,6 +209,38 @@ void	cast_rays(t_game *game)
 		x++;
 	}
 }
+
+
+
+// void	render_floor_ceiling(t_game *game)
+// {
+// 	int	x;
+// 	int	y;
+// 	int f_color;
+// 	int c_color;
+
+
+// 	// Convert the color strings to actual color values
+// 	// f_color = parse_color(game->map.f_color);
+// 	// c_color = parse_color(game->map.c_color);
+
+// 	x = 0;
+// 	while (x < WIN_WIDTH)
+// 	{
+// 		y = 0;
+// 		while (y < WIN_HEIGHT / 2)
+// 		{
+// 			mlx_px(game->img_list->screen, x, y, c_color);
+// 			y++;
+// 		}
+// 		while (y < WIN_HEIGHT)
+// 		{
+// 			mlx_px(game->img_list->screen, x, y, f_color);
+// 			y++;
+// 		}
+// 		x++;
+// 	}
+// }
 
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end)
 {
