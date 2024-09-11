@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/04 19:18:52 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 09:47:47 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,10 @@ void	cast_rays(t_game *game);
 
 void	load_wall_textures(t_game* game);
 t_data	*load_texture(void *mlx, char *path);
+void	render(t_game *game, t_ray *ray, int x);
+void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end);
+void	set_texture_coordinates(t_game* game, t_ray* ray);
+void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
 
 
 #endif

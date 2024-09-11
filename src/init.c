@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/04 19:21:07 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 09:46:30 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	minilibx_init(t_game *game)
 	game->move_rate = (game->width * game->height * 0.3/260000);
     ft_build_minimap(game);
     ft_build_player(game);
-	init_screen(game);
 	game->img_list->screen = init_img(game, game->width, game->height);
 	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);

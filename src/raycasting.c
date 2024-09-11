@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/04 19:22:42 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/11 09:54:32 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,8 @@ void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_
 {
 	int	line_height;
 
+	(void)game;
+
 	line_height = (int)(WIN_HEIGHT / ray->distance);
 	*draw_start = (-line_height / 2) + (WIN_HEIGHT / 2);
 	if (*draw_start < 0)
@@ -250,7 +252,7 @@ void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_e
 	while (y < draw_end)
 	{
 		tex_y = (int)(((y - (-ray->line_height / 2 + WIN_HEIGHT / 2)) * game->img_list->wall[ray->wall_type].height) / ray->line_height);
-		color = get_px_color(game->img_list->wall[ray->wall_type], ray->tex_x, tex_y);
+		color = get_px_color(&game->img_list->wall[ray->wall_type], ray->tex_x, tex_y);
 		mlx_px(game->img_list->screen, x, y, color);
 		y++;
 	}
