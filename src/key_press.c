@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_press.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 11:32:54 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:14:41 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int	ft_rotate(t_game *game)
 {
 	if (game->key_press == XK_Right)
 	{
-		if (game->p_orient[2] + 0.001 > (2 * M_PI))
+		if (game->p_orient[2] + (SENSITVITY / 1000) > (2 * M_PI))
 			game->p_orient[2] = 0;
 		else
-			game->p_orient[2]  += 0.001;
+			game->p_orient[2]  += (SENSITVITY / 1000);
 	}
 	else if(game->key_press == XK_Left)
 	{
-		if (game->p_orient[2] - 0.001 > (2 * M_PI))
+		if (game->p_orient[2] - (SENSITVITY / 1000) > (2 * M_PI))
 			game->p_orient[2] = 0;
 		else
-			game->p_orient[2]  -= 0.001;
+			game->p_orient[2]  -= (SENSITVITY / 1000);
 	}
 	return (0);
 }

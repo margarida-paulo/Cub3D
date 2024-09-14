@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 12:29:46 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:35:02 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ enum wall_types {
 #define WIDTH 300
 #define WIN_HEIGHT 600
 #define WIN_WIDTH 800
+#define MOVE_SPEED 10
+#define SENSITVITY 50.0
 
 typedef struct	s_data
 {
@@ -218,7 +220,7 @@ char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
 double	*find_vertical_inter(t_game *game, t_ray *ray);
 double	*find_horizontal_inter(t_game *game, t_ray *ray);
 void	ft_draw_ray(t_game *game, double ray_size, double angle);
-void	ft_ray_init(t_ray *ray, double angle, t_game *game);
+void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff);
 void	cast_rays(t_game *game);
 
 void	load_wall_textures(t_game* game);
@@ -231,5 +233,7 @@ void	render_floor_ceiling(t_game *game);
 
 int		ft_cntchr(char* str, char c);
 int		is_numeric(char* str);
+int		parse_color_str(char* color_str);
+void	parse_color(t_map* map);
 
 #endif

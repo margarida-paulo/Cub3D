@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/11 12:31:44 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:34:22 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,19 @@ void	parse_map(t_map *map, char **argv)
 			set_elements(map, line);
 		i++;
 	}
-	// parse_color(map);
+	parse_color(map);
 	free_2d_array(cub_file_arr);
 	check_map_requirements(map);
 }
 
-// void	parse_color(t_map* map)
-// {
-// 	int	c_color_val
-// }
+void	parse_color(t_map* map)
+{
+	map->c_color_val = parse_color_str(map->c_color);
+	map->f_color_val = parse_color_str(map->f_color);
+	ft_printf("the c color is %d\n the f color is %d\n", map->c_color_val, map->f_color_val);
+}
 
-int	parse_color_c(char* color_str)
+int	parse_color_str(char* color_str)
 {
 	char**	split;
 	int		colors[3];

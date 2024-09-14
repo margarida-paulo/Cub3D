@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 12:32:15 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:21:32 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+#include <stdio.h>
 
 /**
  * @brief Finds the vertical intersection of the ray with the map.
@@ -149,7 +150,7 @@ void	ft_set_wall_type(t_ray *ray)
  * @param angle The angle of the ray.
  * @param game The game structure.
  */
-void	ft_ray_init(t_ray *ray, double angle, t_game *game)
+void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 {
 	double	*vertical_inter;
 	double	*horizontal_inter;
@@ -172,7 +173,8 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game)
 		inter = horizontal_inter;
 	ray->x_n = inter[0];
 	ray->y_n = inter[1];
-	ray->distance = inter[2];
+	// ray->distance = inter[2];
+	ray->distance = inter[2] * cos(angle_diff);
 	ft_set_wall_type(ray);
 	free(horizontal_inter);
 	free(vertical_inter);
@@ -196,33 +198,52 @@ void	cast_rays(t_game *game)
 	double	final_angle;
 	t_ray	ray;
 	int		x;
+	double	angle_diff;
 
 	x = 0;
 	initial_angle = game->p_orient[2] - (game->fov / 2);
 	final_angle = game->p_orient[2] + (game->fov / 2);
+	render_floor_ceiling(game);
 	while (initial_angle < final_angle)
 	{
-		ft_ray_init(&ray, initial_angle, game);
+		angle_diff = initial_angle - game->p_orient[2];
+		ft_ray_init(&ray, initial_angle, game, angle_diff);
 		ft_draw_ray(game, ray.distance, initial_angle);
 		render(game, &ray, x);
-		initial_angle += game->fov / game->width;
+		initial_angle += game->fov / WIN_WIDTH;
 		x++;
 	}
 }
 
+//the version that works with textures
+void	render_floor_ceiling(t_game *game)
+{
+	int	x;
+	int	y;
 
+	x = 0;
+	while (x < WIN_WIDTH)
+	{
+		y = 0;
+		while (y < WIN_HEIGHT / 2)
+		{
+			mlx_px(game->img_list->screen, x, y, game->map.c_color_val);
+			y++;
+		}
+		while (y < WIN_HEIGHT)
+		{
+			mlx_px(game->img_list->screen, x, y, game->map.f_color_val);
+			y++;
+		}
+		x++;
+	}
+}
 
+//The version that works with color values
 // void	render_floor_ceiling(t_game *game)
 // {
 // 	int	x;
 // 	int	y;
-// 	int f_color;
-// 	int c_color;
-
-
-// 	// Convert the color strings to actual color values
-// 	// f_color = parse_color(game->map.f_color);
-// 	// c_color = parse_color(game->map.c_color);
 
 // 	x = 0;
 // 	while (x < WIN_WIDTH)
@@ -230,12 +251,12 @@ void	cast_rays(t_game *game)
 // 		y = 0;
 // 		while (y < WIN_HEIGHT / 2)
 // 		{
-// 			mlx_px(game->img_list->screen, x, y, c_color);
+// 			mlx_px(game->img_list->screen, x, y, game->map.c_color_val);
 // 			y++;
 // 		}
 // 		while (y < WIN_HEIGHT)
 // 		{
-// 			mlx_px(game->img_list->screen, x, y, f_color);
+// 			mlx_px(game->img_list->screen, x, y, game->map.f_color_val);
 // 			y++;
 // 		}
 // 		x++;
@@ -247,8 +268,12 @@ void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_
 	int	line_height;
 
 	(void)game;
+	// Normalize the distance based on the grid size
+    double normalized_distance = ray->distance / GRID_SIZE;
 
-	line_height = (int)(WIN_HEIGHT / ray->distance);
+	// printf("the distance is: %f\n", normalized_distance);
+
+	line_height = (int)(WIN_HEIGHT / normalized_distance);
 	*draw_start = (-line_height / 2) + (WIN_HEIGHT / 2);
 	if (*draw_start < 0)
 		*draw_start = 0;
@@ -263,15 +288,16 @@ void	set_texture_coordinates(t_game* game, t_ray* ray)
 	double	wall_x;
 
 	if (ray->wall_type == NO || ray->wall_type == SO)
-		wall_x = ray->x_n;
+		wall_x = ray->x_n / GRID_SIZE;
 	else
-		wall_x = ray->y_n;
+		wall_x = ray->y_n / GRID_SIZE;
 	wall_x -= floor(wall_x);
 	ray->tex_x = (int)(wall_x * (double)game->img_list->wall[ray->wall_type].width);
 	if ((ray->wall_type == NO || ray->wall_type == SO) && ray->cos > 0)
 		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
 	if ((ray->wall_type == EA || ray->wall_type == WE) && ray->sin < 0)
 		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
+	ray->tex_x = ray->tex_x % game->img_list->wall[ray->wall_type].width;
 }
 
 void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end)
@@ -279,7 +305,6 @@ void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_e
 	int	y;
 	int	tex_y;
 	int	color;
-
 	y = draw_start;
 	while (y < draw_end)
 	{

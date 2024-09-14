@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 10:59:01 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:08:18 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	minilibx_init(t_game *game)
 	game->key_press = 0;
 	game->origin[0] = 0;
 	game->origin[1] = 0;
-	game->move_rate = (game->width * game->height * 0.3/260000);
+	// game->move_rate = (game->width * game->height * 0.3/260000);
+	game->move_rate = MOVE_SPEED;
     ft_build_minimap(game);
     ft_build_player(game);
 	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
