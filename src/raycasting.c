@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/14 18:21:32 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:18:46 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include <stdio.h>
+
+
 
 /**
  * @brief Finds the vertical intersection of the ray with the map.
@@ -46,7 +48,7 @@ double	*find_vertical_inter(t_game *game, t_ray *ray)
 		x_n += step[0];
 		y_n += step[1];
 	}
-	info = malloc(sizeof(double *) * 3);
+	info = malloc(sizeof(double) * 3);
 	info[0] = x_n;
 	info[1] = y_n;
 	info[2] = ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n);
@@ -86,12 +88,14 @@ double	*find_horizontal_inter(t_game *game, t_ray *ray)
 		x_n += step[0];
 		y_n += step[1];
 	}
-	info = malloc(sizeof(double *) * 3);
+	info = malloc(sizeof(double) * 3);
 	info[0] = x_n;
 	info[1] = y_n;
 	info[2] = ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n);
 	return (info);
 }
+
+
 
 /**
  * @brief Draws a ray from the player position.
@@ -156,6 +160,7 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 	double	*horizontal_inter;
 	double	*inter;
 
+	(void)angle_diff;
 	ray->inter_type = HORIZONTAL;
 	ray->angle = angle;
 	ray->sin = sin(ray->angle);
@@ -173,8 +178,8 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 		inter = horizontal_inter;
 	ray->x_n = inter[0];
 	ray->y_n = inter[1];
-	// ray->distance = inter[2];
-	ray->distance = inter[2] * cos(angle_diff);
+	ray->distance = inter[2];
+	// * cos(angle_diff)
 	ft_set_wall_type(ray);
 	free(horizontal_inter);
 	free(vertical_inter);
@@ -208,7 +213,12 @@ void	cast_rays(t_game *game)
 	{
 		angle_diff = initial_angle - game->p_orient[2];
 		ft_ray_init(&ray, initial_angle, game, angle_diff);
-		ft_draw_ray(game, ray.distance, initial_angle);
+		if (ray.wall_type != EA)
+		{
+			printf(ray.wall_type == EA ? "East\n" : "North\n");
+		}
+//		ft_draw_ray(game, ray.distance, initial_angle);
+		ray.distance *= cos(angle_diff);
 		render(game, &ray, x);
 		initial_angle += game->fov / WIN_WIDTH;
 		x++;
@@ -293,10 +303,12 @@ void	set_texture_coordinates(t_game* game, t_ray* ray)
 		wall_x = ray->y_n / GRID_SIZE;
 	wall_x -= floor(wall_x);
 	ray->tex_x = (int)(wall_x * (double)game->img_list->wall[ray->wall_type].width);
-	if ((ray->wall_type == NO || ray->wall_type == SO) && ray->cos > 0)
-		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
-	if ((ray->wall_type == EA || ray->wall_type == WE) && ray->sin < 0)
-		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
+//	if ((ray->wall_type == NO || ray->wall_type == SO) && ray->cos > 0)
+//		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
+//	if ((ray->wall_type == EA || ray->wall_type == WE) && ray->sin < 0)
+//		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
+
+
 	ray->tex_x = ray->tex_x % game->img_list->wall[ray->wall_type].width;
 }
 

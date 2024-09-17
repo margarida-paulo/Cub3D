@@ -1,9 +1,9 @@
 
 
-NO               ./imgs/gps_arrow_50.xpm
+NO               ./textures/wall1.xpm
 
 
-SO               ./imgs/gps_arrow_50.xpm
+SO               ./textures/wall4.xpm
 
 
 
@@ -14,8 +14,8 @@ F 220,100,0
 
 
 
-WE ./imgs/gps_arrow_50.xpm
-EA ./imgs/gps_arrow_50.xpm
+WE ./textures/wall3.xpm
+EA ./textures/wall2.xpm
 
 C 225,30,0
 
