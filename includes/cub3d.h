@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 13:43:27 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:45:47 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ enum wall_types {
 	EA = 3
 };
 
+enum game_states {
+	STATE_MENU,
+	STATE_PLAYING
+};
+
 #define MAP_PX 30
 #define PLAYER_CLR 0x00FFC0CB
 #define WALL_CLR 0x00FFFFFF
@@ -74,6 +79,8 @@ enum wall_types {
 #define WIN_WIDTH 800
 #define MOVE_SPEED 10
 #define SENSITVITY 50.0
+#define MINIMAP_WIDTH 200
+#define MINIMAP_HEIGHT 200
 
 typedef struct	s_data
 {
@@ -92,6 +99,7 @@ typedef struct s_pics
 	t_data	*player;
 	t_data	wall[4];
 	t_data	*screen;
+	t_data	*cropped_minimap;
 }				t_pics;
 
 typedef struct s_game t_game;
@@ -121,13 +129,14 @@ typedef struct s_game
 	double	p_orient[3];
 	t_pics	*img_list;
 	int		key_press;
-	double		origin[2];
+	double	origin[2];
 	t_data	*current_screen;
 	t_map	map;
-	double		fov;
-	double		move_rate;
-	void		*game_window;
-	int			prev_wall_type;
+	double	fov;
+	double	move_rate;
+	void	*game_window;
+	int		prev_wall_type;
+	int		state;
 } t_game;
 
 typedef struct s_ray
@@ -236,5 +245,8 @@ int		ft_cntchr(char* str, char c);
 int		is_numeric(char* str);
 int		parse_color_str(char* color_str);
 void	parse_color(t_map* map);
+
+void crop_minimap_around_player(t_game *game);
+void	ft_init_cropped_minimap(t_game *game);
 
 #endif

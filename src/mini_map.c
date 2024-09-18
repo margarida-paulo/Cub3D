@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/11 11:33:00 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:00:31 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,39 @@ int is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double xy[2]
 }
 
 /**
+ * @brief Checks if a given point is near a wall.
+ * If the point is closer than PLAYER_SIZE/3, it is considered near a wall.
+ *
+ * @param game The game structure.
+ * @param x The x coordinate of the point to check.
+ * @param y The y coordinate of the point to check.
+ *
+ * @return 1 if the point is near a wall, 0 otherwise.
+ */
+int	is_near_wall(t_game *game, double x, double y)
+{
+	int	dx;
+	int	dy;
+
+	dx = -PLAYER_SIZE/3;
+	while (dx <= PLAYER_SIZE/3)
+	{
+		dy = -PLAYER_SIZE/3;
+		while (dy <= PLAYER_SIZE/3)
+		{
+			if (sqrt(dx * dx + dy * dy) <= PLAYER_SIZE/3)
+			{
+				if (get_px_color(game->img_list->minimap, x + dx, y + dy) == WALL_CLR)
+					return (1);
+			}
+			dy++;
+		}
+		dx++;
+	}
+	return (0);
+}
+
+/**
  * @brief Handles player movement.
  *
  * This function changes the player's position (game->p_orient[0] and
@@ -105,14 +138,13 @@ void		ft_move(t_game *game)
 		n_pos[0] += (game->move_rate * cos(game->p_orient[2] - M_PI / 2) * m);
 		n_pos[1] += (game->move_rate * sin(game->p_orient[2] - M_PI / 2) * m);
 	}
-	if(get_px_color(game->img_list->minimap, n_pos[0], n_pos[1]) != WALL_CLR)
+	// if(get_px_color(game->img_list->minimap, n_pos[0], n_pos[1]) != WALL_CLR)
+	if (!is_near_wall(game, n_pos[0], n_pos[1]))
 	{
 		game->p_orient[0] = n_pos[0];
 		game->p_orient[1] = n_pos[1];
 	}
 }
-
-
 
 /**
  * @brief Calculates the Euclidean distance between two points.
@@ -127,7 +159,6 @@ double	ft_distance(int x1, int y1, int x2, int y2)
 {
 	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
-
 
 /**
  * @brief Draws a background square on the minimap image.
@@ -165,6 +196,40 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 	}
 }
 
+void crop_minimap_around_player(t_game *game)
+{
+	int player_x = (int)game->p_orient[0];
+	int player_y = (int)game->p_orient[1];
+	int start_x = player_x - MINIMAP_WIDTH / 2;
+	int start_y = player_y - MINIMAP_HEIGHT / 2;
+	int x, y;
+	int color;
+
+	// Create a new image for the cropped minimap
+	t_data *cropped_minimap = game->img_list->cropped_minimap;
+
+    for (y = 0; y < MINIMAP_HEIGHT; y++)
+    {
+        for (x = 0; x < MINIMAP_WIDTH; x++)
+        {
+            int src_x = start_x + x;
+            int src_y = start_y + y;
+
+            if (src_x >= 0 && src_x < game->img_list->minimap->width &&
+                src_y >= 0 && src_y < game->img_list->minimap->height)
+            {
+                color = get_px_color(game->img_list->minimap, src_x, src_y);
+            }
+            else
+            {
+                color = 0x000000; // Out of bounds
+            }
+			printf("test1\n");
+            mlx_px(cropped_minimap, x, y, color);
+			printf("test2\n");
+        }
+    }
+}
 
 /**
  * @brief Builds the minimap image.
@@ -205,7 +270,6 @@ void	ft_build_minimap(t_game *game)
 		curr_y += GRID_SIZE;
 	}
 }
-
 
 /**
  * @brief Builds the player image.
@@ -251,7 +315,6 @@ void	ft_build_player(t_game *game)
 		pos[1]++;
 	}
 }
-
 
 /**
  * @brief Merges two images together.

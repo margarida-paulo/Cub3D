@@ -3,27 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/17 10:13:14 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:15:22 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-// game is the structure with the minilibx info.
+void	render_menu(t_game *game)
+{
+	mlx_clear_window(game->mlx, game->game_window);
+
+	mlx_string_put(game->mlx, game->game_window, 100, 100, 0xFFFFFF, "1. Start Game");
+	mlx_string_put(game->mlx, game->game_window, 100, 150, 0xFFFFFF, "2. Exit");
+
+	// Update the window
+	mlx_do_sync(game->mlx);
+	if (game->key_press == XK_1)
+	{
+		game->state = STATE_PLAYING;
+		return ;
+	}
+	else if (game->key_press == XK_2)
+		exit_program(game);
+}
 
 int	ft_gameplay(t_game *game)
 {
-	if (game->key_press == XK_Right || game->key_press == XK_Left)
-		ft_rotate(game);
-	else if (game->key_press == XK_w || game->key_press == XK_a || \
-	game->key_press == XK_s || game->key_press == XK_d)
-		ft_move(game);
-	else
-		return (0);
 	ft_render_screen(game);
+	if (game->state == STATE_MENU)
+	{
+		render_menu(game);
+		return (0);
+	}
+	else if (game->state == STATE_PLAYING)
+	{
+		if (game->key_press == XK_Right || game->key_press == XK_Left)
+			ft_rotate(game);
+		else if (game->key_press == XK_w || game->key_press == XK_a || \
+		game->key_press == XK_s || game->key_press == XK_d)
+			ft_move(game);
+		else
+			return (0);
+		// ft_render_screen(game);
+		// return (0);
+	}
 	return (0);
 }
 
@@ -38,7 +64,6 @@ int main(int argc, char **argv)
 		print_error_0(INVALID_ARG_CNT, NULL);
 	parse_map(&game.map, argv);
 	test_print_map_struct_data(&game.map);
-
 	minilibx_init(&game);
 	mlx_loop_hook(game.mlx, ft_gameplay, &game);
 	mlx_hook(game.mlx_win, 17, 0, exit_program, &game);
