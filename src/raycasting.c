@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/17 10:18:46 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:43:50 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 	ray->multiplier_x = copysign(1, ray->cos);
 	vertical_inter = find_vertical_inter(game, ray);
 	horizontal_inter = find_horizontal_inter(game, ray);
+	printf("Vertical distance: %f\n", vertical_inter[2]);
+	printf("Horizontal distance: %f\n", horizontal_inter[2]);
 	if (vertical_inter[2] < horizontal_inter[2])
 	{
 		inter = vertical_inter;
@@ -181,6 +183,9 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 	ray->distance = inter[2];
 	// * cos(angle_diff)
 	ft_set_wall_type(ray);
+	if (vertical_inter[2] == horizontal_inter[2] && game->prev_wall_type != -1)
+		ray->wall_type = game->prev_wall_type;
+	printf("Wall Type: %d\n\n", ray->wall_type);
 	free(horizontal_inter);
 	free(vertical_inter);
 }
@@ -209,19 +214,21 @@ void	cast_rays(t_game *game)
 	initial_angle = game->p_orient[2] - (game->fov / 2);
 	final_angle = game->p_orient[2] + (game->fov / 2);
 	render_floor_ceiling(game);
+	game->prev_wall_type = -1;
 	while (initial_angle < final_angle)
 	{
 		angle_diff = initial_angle - game->p_orient[2];
 		ft_ray_init(&ray, initial_angle, game, angle_diff);
-		if (ray.wall_type != EA)
-		{
-			printf(ray.wall_type == EA ? "East\n" : "North\n");
-		}
-//		ft_draw_ray(game, ray.distance, initial_angle);
+		//if (ray.wall_type != EA)
+		//{
+		//	printf(ray.wall_type == EA ? "East\n" : "North\n");
+		//}
+		ft_draw_ray(game, ray.distance, initial_angle);
 		ray.distance *= cos(angle_diff);
 		render(game, &ray, x);
 		initial_angle += game->fov / WIN_WIDTH;
 		x++;
+		game->prev_wall_type = ray.wall_type;
 	}
 }
 
