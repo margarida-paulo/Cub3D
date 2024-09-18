@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 13:43:50 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:45:51 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,6 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 	ray->multiplier_x = copysign(1, ray->cos);
 	vertical_inter = find_vertical_inter(game, ray);
 	horizontal_inter = find_horizontal_inter(game, ray);
-	printf("Vertical distance: %f\n", vertical_inter[2]);
-	printf("Horizontal distance: %f\n", horizontal_inter[2]);
 	if (vertical_inter[2] < horizontal_inter[2])
 	{
 		inter = vertical_inter;
@@ -185,7 +183,6 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 	ft_set_wall_type(ray);
 	if (vertical_inter[2] == horizontal_inter[2] && game->prev_wall_type != -1)
 		ray->wall_type = game->prev_wall_type;
-	printf("Wall Type: %d\n\n", ray->wall_type);
 	free(horizontal_inter);
 	free(vertical_inter);
 }
@@ -219,10 +216,6 @@ void	cast_rays(t_game *game)
 	{
 		angle_diff = initial_angle - game->p_orient[2];
 		ft_ray_init(&ray, initial_angle, game, angle_diff);
-		//if (ray.wall_type != EA)
-		//{
-		//	printf(ray.wall_type == EA ? "East\n" : "North\n");
-		//}
 		ft_draw_ray(game, ray.distance, initial_angle);
 		ray.distance *= cos(angle_diff);
 		render(game, &ray, x);
@@ -256,30 +249,6 @@ void	render_floor_ceiling(t_game *game)
 	}
 }
 
-//The version that works with color values
-// void	render_floor_ceiling(t_game *game)
-// {
-// 	int	x;
-// 	int	y;
-
-// 	x = 0;
-// 	while (x < WIN_WIDTH)
-// 	{
-// 		y = 0;
-// 		while (y < WIN_HEIGHT / 2)
-// 		{
-// 			mlx_px(game->img_list->screen, x, y, game->map.c_color_val);
-// 			y++;
-// 		}
-// 		while (y < WIN_HEIGHT)
-// 		{
-// 			mlx_px(game->img_list->screen, x, y, game->map.f_color_val);
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// }
-
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end)
 {
 	int	line_height;
@@ -310,12 +279,6 @@ void	set_texture_coordinates(t_game* game, t_ray* ray)
 		wall_x = ray->y_n / GRID_SIZE;
 	wall_x -= floor(wall_x);
 	ray->tex_x = (int)(wall_x * (double)game->img_list->wall[ray->wall_type].width);
-//	if ((ray->wall_type == NO || ray->wall_type == SO) && ray->cos > 0)
-//		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
-//	if ((ray->wall_type == EA || ray->wall_type == WE) && ray->sin < 0)
-//		ray->tex_x = game->img_list->wall[ray->wall_type].width - ray->tex_x - 1;
-
-
 	ray->tex_x = ray->tex_x % game->img_list->wall[ray->wall_type].width;
 }
 

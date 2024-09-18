@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 16:00:31 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:44:14 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,15 +218,13 @@ void crop_minimap_around_player(t_game *game)
             if (src_x >= 0 && src_x < game->img_list->minimap->width &&
                 src_y >= 0 && src_y < game->img_list->minimap->height)
             {
-                color = get_px_color(game->img_list->minimap, src_x, src_y);
+                color = get_px_color(game->current_screen, src_x, src_y);
             }
             else
             {
                 color = 0x000000; // Out of bounds
             }
-			printf("test1\n");
             mlx_px(cropped_minimap, x, y, color);
-			printf("test2\n");
         }
     }
 }
