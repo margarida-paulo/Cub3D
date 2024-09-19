@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 19:52:42 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:23:20 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct s_pics
 {
 	t_data	*minimap;
 	t_data	*player;
-	t_data	wall[4];
+	t_data	*wall[4];
 	t_data	*screen;
 	t_data	*cropped_minimap;
 }				t_pics;

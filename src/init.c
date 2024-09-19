@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 15:58:21 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:35:08 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	minilibx_init(t_game *game)
     game->height = ft_arrlen(game->map.map_array) * GRID_SIZE;
     game->width = ft_strlen(game->map.map_array[0]) * GRID_SIZE;
     game->mlx = mlx_init();
-    game->mlx_win = mlx_new_window(game->mlx, game->width, game->height, "The best Cub3D you've ever seen");
+ //   game->mlx_win = mlx_new_window(game->mlx, game->width, game->height, "The best Cub3D you've ever seen");
 	game->game_window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "gAMEY gAME!");
     game->img_list = malloc(sizeof(t_pics));
     game->img_list->cropped_minimap = NULL;
@@ -109,10 +109,10 @@ void	ft_init_cropped_minimap(t_game *game)
 
 void	load_wall_textures(t_game* game)
 {
-	game->img_list->wall[NO] = *load_texture(game->mlx, game->map.no_texture);
-	game->img_list->wall[SO] = *load_texture(game->mlx, game->map.so_texture);
-	game->img_list->wall[WE] = *load_texture(game->mlx, game->map.we_texture);
-	game->img_list->wall[EA] = *load_texture(game->mlx, game->map.ea_texture);
+	game->img_list->wall[NO] = load_texture(game->mlx, game->map.no_texture);
+	game->img_list->wall[SO] = load_texture(game->mlx, game->map.so_texture);
+	game->img_list->wall[WE] = load_texture(game->mlx, game->map.we_texture);
+	game->img_list->wall[EA] = load_texture(game->mlx, game->map.ea_texture);
 }
 
 t_data *load_texture(void *mlx, char *path)

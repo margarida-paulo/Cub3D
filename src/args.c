@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:07:59 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/21 17:09:47 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:01:52 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,19 @@ char**	get_cub_file_arr(char **argv)
 	if (is_valid_extension(argv[1]) == 0)
 		print_error_0(INVALID_EXTENTION, argv[1]);
 	cub_file_arr = malloc(sizeof(char *) * (cub_file_cnt_lines(argv) + 1));
+	// cub_file_arr = ft_calloc(cub_file_cnt_lines(argv) + 1, sizeof(char*));
 	if (!cub_file_arr)
 		return (NULL);
 	cub_fd = open(argv[1], O_RDONLY);
 	if (cub_fd < 0)
 		print_error_0(CAN_NOT_OPEN, argv[1]);
 	i = 0;
-	while((buffer = get_next_line(cub_fd)))
+	buffer = get_next_line(cub_fd);
+	while((buffer))
 	{
 		cub_file_arr[i] = buffer;
 		i++;
+		buffer = get_next_line(cub_fd);
 	}
 	cub_file_arr[i] = NULL;
 	close(cub_fd);

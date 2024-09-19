@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_setters.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:13:55 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/11 10:32:13 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:04:19 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	set_elements(t_map *map, char *line)
 	size_t	len;
 
 	trimmed_line = trim_leading_spaces(line);
+	if (ft_strlen(trimmed_line) < 2)
+		return ;
 	tmp = trim_leading_spaces(trimmed_line + 2);
 	len = ft_strlen(tmp) - 1;
 

@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 19:45:51 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:25:06 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,8 +278,8 @@ void	set_texture_coordinates(t_game* game, t_ray* ray)
 	else
 		wall_x = ray->y_n / GRID_SIZE;
 	wall_x -= floor(wall_x);
-	ray->tex_x = (int)(wall_x * (double)game->img_list->wall[ray->wall_type].width);
-	ray->tex_x = ray->tex_x % game->img_list->wall[ray->wall_type].width;
+	ray->tex_x = (int)(wall_x * (double)game->img_list->wall[ray->wall_type]->width);
+	ray->tex_x = ray->tex_x % game->img_list->wall[ray->wall_type]->width;
 }
 
 void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end)
@@ -290,12 +290,12 @@ void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_e
 	y = draw_start;
 	while (y < draw_end)
 	{
-		tex_y = (int)(((y - (-ray->line_height / 2 + WIN_HEIGHT / 2)) * game->img_list->wall[ray->wall_type].height) / ray->line_height);
+		tex_y = (int)(((y - (-ray->line_height / 2 + WIN_HEIGHT / 2)) * game->img_list->wall[ray->wall_type]->height) / ray->line_height);
 		 if (tex_y < 0)
 			tex_y = 0;
-		if (tex_y >= game->img_list->wall[ray->wall_type].height)
-			tex_y = game->img_list->wall[ray->wall_type].height - 1;
-		color = get_px_color(&game->img_list->wall[ray->wall_type], ray->tex_x, tex_y);
+		if (tex_y >= game->img_list->wall[ray->wall_type]->height)
+			tex_y = game->img_list->wall[ray->wall_type]->height - 1;
+		color = get_px_color(game->img_list->wall[ray->wall_type], ray->tex_x, tex_y);
 		mlx_px(game->img_list->screen, x, y, color);
 		y++;
 	}

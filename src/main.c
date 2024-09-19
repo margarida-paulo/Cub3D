@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 15:15:22 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:38:27 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ int main(int argc, char **argv)
 	test_print_map_struct_data(&game.map);
 	minilibx_init(&game);
 	mlx_loop_hook(game.mlx, ft_gameplay, &game);
-	mlx_hook(game.mlx_win, 17, 0, exit_program, &game);
-	mlx_hook(game.mlx_win, 3, (1L<<1), ft_key_release, &game);
-	mlx_hook(game.mlx_win, 2, (1L<<0), ft_key_press, &game);
+//	mlx_hook(game.mlx_win, 17, 0, exit_program, &game);
+	mlx_hook(game.game_window, 17, 0, exit_program, &game);
+//	mlx_hook(game.mlx_win, 3, (1L<<1), ft_key_release, &game);
+//	mlx_hook(game.mlx_win, 2, (1L<<0), ft_key_press, &game);
 	mlx_hook(game.game_window, 3, (1L<<1), ft_key_release, &game);
 	mlx_hook(game.game_window, 2, (1L<<0), ft_key_press, &game);
 	mlx_loop(game.mlx);

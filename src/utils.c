@@ -38,15 +38,21 @@ char	**copy_array_from_index(char **src_arr, int i)
 	char	**dest_arr;
 	size_t	len;
 	int		j;
+	size_t	arr_len;
 
 	j = 0;
+	arr_len = ft_arrlen(src_arr);
+	printf("arr_len = %lu\n", arr_len);
 	dest_arr = malloc (sizeof(char *) * ((ft_arrlen(src_arr) - i + 1)));
 	while (src_arr[i])
 	{
 		len = ft_strlen(src_arr[i]);
 		if (len > 0 && src_arr[i][len - 1] == '\n')
 			len--;
-		dest_arr[j] = ft_substr(src_arr[i], 0, len);
+		if (len > 0)
+			dest_arr[j] = ft_substr(src_arr[i], 0, len);
+		else if (len == 0)
+			dest_arr[j] = ft_strdup("");
 		j++;
 		i++;
 	}

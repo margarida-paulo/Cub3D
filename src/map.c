@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/14 17:34:22 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/19 23:07:20 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	parse_map(t_map *map, char **argv)
 		{
 			map->map_start = i;
 			map->map_array = copy_array_from_index(cub_file_arr, i);
+			printf("array length = %lu\n", ft_arrlen(map->map_array));
 			map_start_found = 1;
 		}
 		else if (!map_start_found)
