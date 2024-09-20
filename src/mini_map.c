@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/18 19:44:14 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:56:28 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ void		ft_move(t_game *game)
 		n_pos[0] += (game->move_rate * cos(game->p_orient[2] - M_PI / 2) * m);
 		n_pos[1] += (game->move_rate * sin(game->p_orient[2] - M_PI / 2) * m);
 	}
-	// if(get_px_color(game->img_list->minimap, n_pos[0], n_pos[1]) != WALL_CLR)
 	if (!is_near_wall(game, n_pos[0], n_pos[1]))
 	{
 		game->p_orient[0] = n_pos[0];
@@ -196,37 +195,30 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 	}
 }
 
-void crop_minimap_around_player(t_game *game)
+void	crop_minimap_around_player(t_game *game)
 {
-	int player_x = (int)game->p_orient[0];
-	int player_y = (int)game->p_orient[1];
-	int start_x = player_x - MINIMAP_WIDTH / 2;
-	int start_y = player_y - MINIMAP_HEIGHT / 2;
-	int x, y;
+	int	xy[2]; // int x and int y
+	int	src_xy[2]; // src_x and src_y
 	int color;
 
-	// Create a new image for the cropped minimap
-	t_data *cropped_minimap = game->img_list->cropped_minimap;
-
-    for (y = 0; y < MINIMAP_HEIGHT; y++)
-    {
-        for (x = 0; x < MINIMAP_WIDTH; x++)
-        {
-            int src_x = start_x + x;
-            int src_y = start_y + y;
-
-            if (src_x >= 0 && src_x < game->img_list->minimap->width &&
-                src_y >= 0 && src_y < game->img_list->minimap->height)
-            {
-                color = get_px_color(game->current_screen, src_x, src_y);
-            }
-            else
-            {
-                color = 0x000000; // Out of bounds
-            }
-            mlx_px(cropped_minimap, x, y, color);
-        }
-    }
+	xy[1] = 0;
+	while (xy[1] < MINIMAP_HEIGHT)
+	{
+		xy[0] = 0;
+		while (xy[0] < MINIMAP_WIDTH)
+		{
+			src_xy[0] = (int)game->p_orient[0] - MINIMAP_WIDTH / 2 + xy[0];
+			src_xy[1] = (int)game->p_orient[1] - MINIMAP_HEIGHT / 2 + xy[1];
+			if (src_xy[0] >= 0 && src_xy[0] < game->img_list->minimap->width &&
+				src_xy[1] >= 0 && src_xy[1] < game->img_list->minimap->height)
+				color = get_px_color(game->current_screen, src_xy[0], src_xy[1]);
+			else
+				color = 0x000000; // Out of bounds
+			mlx_px(game->img_list->cropped_minimap, xy[0], xy[1], color);
+			xy[0]++;
+		}
+		xy[1]++;
+	}
 }
 
 /**

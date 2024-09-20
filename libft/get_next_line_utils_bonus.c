@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:19:30 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/19 23:28:38 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 01:21:49 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*ft_strjoin_nl(char *line, char *buffer)
 	new_line = malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(buffer) + 1));
 	if (!new_line)
 		return (NULL);
-	*new_line = NULL;
 	while (line && line[cnt1])
 	{
 		new_line[cnt1] = line[cnt1];

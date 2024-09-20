@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:35:08 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:13:40 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	minilibx_init(t_game *game)
     ft_build_player(game);
 	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
 	ft_init_cropped_minimap(game);
-	// mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);
+	game->head_bob_offset = 0;
+    game->head_bob_phase = 0;
 }
 
 

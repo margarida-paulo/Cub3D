@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:27 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:01:29 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,33 @@ void	render_menu(t_game *game)
 		exit_program(game);
 }
 
+//The calculation game->head_bob_offset = HEAD_BOB_AMPLITUDE * sin(game->head_bob_phase);
+//determines the vertical displacement of the player's view based on a sine wave.
+void	update_head_bob(t_game *game)
+{
+	// Check if the player is moving
+	if (game->key_press == XK_w || game->key_press == XK_a || \
+		game->key_press == XK_s || game->key_press == XK_d)
+	{
+		// Increment the head bob phase
+		game->head_bob_phase += HEAD_BOB_FREQUENCY;
+		if (game->head_bob_phase > 2 * M_PI)
+			game->head_bob_phase -= 2 * M_PI;
+
+			// Calculate the head bob offset based on the sine of the phase
+		game->head_bob_offset = HEAD_BOB_AMPLITUDE * sin(game->head_bob_phase);
+	}
+	else
+	{
+		// Reset the head bob offset and phase when the player stops moving
+		game->head_bob_offset = 0;
+		game->head_bob_phase = 0;
+	}
+}
+
 int	ft_gameplay(t_game *game)
 {
-	ft_render_screen(game);
+	// ft_render_screen(game);
 	if (game->state == STATE_MENU)
 	{
 		render_menu(game);
@@ -44,11 +68,16 @@ int	ft_gameplay(t_game *game)
 			ft_rotate(game);
 		else if (game->key_press == XK_w || game->key_press == XK_a || \
 		game->key_press == XK_s || game->key_press == XK_d)
+		{
+			update_head_bob(game);
 			ft_move(game);
-		else
-			return (0);
-		// ft_render_screen(game);
-		// return (0);
+		}
+		// else if (game->key_press == XK_space)
+		// 	ft_shoot(game);
+		// else
+		// 	return (0);
+		ft_render_screen(game);
+		return (0);
 	}
 	return (0);
 }
@@ -74,4 +103,6 @@ int main(int argc, char **argv)
 	mlx_hook(game.game_window, 2, (1L<<0), ft_key_press, &game);
 	mlx_loop(game.mlx);
 }
+
+
 

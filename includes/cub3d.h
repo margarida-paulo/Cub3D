@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:23:20 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:01:30 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ enum game_states {
 #define SENSITVITY 50.0
 #define MINIMAP_WIDTH 200
 #define MINIMAP_HEIGHT 200
+#define HEAD_BOB_AMPLITUDE 5.0
+#define HEAD_BOB_FREQUENCY 0.2
 
 typedef struct	s_data
 {
@@ -137,6 +139,8 @@ typedef struct s_game
 	void	*game_window;
 	int		prev_wall_type;
 	int		state;
+	double	head_bob_offset;
+	double	head_bob_phase;
 } t_game;
 
 typedef struct s_ray
@@ -153,6 +157,7 @@ typedef struct s_ray
 	int		wall_type;
 	int		line_height;
 	int		tex_x;
+	double	tex_pos;
 } t_ray;
 
 // Exit
@@ -237,7 +242,7 @@ void	load_wall_textures(t_game* game);
 t_data	*load_texture(void *mlx, char *path);
 void	render(t_game *game, t_ray *ray, int x);
 void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end);
-void	set_texture_coordinates(t_game* game, t_ray* ray);
+void	set_texture_coordinates(t_game* game, t_ray* ray,int draw_start);
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
 void	render_floor_ceiling(t_game *game);
 
@@ -248,5 +253,7 @@ void	parse_color(t_map* map);
 
 void crop_minimap_around_player(t_game *game);
 void	ft_init_cropped_minimap(t_game *game);
+
+void	update_head_bob(t_game *game);
 
 #endif
