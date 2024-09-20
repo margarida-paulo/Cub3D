@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 13:01:30 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:33:11 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 
-# define VALID_CHARS "01NSWE \n"
+# define VALID_CHARS "012NSWE \n"
 
 enum exit_codes {
 	INVALID_ARG_CNT = 1,
@@ -64,6 +64,7 @@ enum game_states {
 #define MAP_PX 30
 #define PLAYER_CLR 0x00FFC0CB
 #define WALL_CLR 0x00FFFFFF
+#define DOOR_CLR 0x000000FF
 #define MINI_FLOOR_CLR 0x00333333
 
 
@@ -154,6 +155,7 @@ typedef struct s_ray
 	double	x_n;
 	double	y_n;
 	int		inter_type;
+	int		is_door;
 	int		wall_type;
 	int		line_height;
 	int		tex_x;
@@ -235,7 +237,7 @@ char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
 double	*find_vertical_inter(t_game *game, t_ray *ray);
 double	*find_horizontal_inter(t_game *game, t_ray *ray);
 void	ft_draw_ray(t_game *game, double ray_size, double angle);
-void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff);
+void	ft_ray_init(t_ray *ray, double angle, t_game *game);
 void	cast_rays(t_game *game);
 
 void	load_wall_textures(t_game* game);

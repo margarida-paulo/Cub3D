@@ -6,14 +6,12 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 17:09:43 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:31:23 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include <stdio.h>
-
-
 
 /**
  * @brief Finds the vertical intersection of the ray with the map.
@@ -29,6 +27,32 @@
  * @return A double array of size 3 containing the x, y coordinates of the
  * intersection and the distance from the player to the intersection.
  */
+// double	*find_vertical_inter(t_game *game, t_ray *ray)
+// {
+// 	double	x_n;
+// 	double	y_n;
+// 	double	step[2];
+// 	double	*info;
+
+// 	if (ray->cos > 0)
+// 		x_n = (int)(game->p_orient[0] / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
+// 	else
+// 		x_n = (int)(game->p_orient[0] / GRID_SIZE) * GRID_SIZE;
+// 	y_n = (x_n - game->p_orient[0]) * tan(ray->angle) + game->p_orient[1];
+// 	step[0] = GRID_SIZE * ray->multiplier_x;
+// 	step[1] = step[0] * tan(ray->angle);
+// 	while (is_inside_map_ver(game, ray, x_n, y_n))
+// 	{
+// 		x_n += step[0];
+// 		y_n += step[1];
+// 	}
+// 	info = malloc(sizeof(double) * 3);
+// 	info[0] = x_n;
+// 	info[1] = y_n;
+// 	info[2] = ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n);
+// 	return (info);
+// }
+
 double	*find_vertical_inter(t_game *game, t_ray *ray)
 {
 	double	x_n;
@@ -45,6 +69,11 @@ double	*find_vertical_inter(t_game *game, t_ray *ray)
 	step[1] = step[0] * tan(ray->angle);
 	while (is_inside_map_ver(game, ray, x_n, y_n))
 	{
+		if (ray->is_door)
+		{
+			ray->is_door = 0;
+			continue ;
+		}
 		x_n += step[0];
 		y_n += step[1];
 	}
@@ -69,6 +98,32 @@ double	*find_vertical_inter(t_game *game, t_ray *ray)
  * @return A double array of size 3 containing the x, y coordinates of the
  * intersection and the distance from the player to the intersection.
  */
+// double	*find_horizontal_inter(t_game *game, t_ray *ray)
+// {
+// 	double	x_n;
+// 	double	y_n;
+// 	double	step[2];
+// 	double	*info;
+
+// 	if (ray->sin > 0)
+// 		y_n = (int)(game->p_orient[1] / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
+// 	else
+// 		y_n = (int)(game->p_orient[1] / GRID_SIZE) * GRID_SIZE;
+// 	x_n = (y_n - game->p_orient[1]) / tan(ray->angle) + game->p_orient[0];
+// 	step[1] = GRID_SIZE * ray->multiplier_y;
+// 	step[0] = step[1] / tan(ray->angle);
+// 	while (is_inside_map_hor(game, ray, x_n, y_n))
+// 	{
+// 		x_n += step[0];
+// 		y_n += step[1];
+// 	}
+// 	info = malloc(sizeof(double) * 3);
+// 	info[0] = x_n;
+// 	info[1] = y_n;
+// 	info[2] = ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n);
+// 	return (info);
+// }
+
 double	*find_horizontal_inter(t_game *game, t_ray *ray)
 {
 	double	x_n;
@@ -85,6 +140,11 @@ double	*find_horizontal_inter(t_game *game, t_ray *ray)
 	step[0] = step[1] / tan(ray->angle);
 	while (is_inside_map_hor(game, ray, x_n, y_n))
 	{
+		if (ray->is_door)
+		{
+			ray->is_door = 0;
+			continue ;
+		}
 		x_n += step[0];
 		y_n += step[1];
 	}
@@ -94,7 +154,6 @@ double	*find_horizontal_inter(t_game *game, t_ray *ray)
 	info[2] = ft_distance(game->p_orient[0], game->p_orient[1], x_n, y_n);
 	return (info);
 }
-
 
 
 /**
@@ -154,13 +213,13 @@ void	ft_set_wall_type(t_ray *ray)
  * @param angle The angle of the ray.
  * @param game The game structure.
  */
-void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
+void	ft_ray_init(t_ray *ray, double angle, t_game *game)
 {
 	double	*vertical_inter;
 	double	*horizontal_inter;
 	double	*inter;
 
-	(void)angle_diff;
+	ray->is_door = 0;
 	ray->inter_type = HORIZONTAL;
 	ray->angle = angle;
 	ray->sin = sin(ray->angle);
@@ -179,7 +238,6 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 	ray->x_n = inter[0];
 	ray->y_n = inter[1];
 	ray->distance = inter[2];
-	// * cos(angle_diff)
 	ft_set_wall_type(ray);
 	if (vertical_inter[2] == horizontal_inter[2] && game->prev_wall_type != -1)
 		ray->wall_type = game->prev_wall_type;
@@ -215,7 +273,7 @@ void	cast_rays(t_game *game)
 	while (initial_angle < final_angle)
 	{
 		angle_diff = initial_angle - game->p_orient[2];
-		ft_ray_init(&ray, initial_angle, game, angle_diff);
+		ft_ray_init(&ray, initial_angle, game);
 		ft_draw_ray(game, ray.distance, initial_angle);
 		ray.distance *= cos(angle_diff);
 		render(game, &ray, x);
