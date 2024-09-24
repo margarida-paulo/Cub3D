@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: plashkar <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/09/23 00:10:57 by plashkar         ###   ########.fr        #
+#    Updated: 2024/09/24 14:38:32 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC = \
 	src/main.c \
 	src/exit.c \
 	src/init.c \
+	src/textures.c \
 	src/key_press.c \
 	src/mini_map.c \
 	src/mlx_extra.c \
@@ -46,7 +47,9 @@ SRC = \
 	src/free.c \
 	src/raycasting.c \
 	src/raycasting_utils.c \
+	src/rendering.c \
 	src/movement.c \
+	src/gameplay.c \
 
 OBJ = $(SRC:.c=.o)
 

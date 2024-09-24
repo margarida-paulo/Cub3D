@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 23:59:51 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/23 00:00:16 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:37:34 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,39 @@ void	ft_move(t_game *game)
 	{
 		game->p_orient[0] = n_pos[0];
 		game->p_orient[1] = n_pos[1];
+	}
+}
+
+/**
+ * @brief Updates the head bob offset and phase.
+ *
+ * This function should be called every frame.
+ *
+ * If the player is moving, the head bob phase is incremented by the
+ * head bob frequency. If the phase exceeds 2 * pi, it is reset to 0.
+ * The head bob offset is then calculated as the amplitude times the
+ * sine of the phase.
+ *
+ * If the player is not moving, the head bob offset and phase are both
+ * set to 0.
+ *
+ * @param game the game struct
+ * @return void
+ */
+
+void	update_head_bob(t_game *game)
+{
+	if (game->key_press == XK_w || game->key_press == XK_a || \
+		game->key_press == XK_s || game->key_press == XK_d)
+	{
+		game->head_bob_phase += HEAD_BOB_FREQUENCY;
+		if (game->head_bob_phase > 2 * M_PI)
+			game->head_bob_phase -= 2 * M_PI;
+		game->head_bob_offset = HEAD_BOB_AMPLITUDE * sin(game->head_bob_phase);
+	}
+	else
+	{
+		game->head_bob_offset = 0;
+		game->head_bob_phase = 0;
 	}
 }

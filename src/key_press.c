@@ -3,31 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   key_press.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 11:39:13 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:34:56 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	ft_render_screen(t_game *game)
-{
-	ft_clear_img(game->img_list->screen, WIN_WIDTH, WIN_HEIGHT);
-	ft_clear_img(game->img_list->cropped_minimap, MINIMAP_WIDTH, MINIMAP_HEIGHT);
-	ft_build_minimap(game);
-	ft_build_player(game);
-	mlx_destroy_image(game->mlx, game->current_screen->img);
-	free(game->current_screen);
-	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
-	// mlx_put_image_to_window(game->mlx, game->mlx_win, game->current_screen->img, 0, 0);
-	mlx_put_image_to_window(game->mlx, game->game_window, game->img_list->screen->img, 0, 0);
-	crop_minimap_around_player(game);
-	 mlx_put_image_to_window(game->mlx, game->game_window, game->img_list->cropped_minimap->img, 10, 10);
-	mlx_do_sync(game->mlx);
-}
-
+/**
+ * @brief Rotate the player.
+ *
+ * This function changes the player's orientation based on the key press.
+ * If the key press is XK_Right, the player's orientation is increased by
+ * SENSITVITY / 1000. If the key press is XK_Left, the player's orientation
+ * is decreased by SENSITVITY / 1000. If the player's orientation is greater
+ * than 2 * M_PI, it is set to 0.
+ *
+ * @param game the game struct containing all the resources.
+ * @return 0
+ */
 int	ft_rotate(t_game *game)
 {
 	if (game->key_press == XK_Right)
@@ -35,25 +31,49 @@ int	ft_rotate(t_game *game)
 		if (game->p_orient[2] + (SENSITVITY / 1000) > (2 * M_PI))
 			game->p_orient[2] = 0;
 		else
-			game->p_orient[2]  += (SENSITVITY / 1000);
+			game->p_orient[2] += (SENSITVITY / 1000);
 	}
-	else if(game->key_press == XK_Left)
+	else if (game->key_press == XK_Left)
 	{
 		if (game->p_orient[2] - (SENSITVITY / 1000) > (2 * M_PI))
 			game->p_orient[2] = 0;
 		else
-			game->p_orient[2]  -= (SENSITVITY / 1000);
+			game->p_orient[2] -= (SENSITVITY / 1000);
 	}
 	return (0);
 }
 
+/**
+ * @brief Called when a key is released.
+ *
+ * This function is called by the event loop when a key is released.
+ * It takes the key code of the released key and the game struct as parameters.
+ * It sets the key press value of the game struct to 0.
+ *
+ * @param key_code the key code of the released key
+ * @param game the game struct containing all the resources
+ * @return 0
+ */
 int	ft_key_release(int key_code, t_game *game)
 {
 	(void)key_code;
-    game->key_press = 0;
-    return 0;
+	game->key_press = 0;
+	return (0);
 }
 
+/**
+ * @brief Called when a key is pressed.
+ *
+ * This function is called by the event loop when a key is pressed.
+ * It takes the key code of the pressed key and the game struct as parameters.
+ * If the pressed key is XK_Escape, it calls exit_program to gracefully exit
+ * the program. Otherwise, it sets the key press value of the game struct to
+ * the key code.
+ *
+ * @param key_code the key code of the pressed key
+ * @param game the game struct containing all the resources
+ * @return 0
+ */
 int	ft_key_press(int key_code, t_game *game)
 {
 	if (key_code == XK_Escape)

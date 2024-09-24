@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   map_checks_0.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:28:54 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/23 00:10:47 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:44:05 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 /**
- * Checks if the map has any invalid characters.
+ * @brief Checks if the map has any invalid characters.
+ *
  * used in check_map_requirements() function.
+ *
  * @param map The map struct.
  * @return 1 if the map has invalid characters, 0 otherwise.
  */
@@ -26,10 +28,10 @@ int	check_map_invalid_chars(t_map *map)
 
 	check = 0;
 	i = 0;
-	while(map->map_array[i])
+	while (map->map_array[i])
 	{
 		j = 0;
-		while(map->map_array[i][j])
+		while (map->map_array[i][j])
 		{
 			if (!ft_strchr(VALID_CHARS, map->map_array[i][j]))
 			{
@@ -46,9 +48,11 @@ int	check_map_invalid_chars(t_map *map)
 }
 
 /**
- * Checks if the map has only one player.
+ * @brief Checks if the map has only one player.
+ *
  * if the map has only one player, it will set the player's orientation array.
  * used in check_map_requirements() function.
+ *
  * @param map The map struct.
  * @return 1 if the map has more than one player, 0 otherwise.
  */
@@ -60,10 +64,10 @@ int	check_map_player_cnt(t_map *map)
 
 	p_cnt = 0;
 	i = 0;
-	while(map->map_array[i])
+	while (map->map_array[i])
 	{
 		j = 0;
-		while(map->map_array[i][j])
+		while (map->map_array[i][j])
 		{
 			if (ft_strchr("NSWE", map->map_array[i][j]))
 				p_cnt++;
@@ -78,11 +82,14 @@ int	check_map_player_cnt(t_map *map)
 }
 
 /**
- * Checks the cells of 1 row of map via the flood fill algorithm.
+ * @brief Checks the cells of 1 row of map via the flood fill algorithm.
+ *
  * used in check_map_borders() function. and is called once for each row.
+ *
  * @param map The map struct.
  * @param visited The 2d array to keep track of visited coordinates.
  * @param i The index of the row.
+ * @return 1 if the cells of the row are valid, 0 otherwise.
  */
 int	check_cells(t_map *map, int **visited, int i)
 {
@@ -93,7 +100,7 @@ int	check_cells(t_map *map, int **visited, int i)
 	j = 0;
 	while (j < map->game->width)
 	{
-		if (map->map_array[i][j] == '0' ||  map->map_array[i][j] == ' ')
+		if (map->map_array[i][j] == '0' || map->map_array[i][j] == ' ')
 		{
 			res = flood_fill(map, visited, i, j);
 			if (res == 0)
@@ -105,8 +112,10 @@ int	check_cells(t_map *map, int **visited, int i)
 }
 
 /**
- * Checks if the map has invalid borders.
+ * @brief Checks if the map has invalid borders.
+ *
  * used in check_map_requirements() function.
+ * 
  * @param map The map struct.
  * @return 1 if the map has invalid borders, 0 otherwise.
  */
@@ -132,4 +141,3 @@ int	check_map_borders(t_map *map)
 	free_visited(visited, map);
 	return (res);
 }
-

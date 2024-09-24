@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/24 11:39:32 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:10:51 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	parse_color(t_map *map)
 {
 	map->c_color_val = parse_color_str(map->c_color);
 	map->f_color_val = parse_color_str(map->f_color);
-	ft_printf("the c color is %d\n the f color is %d\n", map->c_color_val, \
-	map->f_color_val);
 }
 
 int	parse_color_str(char *color_str)

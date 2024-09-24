@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/23 00:16:33 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:44:55 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@ enum exit_codes {
 	INVALID_ARG_CNT = 1,
 	INVALID_EXTENTION,
 	CAN_NOT_OPEN,
+	CAN_NOT_OPEN_TEXTURE,
+	CAN_NOT_MALLOC_TEXTURE,
+	MLX_XPM_TO_IMG_FAIL,
 	MISSING_ELEMENTS,
 	MAP_TOO_SMALL,
 	INVALID_CHARS,
 	INVALID_P_CNT,
 	INVALID_BORDERS,
 	NEWLINES_IN_MAP,
-    // Add other exit codes here
 };
 
 #define HORIZONTAL 0
@@ -191,9 +193,10 @@ int		cub_file_cnt_lines(char **argv);
 char	**get_cub_file_arr(char **argv);
 
 //error.c
-int		print_error_0(int exit_code, char *str);
-int		print_error_1(int exit_code, t_map *map);
+int		print_error_0(int error, char *str);
+int		print_error_1(int error, t_map *map);
 int		print_error_2(int error, t_map* map);
+int		print_error_3(int error, t_map* map);
 
 //free.c
 void	free_map_struct(t_map *map);
@@ -217,7 +220,7 @@ int		check_map_borders(t_map *map);
 int		check_map_nl(t_map *map);
 
 //map_checks_1.c
-int		is_within_bounds(int x, int y, t_map *map);
+int		is_in_bounds(int x, int y, t_map *map);
 int		flood_fill(t_map *map, int **visited, int x, int y);
 
 //map.c
@@ -253,7 +256,7 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff);
 void	cast_rays(t_game *game);
 
 void	load_wall_textures(t_game* game);
-t_data	*load_texture(void *mlx, char *path);
+t_data	*load_texture(t_game *game, char *path);
 void	render(t_game *game, t_ray *ray, int x);
 void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end);
 void	set_texture_coordinates(t_game* game, t_ray* ray,int draw_start);
@@ -269,5 +272,7 @@ void crop_minimap_around_player(t_game *game);
 void	ft_init_cropped_minimap(t_game *game);
 
 void	update_head_bob(t_game *game);
+int		ft_gameplay(t_game *game);
+void	render_menu(t_game *game);
 
 #endif

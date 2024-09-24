@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/24 10:59:42 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:13:02 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,28 @@ int	print_error_2(int error, t_map *map)
 	{
 		ft_putstr_fd("\033[0;31mError:\nMap has extra newlines", 2);
 		ft_putstr_fd("\n\033[0m", 2);
+		exit(error);
+	}
+	if (error == CAN_NOT_OPEN_TEXTURE)
+	{
+		ft_putstr_fd("\033[0;31mError:\nCan not open texture files\n\033[0m", 2);
+		exit(error);
+	}
+	if (error == CAN_NOT_MALLOC_TEXTURE)
+	{
+		ft_putstr_fd("\033[0;31mError:\nCan not allocate memory for", 2);
+		ft_putstr_fd(" texture\n\033[0m", 2);
+		exit(error);
+	}
+	return (error);
+}
+
+int	print_error_3(int error, t_map *map)
+{
+	free_map_struct(map);
+	if (error == MLX_XPM_TO_IMG_FAIL)
+	{
+		ft_putstr_fd("\033[0;31mError:\nCan not convert xpm to img\n\033[0m", 2);
 		exit(error);
 	}
 	return (error);
