@@ -12,6 +12,30 @@
 
 #include "../includes/cub3d.h"
 
+size_t	get_max_len_in_array(char **arr)
+{
+	int	i;
+	size_t max_len;
+
+	i = 0;
+	max_len = 0;
+	while (arr[i])
+	{
+		if (ft_strlen(arr[i]) > max_len)
+			max_len = ft_strlen(arr[i]);
+		i++;
+	}
+	return (max_len);
+}
+
+// char** normalize_array(char **arr)
+// {
+// 	int		i;
+// 	size_t	max_len;
+// 	char	**new_arr;
+
+// }
+
 /**
  * Copies an array of strings starting from a given index.
  * @param src_arr The source array of strings.
@@ -27,7 +51,6 @@ char	**copy_array_from_index(char **src_arr, int i)
 
 	j = 0;
 	arr_len = ft_arrlen(src_arr);
-	printf("arr_len = %lu\n", arr_len);
 	dest_arr = malloc (sizeof(char *) * ((ft_arrlen(src_arr) - i + 1)));
 	while (src_arr[i])
 	{
@@ -42,6 +65,7 @@ char	**copy_array_from_index(char **src_arr, int i)
 		i++;
 	}
 	dest_arr[j] = NULL;
+	// dest_arr = normalize_array(dest_arr);
 	return (dest_arr);
 }
 
