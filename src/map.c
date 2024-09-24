@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/19 23:07:20 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:50:43 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,17 @@ void	parse_map(t_map *map, char **argv)
 	check_map_requirements(map);
 }
 
-void	parse_color(t_map* map)
+void	parse_color(t_map *map)
 {
 	map->c_color_val = parse_color_str(map->c_color);
 	map->f_color_val = parse_color_str(map->f_color);
-	ft_printf("the c color is %d\n the f color is %d\n", map->c_color_val, map->f_color_val);
+	ft_printf("the c color is %d\n the f color is %d\n", map->c_color_val, \
+	map->f_color_val);
 }
 
-int	parse_color_str(char* color_str)
+int	parse_color_str(char *color_str)
 {
-	char**	split;
+	char	**split;
 	int		colors[3];
 	int		index;
 
@@ -69,22 +70,20 @@ int	parse_color_str(char* color_str)
 	while (split && split[index])
 		index++;
 	if (index != 3 || ft_cntchr(color_str, ',') != 2)
-		return(free_2d_array(split), -1);
+		return (free_2d_array(split), -1);
 	index = 0;
 	while (split[index])
 	{
 		if (!is_numeric(split[index]) || ft_strlen(split[index]) > 3)
-			return(free_2d_array(split), -1);
+			return (free_2d_array(split), -1);
 		colors[index] = ft_atoi(split[index]);
 		if (colors[index] > 255 || colors[index] < 0)
-			return(free_2d_array(split), -1);
+			return (free_2d_array(split), -1);
 		index++;
 	}
 	free_2d_array(split);
 	return ((colors[0] << 16) | (colors[1] << 8) | colors[2]);
 }
-
-
 
 /**
  * Checks if the map meets the requirements.

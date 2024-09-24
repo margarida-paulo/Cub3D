@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:05:40 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/21 17:07:13 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:16:36 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,21 @@ void	free_visited(int **visited, t_map *map)
 		i++;
 	}
 	free(visited);
+}
+
+void	free_img(t_game *game, t_data *img)
+{
+	if (img != NULL)
+	{
+		mlx_destroy_image(game->mlx, img->img);
+		free(img);
+	}
+}
+
+void	free_wall_textures(t_game *game)
+{
+	free_img(game, game->img_list->wall[NO]);
+	free_img(game, game->img_list->wall[SO]);
+	free_img(game, game->img_list->wall[WE]);
+	free_img(game, game->img_list->wall[EA]);
 }

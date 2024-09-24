@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
+#    By: plashkar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/09/03 11:27:05 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/09/23 00:10:57 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,14 +36,17 @@ SRC = \
 	src/mlx_extra.c \
 	src/map.c \
 	src/map_setters.c \
-	src/map_checks.c \
+	src/map_checks_0.c \
+	src/map_checks_1.c \
 	src/args.c \
 	src/error.c \
 	src/test.c \
-	src/utils.c \
+	src/utils_0.c \
+	src/utils_1.c \
 	src/free.c \
 	src/raycasting.c \
-	src/raycasting_utils.c
+	src/raycasting_utils.c \
+	src/movement.c \
 
 OBJ = $(SRC:.c=.o)
 

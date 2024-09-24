@@ -6,7 +6,7 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 13:01:30 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:16:33 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	ft_build_player(t_game *game);
 void		ft_move(t_game *pms);
 void	ft_build_minimap(t_game *game);
 t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos);
-double	ft_distance(int x1, int y1, int x2, int y2);
+
 void	ft_clear_img(t_data *img, int width, int height);
 
 // Mlx Extra
@@ -199,6 +199,8 @@ int		print_error_2(int error, t_map* map);
 void	free_map_struct(t_map *map);
 void	free_2d_array(char **src);
 void	free_visited(int **visited, t_map *map);
+void	free_img(t_game *game, t_data *img);
+void	free_wall_textures(t_game *game);
 
 //map_setter.c
 void	set_elements(t_map *map, char *line);
@@ -206,21 +208,33 @@ void	set_p_orient_angle(t_map *map, char c);
 int		set_p_orient_arr(t_map *map);
 void	set_width_and_height(t_map *map);
 
-//map_checks.c
+//map_checks_0.c
 int		check_map_invalid_chars(t_map *map);
 int		check_map_player_cnt(t_map *map);
-int		is_within_bounds(int x, int y, t_map *map);
+
 int		flood_fill(t_map *map, int **visited, int x, int y);
 int		check_map_borders(t_map *map);
 int		check_map_nl(t_map *map);
+
+//map_checks_1.c
+int		is_within_bounds(int x, int y, t_map *map);
+int		flood_fill(t_map *map, int **visited, int x, int y);
 
 //map.c
 void	parse_map(t_map *map, char **argv);
 void	check_map_requirements(t_map *map);
 
-//utils.c
+//utils_0.c
 char	*trim_leading_spaces(char *str);
+
 char	**copy_array_from_index(char **src_arr, int i);
+int		ft_cntchr(char* str, char c);
+int		is_numeric(char* str);
+
+//utils_1.c
+double	area_triangle(double xy1[2], double xy2[2], double xy3[2]);
+int		is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double p[2]);
+double	ft_distance(int x1, int y1, int x2, int y2);
 
 //test.c
 void	test_print_2D_map_array(char** arr);
@@ -246,8 +260,8 @@ void	set_texture_coordinates(t_game* game, t_ray* ray,int draw_start);
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
 void	render_floor_ceiling(t_game *game);
 
-int		ft_cntchr(char* str, char c);
-int		is_numeric(char* str);
+
+
 int		parse_color_str(char* color_str);
 void	parse_color(t_map* map);
 

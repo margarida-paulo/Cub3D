@@ -6,12 +6,11 @@
 /*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 11:56:28 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:02:41 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
 
 /**
  * @brief Clears an image by setting all pixels to black.
@@ -20,7 +19,7 @@
  * @param width The width of the image.
  * @param height The height of the image.
  */
-void ft_clear_img(t_data *img, int width, int height)
+void	ft_clear_img(t_data *img, int width, int height)
 {
 	int	pos[2];
 
@@ -38,126 +37,6 @@ void ft_clear_img(t_data *img, int width, int height)
 }
 
 
-/**
- * @brief Calculates the area of a triangle given its vertices.
- *
- * @param xy1 The first vertex of the triangle.
- * @param xy2 The second vertex of the triangle.
- * @param xy3 The third vertex of the triangle.
- *
- * @return The area of the triangle.
- */
-double area_triangle(double xy1[2], double xy2[2], double xy3[2])
-{
-	return fabs((xy1[0]*(xy2[1]-xy3[1]) + xy2[0]*(xy3[1]-xy1[1]) + \
-	xy3[0]*(xy1[1]-xy2[1])) / 2.0);
-}
-
-
-/**
- * @brief Checks if a given point is inside a triangle.
- *
- * @param xy1 The first vertex of the triangle.
- * @param xy2 The second vertex of the triangle.
- * @param xy3 The third vertex of the triangle.
- * @param xy The point to check.
- *
- * @return 1 if the point is inside the triangle, 0 otherwise.
- */
-int is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double xy[2])
-{
-	float a = area_triangle(xy1, xy2, xy3);
-	float a1 = area_triangle(xy, xy2, xy3);
-	float a2 = area_triangle(xy1, xy, xy3);
-	float a3 = area_triangle(xy1, xy2, xy);
-	return (round(a) == round(a1 + a2 + a3));
-}
-
-/**
- * @brief Checks if a given point is near a wall.
- * If the point is closer than PLAYER_SIZE/3, it is considered near a wall.
- *
- * @param game The game structure.
- * @param x The x coordinate of the point to check.
- * @param y The y coordinate of the point to check.
- *
- * @return 1 if the point is near a wall, 0 otherwise.
- */
-int	is_near_wall(t_game *game, double x, double y)
-{
-	int	dx;
-	int	dy;
-
-	dx = -PLAYER_SIZE/3;
-	while (dx <= PLAYER_SIZE/3)
-	{
-		dy = -PLAYER_SIZE/3;
-		while (dy <= PLAYER_SIZE/3)
-		{
-			if (sqrt(dx * dx + dy * dy) <= PLAYER_SIZE/3)
-			{
-				if (get_px_color(game->img_list->minimap, x + dx, y + dy) == WALL_CLR)
-					return (1);
-			}
-			dy++;
-		}
-		dx++;
-	}
-	return (0);
-}
-
-/**
- * @brief Handles player movement.
- *
- * This function changes the player's position (game->p_orient[0] and
- * game->p_orient[1]) based on the key press (game->key_press).
- *
- * The move is a function of the game's width and height.
- *
- * @param game The game structure.
- */
-
-void		ft_move(t_game *game)
-{
-	double		n_pos[3];
-	int			m;;
-
-	if (game->key_press == XK_w || game->key_press == XK_a)
-		m = 1;
-	else
-		m = -1;
-	n_pos[0] = game->p_orient[0];
-	n_pos[1] = game->p_orient[1];
-	if (game->key_press == XK_w || game->key_press == XK_s)
-	{
-		n_pos[0] += (game->move_rate * cos(game->p_orient[2]) * m);
-		n_pos[1] += (game->move_rate * sin(game->p_orient[2]) * m);
-	}
-	else if (game->key_press == XK_a || game->key_press == XK_d)
-	{
-		n_pos[0] += (game->move_rate * cos(game->p_orient[2] - M_PI / 2) * m);
-		n_pos[1] += (game->move_rate * sin(game->p_orient[2] - M_PI / 2) * m);
-	}
-	if (!is_near_wall(game, n_pos[0], n_pos[1]))
-	{
-		game->p_orient[0] = n_pos[0];
-		game->p_orient[1] = n_pos[1];
-	}
-}
-
-/**
- * @brief Calculates the Euclidean distance between two points.
- *
- * @param x1 The x coordinate of the first point.
- * @param y1 The y coordinate of the first point.
- * @param x2 The x coordinate of the second point.
- * @param y2 The y coordinate of the second point.
- * @return The Euclidean distance between the two points.
- */
-double	ft_distance(int x1, int y1, int x2, int y2)
-{
-	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-}
 
 /**
  * @brief Draws a background square on the minimap image.
