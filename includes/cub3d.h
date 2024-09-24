@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/23 00:16:33 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:13:01 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ enum game_states {
 #define SENSITVITY 50.0
 #define MINIMAP_WIDTH 200
 #define MINIMAP_HEIGHT 200
-#define HEAD_BOB_AMPLITUDE 5.0
-#define HEAD_BOB_FREQUENCY 0.2
+#define HEAD_BOB_AMPLITUDE 3.0
+#define HEAD_BOB_FREQUENCY 0.35
 
 typedef struct	s_data
 {
@@ -249,13 +249,13 @@ char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
 double	*find_vertical_inter(t_game *game, t_ray *ray);
 double	*find_horizontal_inter(t_game *game, t_ray *ray);
 void	ft_draw_ray(t_game *game, double ray_size, double angle);
-void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff);
+void	ft_ray_init(t_ray *ray, double angle, t_game *game);
 void	cast_rays(t_game *game);
 
 void	load_wall_textures(t_game* game);
 t_data	*load_texture(void *mlx, char *path);
 void	render(t_game *game, t_ray *ray, int x);
-void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end);
+void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw[2]);
 void	set_texture_coordinates(t_game* game, t_ray* ray,int draw_start);
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
 void	render_floor_ceiling(t_game *game);

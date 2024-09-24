@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/23 00:02:41 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:29:46 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos)
 	(void)pos;
 
 	img = malloc(sizeof(t_data));
-	img->img = mlx_new_image(game->mlx, game->width, game->height);
+	img->img = mlx_new_image(game->mlx, bottom->width, bottom->height);
 	img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
 	y = 0;
 	while (y < bottom->height)
