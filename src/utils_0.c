@@ -12,25 +12,6 @@
 
 #include "../includes/cub3d.h"
 
-char *pad_string(char *str, size_t max_len)
-{
-	char	*new_str;
-	size_t	i;
-	size_t	len;
-
-	len = ft_strlen(str);
-	new_str = malloc(sizeof(char) * (max_len + 1));
-	i = 0;
-	while (str[i])
-	{
-		new_str[i] = str[i];
-		i++;
-	}
-	while (i <= max_len)
-		new_str[i++] = ' ';
-	new_str[i] = '\0';
-	return (new_str);
-}
 
 size_t	get_max_len_in_array(char **arr)
 {
@@ -48,6 +29,31 @@ size_t	get_max_len_in_array(char **arr)
 	return (max_len);
 }
 
+
+char *pad_string(char *str, size_t max_len)
+{
+	char	*new_str;
+	size_t	i;
+	size_t	len;
+
+	len = ft_strlen(str);
+	new_str = malloc(sizeof(char) * (max_len + 1));
+    if (!new_str)
+        return NULL; // Handle malloc failure
+    i = 0;
+    while (i < len)
+    {
+        new_str[i] = str[i];
+        i++;
+    }
+    while (i < max_len)
+    {
+        new_str[i] = ' ';
+        i++;
+    }
+	new_str[i] = '\0';
+	return (new_str);
+}
 char** normalize_array(char **arr)
 {
 	int		i;
@@ -63,6 +69,7 @@ char** normalize_array(char **arr)
 		i++;
 	}
 	new_arr[i] = NULL;
+	free_2d_array(arr);
 	return (new_arr);
 
 }
