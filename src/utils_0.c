@@ -12,6 +12,26 @@
 
 #include "../includes/cub3d.h"
 
+char *pad_string(char *str, size_t max_len)
+{
+	char	*new_str;
+	size_t	i;
+	size_t	len;
+
+	len = ft_strlen(str);
+	new_str = malloc(sizeof(char) * (max_len + 1));
+	i = 0;
+	while (str[i])
+	{
+		new_str[i] = str[i];
+		i++;
+	}
+	while (i <= max_len)
+		new_str[i++] = ' ';
+	new_str[i] = '\0';
+	return (new_str);
+}
+
 size_t	get_max_len_in_array(char **arr)
 {
 	int	i;
@@ -28,13 +48,24 @@ size_t	get_max_len_in_array(char **arr)
 	return (max_len);
 }
 
-// char** normalize_array(char **arr)
-// {
-// 	int		i;
-// 	size_t	max_len;
-// 	char	**new_arr;
+char** normalize_array(char **arr)
+{
+	int		i;
+	size_t	max_len;
+	char	**new_arr;
 
-// }
+	i = 0;
+	max_len = get_max_len_in_array(arr);
+	new_arr = malloc (sizeof(char *) * (ft_arrlen(arr) + 1));
+	while (arr[i])
+	{
+		new_arr[i] = pad_string(arr[i], max_len);
+		i++;
+	}
+	new_arr[i] = NULL;
+	return (new_arr);
+
+}
 
 /**
  * Copies an array of strings starting from a given index.
@@ -65,7 +96,7 @@ char	**copy_array_from_index(char **src_arr, int i)
 		i++;
 	}
 	dest_arr[j] = NULL;
-	// dest_arr = normalize_array(dest_arr);
+	dest_arr = normalize_array(dest_arr);
 	return (dest_arr);
 }
 
