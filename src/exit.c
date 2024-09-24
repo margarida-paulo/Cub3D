@@ -3,17 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:32 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/23 00:16:28 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:07:57 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-
-
+/**
+ * @brief Frees all the resources used by the game and exits with status 0.
+ *
+ * It destroys the following t_data* images:
+ * minimap, player, current_screen, screen, cropped_minimap, cropped_minimap
+ * It also runs free_wall_textures() and free_map_struct() to free each of the
+ * resources respectively. It also destroys the window and display via mlx
+ * finally it frees the pointers and exits with status 0.
+ * @param game the game struct containing all the resources
+ * @return 0
+ */
 int	exit_program(t_game *game)
 {
 	free_img(game, game->img_list->minimap);

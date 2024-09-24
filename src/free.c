@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:05:40 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/23 00:16:36 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:20:38 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 /**
- * Frees a 2d array. used to free an array of strings.
+ * @brief Frees a 2d array.
+ *
+ * It is used to free an array of strings.
  * @param src The array of strings to be freed.
  * @return void
 */
@@ -31,7 +33,8 @@ void	free_2d_array(char **src)
 }
 
 /**
- * Frees the map struct.
+ * @brief Frees the map struct.
+ *
  * @param map The map struct to be freed.
  * @return void
 */
@@ -47,7 +50,8 @@ void	free_map_struct(t_map *map)
 }
 
 /**
- * Frees the visited array used in the floodfill algorithm.
+ * @brief Frees the visited array used in the floodfill algorithm.
+ *
  * @param visited The 2d array to be freed.
  * @param map The map struct.
  * @return void
@@ -65,6 +69,17 @@ void	free_visited(int **visited, t_map *map)
 	free(visited);
 }
 
+/**
+ * @brief Frees an image.
+ *
+ * It takes a pointer to a t_game struct and a pointer to a t_data struct.
+ * It first checks if the image is not NULL, then calls mlx_destroy_image to
+ * free the mlx image, and finally frees the t_data struct.
+ *
+ * @param game the pointer to the t_game struct
+ * @param img the pointer to the t_data struct to be freed
+ * @return void
+*/
 void	free_img(t_game *game, t_data *img)
 {
 	if (img != NULL)
@@ -74,6 +89,14 @@ void	free_img(t_game *game, t_data *img)
 	}
 }
 
+/**
+ * @brief Frees the wall textures.
+ *
+ * It takes a pointer to a t_game struct and frees the four wall textures.
+ *
+ * @param game the pointer to the t_game struct
+ * @return void
+*/
 void	free_wall_textures(t_game *game)
 {
 	free_img(game, game->img_list->wall[NO]);

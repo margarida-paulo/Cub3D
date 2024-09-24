@@ -3,18 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/08/25 17:57:16 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:59:42 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+/**
+ * @brief Prints an error message depending on the error code and exits
+ *
+ * The error messages are color-coded and the program exits with
+ * the given error code. This function does not free any allocated memory.
+ * @param error The error code.
+ * @param str The string to be printed in the error message
+ * @return The error code.
+ */
 int	print_error_0(int error, char *str)
 {
-
 	if (error == INVALID_ARG_CNT)
 	{
 		ft_putstr_fd("\033[0;31mError:\nInvalid number of arguments!\n", 2);
@@ -38,7 +46,16 @@ int	print_error_0(int error, char *str)
 	return (error);
 }
 
-int	print_error_1(int error, t_map* map)
+/**
+ * @brief Prints an error message depending on the error code and exits
+ *
+ * The error messages are color-coded and the program exits with
+ * the given error code. This function frees the map struct.
+ * @param error The error code.
+ * @param map The map struct.
+ * @return The error code.
+ */
+int	print_error_1(int error, t_map *map)
 {
 	free_map_struct(map);
 	if (error == MISSING_ELEMENTS)
@@ -67,7 +84,16 @@ int	print_error_1(int error, t_map* map)
 	return (error);
 }
 
-int	print_error_2(int error, t_map* map)
+/**
+ * @brief Prints an error message depending on the error code and exits
+ *
+ * The error messages are color-coded and the program exits with
+ * the given error code. This function frees the map struct.
+ * @param error The error code.
+ * @param map The map struct.
+ * @return The error code.
+ */
+int	print_error_2(int error, t_map *map)
 {
 	free_map_struct(map);
 	if (error == INVALID_BORDERS)
@@ -82,8 +108,5 @@ int	print_error_2(int error, t_map* map)
 		ft_putstr_fd("\n\033[0m", 2);
 		exit(error);
 	}
-	return(error);
+	return (error);
 }
-
-
-
