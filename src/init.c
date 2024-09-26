@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/26 13:56:14 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:08:09 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	**init_visited_arr(t_map *map)
  */
 void	minilibx_init_helper(t_game *game)
 {
-	game->fov = FOV;
+	game->fov = FOV / 3;
 	game->state = STATE_MENU;
 	game->img_list->cropped_minimap = NULL;
 	game->img_list->minimap = NULL;

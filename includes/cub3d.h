@@ -6,20 +6,20 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/26 13:48:12 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:08:58 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include "../mlx_linux/mlx.h"
-#include "../libft/libft.h"
-#include "keysymdef.h"
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include "../mlx_linux/mlx.h"
+# include "../libft/libft.h"
+# include "keysymdef.h"
 
 //Color codes for ft_printf
 # define DEFAULT "\033[0m"
@@ -33,7 +33,8 @@
 
 # define VALID_CHARS "01NSWE \n"
 
-enum exit_codes {
+enum e_exit_codes
+{
 	INVALID_ARG_CNT = 1,
 	INVALID_EXTENTION,
 	CAN_NOT_OPEN,
@@ -48,45 +49,45 @@ enum exit_codes {
 	NEWLINES_IN_MAP,
 };
 
-#define HORIZONTAL 0
-#define VERTICAL 1
+# define HORIZONTAL 0
+# define VERTICAL 1
 
-enum wall_types {
+enum e_wall_types
+{
 	NO = 0,
 	SO = 1,
 	WE = 2,
 	EA = 3
 };
 
-enum game_states {
+enum e_game_states
+{
 	STATE_MENU,
 	STATE_PLAYING
 };
 
-#define MAP_PX 30
-#define PLAYER_CLR 0x00FFC0CB
-#define WALL_CLR 0x00FFFFFF
-#define MINI_FLOOR_CLR 0x00333333
+# define MAP_PX 30
+# define PLAYER_CLR 0x00FFC0CB
+# define WALL_CLR 0x00FFFFFF
+# define MINI_FLOOR_CLR 0x00333333
+# define PLAYER_X 2
+# define PLAYER_Y 2
+# define GRID_SIZE 50
+# define PLAYER_RAY 10
+# define PLAYER_SIZE 30
+# define FOV M_PI
+# define HEIGHT 300
+# define WIDTH 300
+# define WIN_HEIGHT 600
+# define WIN_WIDTH 800
+# define MOVE_SPEED 10
+# define SENSITVITY 50.0
+# define MINIMAP_WIDTH 200
+# define MINIMAP_HEIGHT 200
+# define HEAD_BOB_AMPLITUDE 5.0
+# define HEAD_BOB_FREQUENCY 0.2
 
-
-#define PLAYER_X 2
-#define PLAYER_Y 2
-#define GRID_SIZE 50
-#define PLAYER_RAY 10
-#define PLAYER_SIZE 30
-#define FOV M_PI / 3
-#define HEIGHT 300
-#define WIDTH 300
-#define WIN_HEIGHT 600
-#define WIN_WIDTH 800
-#define MOVE_SPEED 10
-#define SENSITVITY 50.0
-#define MINIMAP_WIDTH 200
-#define MINIMAP_HEIGHT 200
-#define HEAD_BOB_AMPLITUDE 5.0
-#define HEAD_BOB_FREQUENCY 0.2
-
-typedef struct	s_data
+typedef struct s_data
 {
 	void	*img;
 	char	*addr;
@@ -106,19 +107,19 @@ typedef struct s_pics
 	t_data	*cropped_minimap;
 }				t_pics;
 
-typedef struct s_game t_game;
+typedef struct s_game	t_game;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	t_game	*game;
 	int		map_start; //the starting index of the map in the .cub file
-	char**	map_array;
-	char*	no_texture; //./path_to_the_north_texture
-	char*	so_texture; //./path_to_the_south_texture
-	char*	we_texture; //./path_to_the_west_texture
-	char*	ea_texture; //./path_to_the_east_texture
-	char*	f_color; //∗ Floor color: F 220,100,0
-	char*	c_color; //* Ceiling color: C 225,30,0
+	char	**map_array;
+	char	*no_texture; //./path_to_the_north_texture
+	char	*so_texture; //./path_to_the_south_texture
+	char	*we_texture; //./path_to_the_west_texture
+	char	*ea_texture; //./path_to_the_east_texture
+	char	*f_color; //∗ Floor color: F 220,100,0
+	char	*c_color; //* Ceiling color: C 225,30,0
 	int		f_color_val;
 	int		c_color_val;
 }	t_map;
@@ -138,14 +139,14 @@ typedef struct s_ray
 	int		line_height;
 	int		tex_x;
 	double	tex_pos;
-} t_ray;
+}	t_ray;
 
 // fov = Field of Vision IN RADIANS
 typedef struct s_game
 {
 	void	*mlx;
 	void	*mlx_win;
-	int 	height;
+	int		height;
 	int		width;
 	double	p_orient[3];
 	t_pics	*img_list;
@@ -165,16 +166,16 @@ typedef struct s_game
 	double	v3[2];
 	int		p_center[2];
 	t_ray	ray;
-} t_game;
+}	t_game;
 
 // Exit
-int	exit_program(t_game *game);
+int		exit_program(t_game *game);
 
 // Key Press
 void	ft_render_screen(t_game *game);
-int	ft_key_press(int key_code, t_game *game);
-int	ft_key_release(int key_code, t_game *game);
-int	ft_rotate(t_game *game);
+int		ft_key_press(int key_code, t_game *game);
+int		ft_key_release(int key_code, t_game *game);
+int		ft_rotate(t_game *game);
 
 // Init
 t_data	*init_img(t_game *game, int width, int height);
@@ -183,9 +184,10 @@ int		**init_visited_arr(t_map *map);
 
 // Mini Map
 void	ft_build_player(t_game *game);
-void		ft_move(t_game *pms);
+void	ft_move(t_game *pms);
 void	ft_build_minimap(t_game *game);
-t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos);
+t_data	*ft_merge_images(t_game *game, t_data *bottom, \
+t_data *top, double *pos);
 
 void	ft_clear_img(t_data *img, int width, int height);
 void	ft_set_player_info(t_game *game);
@@ -201,8 +203,8 @@ char	**get_cub_file_arr(char **argv);
 //error.c
 int		print_error_0(int error, char *str);
 int		print_error_1(int error, t_map *map);
-int		print_error_2(int error, t_map* map);
-int		print_error_3(int error, t_map* map);
+int		print_error_2(int error, t_map *map);
+int		print_error_3(int error, t_map *map);
 int		print_error_4(int error, t_map *map);
 
 //free.c
@@ -238,20 +240,21 @@ void	check_map_requirements(t_map *map);
 char	*trim_leading_spaces(char *str);
 
 char	**copy_array_from_index(char **src_arr, int i);
-int		ft_cntchr(char* str, char c);
-int		is_numeric(char* str);
+int		ft_cntchr(char *str, char c);
+int		is_numeric(char *str);
 
 //utils_1.c
 double	area_triangle(double xy1[2], double xy2[2], double xy3[2]);
-int		is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double p[2]);
+int		is_inside_triangle(double xy1[2], \
+double xy2[2], double xy3[2], double p[2]);
 double	ft_distance(int x1, int y1, int x2, int y2);
 
 //test.c
-void	test_print_2d_map_array(char** arr);
+void	test_print_2d_map_array(char **arr);
 void	test_print_map_struct_data(t_map *map);
 
 //raycasting_utils.c
-int	get_px_color(t_data *img, int x, int y);
+int		get_px_color(t_data *img, int x, int y);
 char	is_inside_map_ver(t_game *game, t_ray *ray, int x_n, int y_n);
 char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
 
@@ -262,17 +265,18 @@ void	ft_draw_ray(t_game *game, double ray_size, double angle);
 void	ft_ray_init(t_ray *ray, double angle, t_game *game);
 void	cast_rays(t_game *game);
 
-void	load_wall_textures(t_game* game);
+void	load_wall_textures(t_game *game);
 t_data	*load_texture(t_game *game, char *path);
 void	render(t_game *game, t_ray *ray, int x);
-void	draw_wall_slice(t_game* game, int x, int draw_start, int draw_end);
-void	set_texture_coordinates(t_game* game, t_ray* ray,int draw_start);
-void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
+void	draw_wall_slice(t_game *game, int x, int draw_start, int draw_end);
+void	set_texture_coordinates(t_game *game, t_ray *ray, int draw_start);
+void	calculate_wall_height(t_game *game, t_ray *ray, \
+		int *draw_start, int *draw_end);
 void	render_floor_ceiling(t_game *game);
 void	ft_set_wall_type(t_ray *ray);
 
-int		parse_color_str(char* color_str);
-void	parse_color(t_map* map);
+int		parse_color_str(char *color_str);
+void	parse_color(t_map *map);
 
 void	crop_minimap_around_player(t_game *game);
 void	ft_init_cropped_minimap(t_game *game);
