@@ -107,10 +107,8 @@ char	**copy_array_from_index(char **src_arr, int i)
 	char	**dest_arr;
 	size_t	len;
 	int		j;
-	size_t	arr_len;
 
 	j = 0;
-	arr_len = ft_arrlen(src_arr);
 	dest_arr = malloc (sizeof(char *) * ((ft_arrlen(src_arr) - i + 1)));
 	while (src_arr[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/24 15:04:43 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/25 20:26:44 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,34 @@ void	ft_build_player(t_game *game)
 	}
 }
 
+
+void	copy_non_zero_pixels(t_data *src, t_data *dst, int x_offset, int y_offset)
+{
+	int				xy[2];
+	unsigned int	*src_pixel;
+	unsigned int	*dst_pixel;
+
+	xy[1] = 0;
+	while (xy[1] < src->height)
+	{
+		xy[0] = 0;
+		while (xy[0] < src->width)
+		{
+			src_pixel = (unsigned int *)(src->addr + xy[1] * src->line_length + \
+			xy[0] * src->bits_per_pixel / 8);
+			if (*src_pixel != 0)
+			{
+				dst_pixel = (unsigned int *)(dst->addr + \
+				(xy[1] + y_offset) * dst->line_length + \
+				(xy[0] + x_offset) * dst->bits_per_pixel / 8);
+				*dst_pixel = *src_pixel;
+			}
+			xy[0]++;
+		}
+		xy[1]++;
+	}
+}
+
 /**
  * @brief Merges two images together.
  *
@@ -206,78 +234,9 @@ void	ft_build_player(t_game *game)
 t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos)
 {
 	t_data	*img;
-	int		x;
-	int		y;
-	(void)top;
-	(void)pos;
 
-	img = malloc(sizeof(t_data));
-	img->img = mlx_new_image(game->mlx, bottom->width, bottom->height);
-	img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
-	y = 0;
-	while (y < bottom->height)
-	{
-		x = 0;
-		while (x < bottom->width)
-		{
-			if (*(unsigned int *)(bottom->addr + y * bottom->line_length + x * bottom->bits_per_pixel / 8) != 0)
-				*(unsigned int *)(img->addr + y * img->line_length + x * img->bits_per_pixel / 8) = *(unsigned int *)(bottom->addr + y * bottom->line_length + x * bottom->bits_per_pixel / 8);
-			x++;
-		}
-		y++;
-	}
-
-	y = 0;
-	while (y < top->height)
-	{
-		x = 0;
-		while (x < top->width)
-		{
-			if (*(unsigned int *)(top->addr + y * top->line_length + x * top->bits_per_pixel / 8) != 0)
-				*(unsigned int *)(img->addr + (y + (int)pos[1]) * img->line_length + (x + (int)pos[0]) * img->bits_per_pixel / 8) = *(unsigned int *)(top->addr + y * top->line_length + x * top->bits_per_pixel / 8);
-			x++;
-		}
-		y++;
-	}
+	img = init_img(game, bottom->width, bottom->height);
+	copy_non_zero_pixels(bottom, img, 0, 0);
+	copy_non_zero_pixels(top, img, (int)pos[0], (int)pos[1]);
 	return (img);
 }
-
-
-// t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos)
-// {
-// 	t_data	*img;
-// 	int		x;
-// 	int		y;
-// 	(void)top;
-// 	(void)pos;
-
-// 	img = malloc(sizeof(t_data));
-// 	img->img = mlx_new_image(game->mlx, game->width, game->height);
-// 	img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), &(img->line_length), &(img->endian));
-// 	y = 0;
-// 	while (y < bottom->height)
-// 	{
-// 		x = 0;
-// 		while (x < bottom->width)
-// 		{
-// 			if (*(unsigned int *)(bottom->addr + y * bottom->line_length + x * bottom->bits_per_pixel / 8) != 0)
-// 				*(unsigned int *)(img->addr + y * img->line_length + x * img->bits_per_pixel / 8) = *(unsigned int *)(bottom->addr + y * bottom->line_length + x * bottom->bits_per_pixel / 8);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-
-// 	y = 0;
-// 	while (y < top->height)
-// 	{
-// 		x = 0;
-// 		while (x < top->width)
-// 		{
-// 			if (*(unsigned int *)(top->addr + y * top->line_length + x * top->bits_per_pixel / 8) != 0)
-// 				*(unsigned int *)(img->addr + (y + (int)pos[1]) * img->line_length + (x + (int)pos[0]) * img->bits_per_pixel / 8) = *(unsigned int *)(top->addr + y * top->line_length + x * top->bits_per_pixel / 8);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	return (img);
-// }

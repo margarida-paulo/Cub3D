@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/24 14:13:02 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:49:21 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	print_error_2(int error, t_map *map)
 	}
 	if (error == CAN_NOT_OPEN_TEXTURE)
 	{
-		ft_putstr_fd("\033[0;31mError:\nCan not open texture files\n\033[0m", 2);
+		ft_putstr_fd("\033[0;31mError:\nCan't open texture files\n\033[0m", 2);
 		exit(error);
 	}
 	if (error == CAN_NOT_MALLOC_TEXTURE)
@@ -127,7 +127,7 @@ int	print_error_3(int error, t_map *map)
 	free_map_struct(map);
 	if (error == MLX_XPM_TO_IMG_FAIL)
 	{
-		ft_putstr_fd("\033[0;31mError:\nCan not convert xpm to img\n\033[0m", 2);
+		ft_putstr_fd("\033[0;31mError:\nConverting xpm to img\n\033[0m", 2);
 		exit(error);
 	}
 	return (error);

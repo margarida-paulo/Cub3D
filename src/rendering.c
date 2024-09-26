@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:34:44 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/24 15:04:03 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/25 20:10:54 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,28 @@
  */
 void	ft_render_screen(t_game *game)
 {
+	t_data *temp;
+	double	minimap_pos[2];
+	minimap_pos[0] = 10;
+	minimap_pos[1] = 10;
 	ft_clear_img(game->img_list->screen, WIN_WIDTH, WIN_HEIGHT);
-	ft_clear_img(game->img_list->cropped_minimap, MINIMAP_WIDTH, \
-	MINIMAP_HEIGHT);
+	ft_clear_img(game->img_list->cropped_minimap, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 	ft_build_minimap(game);
 	ft_build_player(game);
 	mlx_destroy_image(game->mlx, game->current_screen->img);
 	free(game->current_screen);
-	game->current_screen = ft_merge_images(game, game->img_list->minimap, \
-	game->img_list->player, game->origin);
-	mlx_put_image_to_window(game->mlx, game->game_window, \
-	game->img_list->screen->img, 0, 0);
+	game->current_screen = ft_merge_images(game, game->img_list->minimap, game->img_list->player, game->origin);
 	crop_minimap_around_player(game);
-	mlx_put_image_to_window(game->mlx, game->game_window, \
-	game->img_list->cropped_minimap->img, 10, 10);
+	temp = game->current_screen;
+	game->current_screen = ft_merge_images(game, game->img_list->screen,\
+	 game->img_list->cropped_minimap, minimap_pos);
+	free_img(game, temp);
+	mlx_put_image_to_window(game->mlx, game->game_window,\
+	game->current_screen->img, 0, 0);
 	mlx_do_sync(game->mlx);
 }
+
+
 
 // void	ft_render_screen(t_game *game)
 // {
