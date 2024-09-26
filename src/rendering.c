@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:34:44 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/26 11:39:36 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:25:30 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,64 @@ void	render_menu(t_game *game)
 	}
 	else if (game->key_press == XK_2)
 		exit_program(game);
+}
+
+void	render(t_game *game, t_ray *ray, int x)
+{
+	int	draw_start;
+	int	draw_end;
+
+	calculate_wall_height(game, ray, &draw_start, &draw_end);
+	set_texture_coordinates(game, ray, draw_start);
+	draw_wall_slice(game, x, draw_start, draw_end);
+}
+
+void	draw_wall_slice(t_game *game, int x, int draw_start, int draw_end)
+{
+	int		y;
+	int		tex_y;
+	int		color;
+	double	step;
+	double	tex_pos;
+
+	step = 1.0 * game->img_list->wall[game->ray.wall_type]->height \
+	/ game->ray.line_height;
+	tex_pos = game->ray.tex_pos;
+	y = draw_start;
+	while (y < draw_end)
+	{
+		tex_y = (int)tex_pos;
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= game->img_list->wall[game->ray.wall_type]->height)
+			tex_y = game->img_list->wall[game->ray.wall_type]->height - 1;
+		tex_pos += step;
+		color = get_px_color(game->img_list->wall[game->ray.wall_type], \
+		game->ray.tex_x, tex_y);
+		mlx_px(game->img_list->screen, x, y, color);
+		y++;
+	}
+}
+
+void	render_floor_ceiling(t_game *game)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	while (x < WIN_WIDTH)
+	{
+		y = 0;
+		while (y < WIN_HEIGHT / 2)
+		{
+			mlx_px(game->img_list->screen, x, y, game->map.c_color_val);
+			y++;
+		}
+		while (y < WIN_HEIGHT)
+		{
+			mlx_px(game->img_list->screen, x, y, game->map.f_color_val);
+			y++;
+		}
+		x++;
+	}
 }

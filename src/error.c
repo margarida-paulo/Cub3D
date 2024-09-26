@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/25 19:49:21 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:49:29 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,6 @@ int	print_error_2(int error, t_map *map)
 		ft_putstr_fd("\n\033[0m", 2);
 		exit(error);
 	}
-	if (error == CAN_NOT_OPEN_TEXTURE)
-	{
-		ft_putstr_fd("\033[0;31mError:\nCan't open texture files\n\033[0m", 2);
-		exit(error);
-	}
-	if (error == CAN_NOT_MALLOC_TEXTURE)
-	{
-		ft_putstr_fd("\033[0;31mError:\nCan not allocate memory for", 2);
-		ft_putstr_fd(" texture\n\033[0m", 2);
-		exit(error);
-	}
 	return (error);
 }
 
@@ -129,6 +118,22 @@ int	print_error_3(int error, t_map *map)
 	{
 		ft_putstr_fd("\033[0;31mError:\nConverting xpm to img\n\033[0m", 2);
 		exit(error);
+	}
+	return (error);
+}
+
+int	print_error_4(int error, t_map *map)
+{
+	if (error == CAN_NOT_OPEN_TEXTURE)
+	{
+		ft_putstr_fd("\033[0;31mError:\nCan't open texture files\n\033[0m", 2);
+		exit_program(map->game);
+	}
+	if (error == CAN_NOT_MALLOC_TEXTURE)
+	{
+		ft_putstr_fd("\033[0;31mError:\nCan not allocate memory for", 2);
+		ft_putstr_fd(" texture\n\033[0m", 2);
+		exit_program(map->game);
 	}
 	return (error);
 }

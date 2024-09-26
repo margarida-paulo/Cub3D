@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/24 14:30:50 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:56:14 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	minilibx_init(t_game *game)
 	game->mlx = mlx_init();
 	game->game_window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, \
 	"IKEA simulator");
-	game->img_list = malloc(sizeof(t_pics));
+	game->img_list = ft_calloc(sizeof(t_pics), 1);
 	minilibx_init_helper(game);
 	game->img_list->cropped_minimap = init_img(game, MINIMAP_WIDTH, \
 	MINIMAP_HEIGHT);

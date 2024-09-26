@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:37:00 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/26 11:40:21 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:26:14 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ void	test_print_map_struct_data(t_map *map)
 	ft_printf("map width: %d map height: %d\n", map->game->width, \
 	map->game->height);
 	ft_printf("The map is: \n");
-	test_print_2D_map_array(map->map_array);
+	test_print_2d_map_array(map->map_array);
 }

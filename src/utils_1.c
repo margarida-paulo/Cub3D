@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 00:02:06 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/23 00:02:44 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:19:56 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,34 @@ int	is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double p[2])
 double	ft_distance(int x1, int y1, int x2, int y2)
 {
 	return (sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
+}
+
+int	ft_cntchr(char *str, char c)
+{
+	int	cnt;
+	int	i;
+
+	cnt = 0;
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == c)
+			cnt++;
+		i++;
+	}
+	return (cnt);
+}
+
+int	is_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

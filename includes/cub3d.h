@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/26 11:33:27 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:48:12 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	ft_build_minimap(t_game *game);
 t_data	*ft_merge_images(t_game *game, t_data *bottom, t_data *top, double *pos);
 
 void	ft_clear_img(t_data *img, int width, int height);
+void	ft_set_player_info(t_game *game);
 
 // Mlx Extra
 void	mlx_px(t_data *img, int x, int y, int color);
@@ -202,6 +203,7 @@ int		print_error_0(int error, char *str);
 int		print_error_1(int error, t_map *map);
 int		print_error_2(int error, t_map* map);
 int		print_error_3(int error, t_map* map);
+int		print_error_4(int error, t_map *map);
 
 //free.c
 void	free_map_struct(t_map *map);
@@ -245,7 +247,7 @@ int		is_inside_triangle(double xy1[2], double xy2[2], double xy3[2], double p[2]
 double	ft_distance(int x1, int y1, int x2, int y2);
 
 //test.c
-void	test_print_2D_map_array(char** arr);
+void	test_print_2d_map_array(char** arr);
 void	test_print_map_struct_data(t_map *map);
 
 //raycasting_utils.c
@@ -267,13 +269,12 @@ void	draw_wall_slice(t_game* game, int x, int draw_start, int draw_end);
 void	set_texture_coordinates(t_game* game, t_ray* ray,int draw_start);
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
 void	render_floor_ceiling(t_game *game);
-
-
+void	ft_set_wall_type(t_ray *ray);
 
 int		parse_color_str(char* color_str);
 void	parse_color(t_map* map);
 
-void crop_minimap_around_player(t_game *game);
+void	crop_minimap_around_player(t_game *game);
 void	ft_init_cropped_minimap(t_game *game);
 
 void	update_head_bob(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 20:35:47 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/26 11:44:04 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:20:11 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,34 +139,4 @@ char	*trim_leading_spaces(char *str)
 	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	return (&str[i]);
-}
-
-int	ft_cntchr(char *str, char c)
-{
-	int	cnt;
-	int	i;
-
-	cnt = 0;
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == c)
-			cnt++;
-		i++;
-	}
-	return (cnt);
-}
-
-int	is_numeric(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
 }
