@@ -6,7 +6,7 @@
 /*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:22:58 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/17 09:51:39 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:16:34 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  */
 int	get_px_color(t_data *img, int x, int y)
 {
-	int color;
+	int	color;
 
 	color = *(int *)(img->addr + (y * img->line_length + \
 	x * (img->bits_per_pixel / 8)));
@@ -51,5 +51,3 @@ char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n)
 	&& get_px_color(game->img_list->minimap, x_n, \
 	y_n + ray->multiplier_y) != WALL_CLR);
 }
-
-

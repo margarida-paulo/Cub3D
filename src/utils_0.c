@@ -1,12 +1,12 @@
-//utils.c/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_0.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 20:35:47 by plashkar          #+#    #+#             */
-/*   Updated: 2024/08/21 17:05:55 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:44:04 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
  */
 size_t	get_max_len_in_array(char **arr)
 {
-	int	i;
-	size_t max_len;
+	int		i;
+	size_t	max_len;
 
 	i = 0;
 	max_len = 0;
@@ -43,7 +43,7 @@ size_t	get_max_len_in_array(char **arr)
  * @return A newly allocated string with the same contents as str, but with
  * length max_len.
  */
-char *pad_string(char *str, size_t max_len)
+char	*pad_string(char *str, size_t max_len)
 {
 	char	*new_str;
 	size_t	i;
@@ -52,7 +52,7 @@ char *pad_string(char *str, size_t max_len)
 	len = ft_strlen(str);
 	new_str = malloc(sizeof(char) * (max_len + 1));
 	if (!new_str)
-		return NULL; // Handle malloc failure
+		return (NULL);
 	i = 0;
 	while (i < len)
 	{
@@ -76,7 +76,7 @@ char *pad_string(char *str, size_t max_len)
  * @return A new array of strings with the same contents as arr, but with
  * each string padded to the maximum length in the array.
  */
-char** normalize_array(char **arr)
+char	**normalize_array(char **arr)
 {
 	int		i;
 	size_t	max_len;
@@ -93,7 +93,6 @@ char** normalize_array(char **arr)
 	new_arr[i] = NULL;
 	free_2d_array(arr);
 	return (new_arr);
-
 }
 
 /**
@@ -132,7 +131,7 @@ char	**copy_array_from_index(char **src_arr, int i)
  * @param str The input string to be trimmed.
  * @return A pointer to the first non-space and non-tab character in the string.
  */
-char *trim_leading_spaces(char *str)
+char	*trim_leading_spaces(char *str)
 {
 	int	i;
 
@@ -142,7 +141,7 @@ char *trim_leading_spaces(char *str)
 	return (&str[i]);
 }
 
-int	ft_cntchr(char* str, char c)
+int	ft_cntchr(char *str, char c)
 {
 	int	cnt;
 	int	i;
@@ -158,12 +157,12 @@ int	ft_cntchr(char* str, char c)
 	return (cnt);
 }
 
-int	is_numeric(char* str)
+int	is_numeric(char *str)
 {
 	int	i;
 
 	i = 0;
-	while(str && str[i])
+	while (str && str[i])
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
@@ -171,5 +170,3 @@ int	is_numeric(char* str)
 	}
 	return (1);
 }
-
-

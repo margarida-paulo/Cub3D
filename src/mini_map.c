@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 19:44:41 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/25 20:26:44 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:14:16 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	ft_clear_img(t_data *img, int width, int height)
 	}
 }
 
-
-
 /**
  * @brief Draws a background square on the minimap image.
  *
@@ -62,12 +60,17 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 		temp_curr_x = curr_x;
 		while (temp_curr_x <= curr_x + GRID_SIZE)
 		{
-			if(game->map.map_array[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == '1')
-				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, WALL_CLR);
-			else if(game->map.map_array[curr_y / GRID_SIZE][curr_x / GRID_SIZE] == ' ')
-				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, 0x00000000);
+			if (game->map.map_array[curr_y / GRID_SIZE] \
+			[curr_x / GRID_SIZE] == '1')
+				mlx_px(game->img_list->minimap, temp_curr_x, \
+				temp_curr_y, WALL_CLR);
+			else if (game->map.map_array[curr_y / \
+			GRID_SIZE][curr_x / GRID_SIZE] == ' ')
+				mlx_px(game->img_list->minimap, temp_curr_x, \
+				temp_curr_y, 0x00000000);
 			else
-				mlx_px(game->img_list->minimap, temp_curr_x, temp_curr_y, MINI_FLOOR_CLR);
+				mlx_px(game->img_list->minimap, temp_curr_x, \
+				temp_curr_y, MINI_FLOOR_CLR);
 			temp_curr_x++;
 		}
 		temp_curr_y++;
@@ -76,9 +79,9 @@ void	ft_bckg_square(t_game *game, int curr_x, int curr_y)
 
 void	crop_minimap_around_player(t_game *game)
 {
-	int	xy[2]; // int x and int y
-	int	src_xy[2]; // src_x and src_y
-	int color;
+	int	xy[2];
+	int	src_xy[2];
+	int	color;
 
 	xy[1] = 0;
 	while (xy[1] < MINIMAP_HEIGHT)
@@ -88,11 +91,12 @@ void	crop_minimap_around_player(t_game *game)
 		{
 			src_xy[0] = (int)game->p_orient[0] - MINIMAP_WIDTH / 2 + xy[0];
 			src_xy[1] = (int)game->p_orient[1] - MINIMAP_HEIGHT / 2 + xy[1];
-			if (src_xy[0] >= 0 && src_xy[0] < game->img_list->minimap->width &&
+			if (src_xy[0] >= 0 && src_xy[0] < game->img_list->minimap->width && \
 				src_xy[1] >= 0 && src_xy[1] < game->img_list->minimap->height)
-				color = get_px_color(game->current_screen, src_xy[0], src_xy[1]);
+				color = get_px_color(game->current_screen, src_xy[0], \
+				src_xy[1]);
 			else
-				color = 0x000000; // Out of bounds
+				color = 0x000000;
 			mlx_px(game->img_list->cropped_minimap, xy[0], xy[1], color);
 			xy[0]++;
 		}
@@ -121,8 +125,8 @@ void	ft_build_minimap(t_game *game)
 	{
 		img = malloc(sizeof(t_data));
 		img->img = mlx_new_image(game->mlx, game->width, game->height);
-		img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel),\
-		 &(img->line_length), &(img->endian));
+		img->addr = mlx_get_data_addr(img->img, &(img->bits_per_pixel), \
+		&(img->line_length), &(img->endian));
 		img->width = game->width;
 		img->height = game->height;
 		game->img_list->minimap = img;
@@ -140,6 +144,22 @@ void	ft_build_minimap(t_game *game)
 	}
 }
 
+void	ft_set_player_info(t_game *game)
+{
+	game->p_center[0] = (int)game->p_orient[0];
+	game->p_center[1] = (int)game->p_orient[1];
+	game->v1[0] = game->p_center[0] + (PLAYER_RAY * cos(game->p_orient[2]));
+	game->v1[1] = game->p_center[1] + (PLAYER_RAY * sin(game->p_orient[2]));
+	game->v2[0] = game->p_center[0] + (PLAYER_RAY * cos(game->p_orient[2] - \
+	(2 * M_PI / 2.5)));
+	game->v2[1] = game->p_center[1] + (PLAYER_RAY * sin(game->p_orient[2] - \
+	(2 * M_PI / 2.5)));
+	game->v3[0] = game->p_center[0] + (PLAYER_RAY * cos(game->p_orient[2] + \
+	(2 * M_PI / 2.5)));
+	game->v3[1] = game->p_center[1] + (PLAYER_RAY * sin(game->p_orient[2] + \
+	(2 * M_PI / 2.5)));
+}
+
 /**
  * @brief Builds the player image.
  *
@@ -153,31 +173,21 @@ void	ft_build_minimap(t_game *game)
  */
 void	ft_build_player(t_game *game)
 {
-	int 	center[2];
-	double		v1[2];
-	double		v2[2];
-	double		v3[2];
 	double		pos[2];
 
 	if (game->img_list->player == NULL)
 		game->img_list->player = init_img(game, game->width, game->height);
-	ft_clear_img(game->img_list->player, game->img_list->player->width, game->img_list->player->height);
+	ft_clear_img(game->img_list->player, \
+	game->img_list->player->width, game->img_list->player->height);
 	cast_rays(game);
-	center[0] = (int)game->p_orient[0];
-	center[1] = (int)game->p_orient[1];
-	v1[0] = center[0] + (PLAYER_RAY * cos(game->p_orient[2]));
-	v1[1] = center[1] + (PLAYER_RAY * sin(game->p_orient[2]));
-	v2[0] = center[0] + (PLAYER_RAY * cos(game->p_orient[2] - (2 * M_PI / 2.5)));
-	v2[1] = center[1] + (PLAYER_RAY * sin(game->p_orient[2] - (2 * M_PI / 2.5)));
-	v3[0] = center[0] + (PLAYER_RAY * cos(game->p_orient[2] + (2 * M_PI / 2.5)));
-	v3[1] = center[1] + (PLAYER_RAY * sin(game->p_orient[2] + (2 * M_PI / 2.5)));
-	pos[1] = center[1] - PLAYER_SIZE / 2;
-	while (pos[1] < center[1] + PLAYER_SIZE / 2)
+	ft_set_player_info(game);
+	pos[1] = game->p_center[1] - PLAYER_SIZE / 2;
+	while (pos[1] < game->p_center[1] + PLAYER_SIZE / 2)
 	{
-		pos[0] = center[0] - PLAYER_SIZE / 2;
-		while (pos[0] < center[0] + PLAYER_SIZE / 2)
+		pos[0] = game->p_center[0] - PLAYER_SIZE / 2;
+		while (pos[0] < game->p_center[0] + PLAYER_SIZE / 2)
 		{
-			if(is_inside_triangle(v1, v2, v3, pos))
+			if (is_inside_triangle(game->v1, game->v2, game->v3, pos))
 				mlx_px(game->img_list->player, pos[0], pos[1], PLAYER_CLR);
 			pos[0]++;
 		}
@@ -185,8 +195,8 @@ void	ft_build_player(t_game *game)
 	}
 }
 
-
-void	copy_non_zero_pixels(t_data *src, t_data *dst, int x_offset, int y_offset)
+void	copy_non_zero_pixels(t_data *src, t_data *dst, \
+int x_offset, int y_offset)
 {
 	int				xy[2];
 	unsigned int	*src_pixel;

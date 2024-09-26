@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:02:07 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/20 17:09:43 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:36:51 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include <stdio.h>
-
-
 
 /**
  * @brief Finds the vertical intersection of the ray with the map.
@@ -95,8 +93,6 @@ double	*find_horizontal_inter(t_game *game, t_ray *ray)
 	return (info);
 }
 
-
-
 /**
  * @brief Draws a ray from the player position.
  *
@@ -143,6 +139,16 @@ void	ft_set_wall_type(t_ray *ray)
 	}
 }
 
+void	ft_set_ray_angle_info(t_ray *ray, double angle)
+{
+	ray->inter_type = HORIZONTAL;
+	ray->angle = angle;
+	ray->sin = sin(ray->angle);
+	ray->cos = cos(ray->angle);
+	ray->multiplier_y = copysign(1, ray->sin);
+	ray->multiplier_x = copysign(1, ray->cos);
+}
+
 /**
  * @brief Initializes a ray.
  *
@@ -154,19 +160,13 @@ void	ft_set_wall_type(t_ray *ray)
  * @param angle The angle of the ray.
  * @param game The game structure.
  */
-void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
+void	ft_ray_init(t_ray *ray, double angle, t_game *game)
 {
 	double	*vertical_inter;
 	double	*horizontal_inter;
 	double	*inter;
 
-	(void)angle_diff;
-	ray->inter_type = HORIZONTAL;
-	ray->angle = angle;
-	ray->sin = sin(ray->angle);
-	ray->cos = cos(ray->angle);
-	ray->multiplier_y = copysign(1, ray->sin);
-	ray->multiplier_x = copysign(1, ray->cos);
+	ft_set_ray_angle_info(ray, angle);
 	vertical_inter = find_vertical_inter(game, ray);
 	horizontal_inter = find_horizontal_inter(game, ray);
 	if (vertical_inter[2] < horizontal_inter[2])
@@ -179,7 +179,6 @@ void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff)
 	ray->x_n = inter[0];
 	ray->y_n = inter[1];
 	ray->distance = inter[2];
-	// * cos(angle_diff)
 	ft_set_wall_type(ray);
 	if (vertical_inter[2] == horizontal_inter[2] && game->prev_wall_type != -1)
 		ray->wall_type = game->prev_wall_type;
@@ -203,7 +202,6 @@ void	cast_rays(t_game *game)
 {
 	double	initial_angle;
 	double	final_angle;
-	t_ray	ray;
 	int		x;
 	double	angle_diff;
 
@@ -215,13 +213,13 @@ void	cast_rays(t_game *game)
 	while (initial_angle < final_angle)
 	{
 		angle_diff = initial_angle - game->p_orient[2];
-		ft_ray_init(&ray, initial_angle, game, angle_diff);
-		ft_draw_ray(game, ray.distance, initial_angle);
-		ray.distance *= cos(angle_diff);
-		render(game, &ray, x);
+		ft_ray_init(&(game->ray), initial_angle, game);
+		ft_draw_ray(game, game->ray.distance, initial_angle);
+		game->ray.distance *= cos(angle_diff);
+		render(game, &(game->ray), x);
 		initial_angle += game->fov / WIN_WIDTH;
 		x++;
-		game->prev_wall_type = ray.wall_type;
+		game->prev_wall_type = game->ray.wall_type;
 	}
 }
 
@@ -248,16 +246,13 @@ void	render_floor_ceiling(t_game *game)
 	}
 }
 
-void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end)
+void	calculate_wall_height(t_game *game, t_ray *ray, \
+int *draw_start, int *draw_end)
 {
-	int	line_height;
+	int		line_height;
+	double	normalized_distance;
 
-	(void)game;
-	// Normalize the distance based on the grid size
-    double normalized_distance = ray->distance / GRID_SIZE;
-
-	// printf("the distance is: %f\n", normalized_distance);
-
+	normalized_distance = ray->distance / GRID_SIZE;
 	line_height = (int)(WIN_HEIGHT / normalized_distance);
 	*draw_start = (-line_height / 2) + (WIN_HEIGHT / 2) + game->head_bob_offset;
 	if (*draw_start < 0)
@@ -268,48 +263,49 @@ void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_
 	ray->line_height = line_height;
 }
 
-void	set_texture_coordinates(t_game* game, t_ray* ray, int draw_start)
+void	set_texture_coordinates(t_game *game, t_ray *ray, int draw_start)
 {
 	double	wall_x;
-	double tex_pos;
-    double step;
+	double	tex_pos;
+	double	step;
 
 	if (ray->wall_type == NO || ray->wall_type == SO)
 		wall_x = ray->x_n / GRID_SIZE;
 	else
 		wall_x = ray->y_n / GRID_SIZE;
 	wall_x -= floor(wall_x);
-	ray->tex_x = (int)(wall_x * (double)game->img_list->wall[ray->wall_type]->width);
+	ray->tex_x = (int)(wall_x * \
+	(double)game->img_list->wall[ray->wall_type]->width);
 	ray->tex_x = ray->tex_x % game->img_list->wall[ray->wall_type]->width;
-
-	step = 1.0 * game->img_list->wall[ray->wall_type]->height / ray->line_height;
-    tex_pos = (draw_start - game->head_bob_offset - WIN_HEIGHT / 2 + ray->line_height / 2) * step;
-    ray->tex_pos = tex_pos;
+	step = 1.0 * game->img_list->wall[ray->wall_type]->height \
+	/ ray->line_height;
+	tex_pos = (draw_start - game->head_bob_offset - WIN_HEIGHT \
+	/ 2 + ray->line_height / 2) * step;
+	ray->tex_pos = tex_pos;
 }
 
-void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end)
+void	draw_wall_slice(t_game *game, int x, int draw_start, int draw_end)
 {
-	int	y;
-	int	tex_y;
-	int	color;
-	double step;
-    double tex_pos;
+	int		y;
+	int		tex_y;
+	int		color;
+	double	step;
+	double	tex_pos;
 
-	step = 1.0 * game->img_list->wall[ray->wall_type]->height / ray->line_height;
-    tex_pos = ray->tex_pos;
-
+	step = 1.0 * game->img_list->wall[game->ray.wall_type]->height \
+	/ game->ray.line_height;
+	tex_pos = game->ray.tex_pos;
 	y = draw_start;
 	while (y < draw_end)
 	{
-		// tex_y = (int)(((y - (-ray->line_height / 2 + WIN_HEIGHT / 2)) * game->img_list->wall[ray->wall_type]->height) / ray->line_height);
-		// tex_y = (int)tex_pos & (game->img_list->wall[ray->wall_type]->height - 1);
 		tex_y = (int)tex_pos;
 		if (tex_y < 0)
 			tex_y = 0;
-		if (tex_y >= game->img_list->wall[ray->wall_type]->height)
-			tex_y = game->img_list->wall[ray->wall_type]->height - 1;
+		if (tex_y >= game->img_list->wall[game->ray.wall_type]->height)
+			tex_y = game->img_list->wall[game->ray.wall_type]->height - 1;
 		tex_pos += step;
-		color = get_px_color(game->img_list->wall[ray->wall_type], ray->tex_x, tex_y);
+		color = get_px_color(game->img_list->wall[game->ray.wall_type], \
+		game->ray.tex_x, tex_y);
 		mlx_px(game->img_list->screen, x, y, color);
 		y++;
 	}
@@ -322,7 +318,5 @@ void	render(t_game *game, t_ray *ray, int x)
 
 	calculate_wall_height(game, ray, &draw_start, &draw_end);
 	set_texture_coordinates(game, ray, draw_start);
-
-
-	draw_wall_slice(game, ray, x, draw_start, draw_end);
+	draw_wall_slice(game, x, draw_start, draw_end);
 }

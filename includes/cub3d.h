@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/26 02:16:27 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:33:27 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,23 @@ typedef struct	s_map
 	int		c_color_val;
 }	t_map;
 
+typedef struct s_ray
+{
+	double	angle;
+	int		multiplier_x;
+	int		multiplier_y;
+	double	sin;
+	double	cos;
+	double	distance;
+	double	x_n;
+	double	y_n;
+	int		inter_type;
+	int		wall_type;
+	int		line_height;
+	int		tex_x;
+	double	tex_pos;
+} t_ray;
+
 // fov = Field of Vision IN RADIANS
 typedef struct s_game
 {
@@ -143,24 +160,12 @@ typedef struct s_game
 	int		state;
 	double	head_bob_offset;
 	double	head_bob_phase;
+	double	v1[2];
+	double	v2[2];
+	double	v3[2];
+	int		p_center[2];
+	t_ray	ray;
 } t_game;
-
-typedef struct s_ray
-{
-	double	angle;
-	int		multiplier_x;
-	int		multiplier_y;
-	double	sin;
-	double	cos;
-	double	distance;
-	double	x_n;
-	double	y_n;
-	int		inter_type;
-	int		wall_type;
-	int		line_height;
-	int		tex_x;
-	double	tex_pos;
-} t_ray;
 
 // Exit
 int	exit_program(t_game *game);
@@ -252,13 +257,13 @@ char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
 double	*find_vertical_inter(t_game *game, t_ray *ray);
 double	*find_horizontal_inter(t_game *game, t_ray *ray);
 void	ft_draw_ray(t_game *game, double ray_size, double angle);
-void	ft_ray_init(t_ray *ray, double angle, t_game *game, double angle_diff);
+void	ft_ray_init(t_ray *ray, double angle, t_game *game);
 void	cast_rays(t_game *game);
 
 void	load_wall_textures(t_game* game);
 t_data	*load_texture(t_game *game, char *path);
 void	render(t_game *game, t_ray *ray, int x);
-void	draw_wall_slice(t_game* game, t_ray *ray, int x, int draw_start, int draw_end);
+void	draw_wall_slice(t_game* game, int x, int draw_start, int draw_end);
 void	set_texture_coordinates(t_game* game, t_ray* ray,int draw_start);
 void	calculate_wall_height(t_game* game, t_ray* ray, int* draw_start, int* draw_end);
 void	render_floor_ceiling(t_game *game);
