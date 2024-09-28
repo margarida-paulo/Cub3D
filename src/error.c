@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/28 16:40:18 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:03:03 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	print_error_1(int error, t_map *map)
 	if (error == INVALID_CHARS)
 	{
 		ft_putstr_fd("\033[0;31mError:\nMap contains invalid characters", 2);
-		ft_putstr_fd("\n\033[0m\nValid character: [0, 1, N, S, W, E]", 2);
+		ft_putstr_fd("\n\033[0mValid character: [0, 1, N, S, W, E]\n", 2);
 		exit(error);
 	}
 	if (error == INVALID_P_CNT)

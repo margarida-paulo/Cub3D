@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/28 16:09:33 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:10:35 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,14 @@ void	minilibx_init(t_game *game)
 	game->height = ft_arrlen(game->map.map_array) * GRID_SIZE;
 	game->width = ft_strlen(game->map.map_array[0]) * GRID_SIZE;
 	game->mlx = mlx_init();
-	game->game_window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, \
-	"IKEA simulator");
 	game->img_list = ft_calloc(sizeof(t_pics), 1);
 	minilibx_init_helper(game);
 	game->img_list->cropped_minimap = init_img(game, MINIMAP_WIDTH, \
 	MINIMAP_HEIGHT);
 	game->img_list->screen = init_img(game, WIN_WIDTH, WIN_HEIGHT);
 	load_wall_textures(game);
+	game->game_window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, \
+	"IKEA simulator");
 	game->p_orient[0] = game->p_orient[0] * GRID_SIZE + GRID_SIZE / 2;
 	game->p_orient[1] = game->p_orient[1] * GRID_SIZE + GRID_SIZE / 2;
 	game->key_press = 0;
