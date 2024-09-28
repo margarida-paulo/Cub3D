@@ -6,11 +6,27 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:13:55 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/24 14:49:43 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:50:02 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+void	set_elements_util(char *trimmed_line, char *tmp, size_t len, t_map *map)
+{
+	if (ft_strncmp(trimmed_line, "NO", 2) == 0)
+		map->no_texture = ft_substr(tmp, 0, len);
+	else if (ft_strncmp(trimmed_line, "SO", 2) == 0)
+		map->so_texture = ft_substr(tmp, 0, len);
+	else if (ft_strncmp(trimmed_line, "WE", 2) == 0)
+		map->we_texture = ft_substr(tmp, 0, len);
+	else if (ft_strncmp(trimmed_line, "EA", 2) == 0)
+		map->ea_texture = ft_substr(tmp, 0, len);
+	else if (ft_strncmp(trimmed_line, "F", 1) == 0)
+		map->f_color = ft_substr(tmp, 0, len);
+	else if (ft_strncmp(trimmed_line, "C", 1) == 0)
+		map->c_color = ft_substr(tmp, 0, len);
+}
 
 /**
  * @brief Sets the elements of the map struct based on the the cub file.
@@ -34,18 +50,17 @@ void	set_elements(t_map *map, char *line)
 		return ;
 	tmp = trim_leading_spaces(trimmed_line + 2);
 	len = ft_strlen(tmp) - 1;
-	if (ft_strncmp(trimmed_line, "NO", 2) == 0)
-		map->no_texture = ft_substr(tmp, 0, len);
-	else if (ft_strncmp(trimmed_line, "SO", 2) == 0)
-		map->so_texture = ft_substr(tmp, 0, len);
-	else if (ft_strncmp(trimmed_line, "WE", 2) == 0)
-		map->we_texture = ft_substr(tmp, 0, len);
-	else if (ft_strncmp(trimmed_line, "EA", 2) == 0)
-		map->ea_texture = ft_substr(tmp, 0, len);
-	else if (ft_strncmp(trimmed_line, "F", 1) == 0)
-		map->f_color = ft_substr(tmp, 0, len);
-	else if (ft_strncmp(trimmed_line, "C", 1) == 0)
-		map->c_color = ft_substr(tmp, 0, len);
+	if ((!ft_strncmp(trimmed_line, "NO", 2) && map->no_texture) || \
+	(!ft_strncmp(trimmed_line, "SO", 2) && map->so_texture) || \
+	(!ft_strncmp(trimmed_line, "WE", 2) && map->we_texture) || \
+	(!ft_strncmp(trimmed_line, "EA", 2) && map->ea_texture) || \
+	(!ft_strncmp(trimmed_line, "F", 1) && map->f_color) || \
+	(!ft_strncmp(trimmed_line, "C", 1) && map->c_color))
+	{
+		map->flag_duplicate_elements = 1;
+		return ;
+	}
+	set_elements_util(trimmed_line, tmp, len, map);
 }
 
 /**

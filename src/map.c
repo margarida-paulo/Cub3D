@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/28 15:47:39 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:42:29 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	parse_map(t_map *map, char **argv)
 
 	i = 0;
 	map_start_found = 0;
+	map->flag_duplicate_elements = 0;
 	cub_file_arr = get_cub_file_arr(argv);
 	while (cub_file_arr[i])
 	{
@@ -103,6 +104,8 @@ void	check_map_requirements(t_map *map)
 	if (!map->no_texture || !map->so_texture || !map->we_texture || \
 	!map->ea_texture || !map->f_color || !map->c_color)
 		print_error_1(MISSING_ELEMENTS, map);
+	if (map->flag_duplicate_elements == 1)
+		print_error_2(DUPLICATED_ELEMENTS, map);
 	if (check_map_invalid_chars(map))
 		print_error_1(INVALID_CHARS, map);
 	if (check_map_player_cnt(map))

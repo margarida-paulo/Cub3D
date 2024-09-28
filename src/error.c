@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:27:33 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/26 13:49:29 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:40:18 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,12 @@ int	print_error_2(int error, t_map *map)
 	if (error == NEWLINES_IN_MAP)
 	{
 		ft_putstr_fd("\033[0;31mError:\nMap has extra newlines", 2);
+		ft_putstr_fd("\n\033[0m", 2);
+		exit(error);
+	}
+	if (error == DUPLICATED_ELEMENTS)
+	{
+		ft_putstr_fd("\033[0;31mError:\nMap has duplicated elements", 2);
 		ft_putstr_fd("\n\033[0m", 2);
 		exit(error);
 	}

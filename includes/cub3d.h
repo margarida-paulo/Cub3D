@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/28 16:08:48 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:50:40 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ enum e_exit_codes
 	CAN_NOT_MALLOC_TEXTURE,
 	MLX_XPM_TO_IMG_FAIL,
 	MISSING_ELEMENTS,
+	DUPLICATED_ELEMENTS,
 	MAP_TOO_SMALL,
 	INVALID_CHARS,
 	INVALID_P_CNT,
@@ -140,6 +141,7 @@ typedef struct s_map
 	char	*c_color; //* Ceiling color: C 225,30,0
 	int		f_color_val;
 	int		c_color_val;
+	int		flag_duplicate_elements;
 }	t_map;
 
 typedef struct s_ray
@@ -234,6 +236,7 @@ int		is_in_bounds(int x, int y, t_map *map);
 int		flood_fill(t_map *map, int **visited, int x, int y);
 
 // map_setter.c
+void	set_elements_util(char *trimmed_line, char *tmp, size_t len, t_map *map);
 void	set_elements(t_map *map, char *line);
 void	set_p_orient_angle(t_map *map, char c);
 int		set_p_orient_arr(t_map *map);
