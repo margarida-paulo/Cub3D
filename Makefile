@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
+#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/09/28 15:45:33 by plashkar         ###   ########.fr        #
+#    Updated: 2024/09/28 16:57:39 by mvalerio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,5 +92,10 @@ re: fclean all
 
 v: all clean
 	@./$(NAME)
+
+check: clean
+	for file in test_maps/invalid_maps/*; do \
+		valgrind --leak-check=full ./$(NAME) $$file; \
+	done
 
 .PHONY: fclean clean all re v
