@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:24:13 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/28 20:21:25 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:23:27 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	load_all_textures(t_game *game)
 	game->img_list->wall[SO] = load_texture(game, game->map.so_texture);
 	game->img_list->wall[WE] = load_texture(game, game->map.we_texture);
 	game->img_list->wall[EA] = load_texture(game, game->map.ea_texture);
-	game->img_list->start_screen = \
-	load_texture(game, "./textures/start_img.xpm");
+	game->img_list->start_screen = load_texture(game, "./textures/intro.xpm");
 }
 
 t_data	*load_texture(t_game *game, char *path)
