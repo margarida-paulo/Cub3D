@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:22:55 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/28 17:10:35 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:21:41 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ void	minilibx_init_helper(t_game *game)
 	game->img_list->cropped_minimap = NULL;
 	game->img_list->minimap = NULL;
 	game->img_list->player = NULL;
+	game->p_orient[0] = game->p_orient[0] * GRID_SIZE + GRID_SIZE / 2;
+	game->p_orient[1] = game->p_orient[1] * GRID_SIZE + GRID_SIZE / 2;
+	game->key_press = 0;
+	game->origin[0] = 0;
+	game->origin[1] = 0;
 }
 
 /**
@@ -119,14 +124,9 @@ void	minilibx_init(t_game *game)
 	game->img_list->cropped_minimap = init_img(game, MINIMAP_WIDTH, \
 	MINIMAP_HEIGHT);
 	game->img_list->screen = init_img(game, WIN_WIDTH, WIN_HEIGHT);
-	load_wall_textures(game);
+	load_all_textures(game);
 	game->game_window = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, \
 	"IKEA simulator");
-	game->p_orient[0] = game->p_orient[0] * GRID_SIZE + GRID_SIZE / 2;
-	game->p_orient[1] = game->p_orient[1] * GRID_SIZE + GRID_SIZE / 2;
-	game->key_press = 0;
-	game->origin[0] = 0;
-	game->origin[1] = 0;
 	game->move_rate = MOVE_SPEED;
 	ft_build_minimap(game);
 	ft_build_player(game);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/28 16:53:01 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:21:35 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_pics
 	t_data	*player;
 	t_data	*wall[4];
 	t_data	*screen;
+	t_data	*start_screen;
 	t_data	*cropped_minimap;
 }				t_pics;
 
@@ -299,7 +300,7 @@ void	test_print_2d_map_array(char **arr);
 void	test_print_map_struct_data(t_map *map);
 
 // textures.c
-void	load_wall_textures(t_game *game);
+void	load_all_textures(t_game *game);
 t_data	*load_texture(t_game *game, char *path);
 void	ft_set_wall_type(t_ray *ray);
 

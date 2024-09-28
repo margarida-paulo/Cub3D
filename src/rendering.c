@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:34:44 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/26 12:25:30 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:19:44 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ void	ft_render_screen(t_game *game)
 void	render_menu(t_game *game)
 {
 	mlx_clear_window(game->mlx, game->game_window);
-	mlx_string_put(game->mlx, game->game_window, 100, 100, 0xFFFFFF, \
+	mlx_put_image_to_window(game->mlx, game->game_window, \
+	game->img_list->start_screen->img, 0, 0);
+	mlx_string_put(game->mlx, game->game_window, 100, 50, 0xFFFFFF, \
 	"1. Start Game");
-	mlx_string_put(game->mlx, game->game_window, 100, 150, 0xFFFFFF, "2. Exit");
+	mlx_string_put(game->mlx, game->game_window, 100, 100, 0xFFFFFF, "2. Exit");
 	mlx_do_sync(game->mlx);
 	if (game->key_press == XK_1)
 	{
