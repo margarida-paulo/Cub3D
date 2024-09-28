@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+         #
+#    By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 12:37:37 by mvalerio          #+#    #+#              #
-#    Updated: 2024/09/26 12:21:38 by mvalerio         ###   ########.fr        #
+#    Updated: 2024/09/28 15:45:33 by plashkar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ SRC = \
 	src/init.c \
 	src/textures.c \
 	src/key_press.c \
-	src/mini_map.c \
-	src/mini_map2.c \
+	src/mini_map_0.c \
+	src/mini_map_1.c \
 	src/mlx_extra.c \
 	src/map.c \
 	src/map_setters.c \

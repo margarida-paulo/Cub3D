@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:36:18 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/26 13:45:34 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:47:39 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ void	parse_map(t_map *map, char **argv)
 
 void	parse_color(t_map *map)
 {
-	map->c_color_val = parse_color_str(map->c_color);
-	map->f_color_val = parse_color_str(map->f_color);
+	if (map->c_color)
+		map->c_color_val = parse_color_str(map->c_color);
+	if (map->f_color)
+		map->f_color_val = parse_color_str(map->f_color);
 }
 
 int	parse_color_str(char *color_str)

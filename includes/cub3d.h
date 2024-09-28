@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/28 15:24:36 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:08:48 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@
 # define VALID_CHARS "01NSWE \n"
 # define HORIZONTAL 0
 # define VERTICAL 1
-# define MAP_PX 30
 # define PLAYER_CLR 0x00FFC0CB
 # define WALL_CLR 0x00FFFFFF
 # define MINI_FLOOR_CLR 0x00333333
@@ -187,121 +186,133 @@ typedef struct s_game
 	t_ray	ray;
 }	t_game;
 
-// Exit
-int		exit_program(t_game *game);
-
-// Key Press
-void	ft_render_screen(t_game *game);
-int		ft_key_press(int key_code, t_game *game);
-int		ft_key_release(int key_code, t_game *game);
-int		ft_rotate(t_game *game);
-
-// Init
-t_data	*init_img(t_game *game, int width, int height);
-void	minilibx_init(t_game *game);
-int		**init_visited_arr(t_map *map);
-
-// Mini Map
-void	ft_build_player(t_game *game);
-void	ft_move(t_game *pms);
-void	ft_build_minimap(t_game *game);
-t_data	*ft_merge_images(t_game *game, t_data *bottom, \
-t_data *top, double *pos);
-
-void	ft_clear_img(t_data *img, int width, int height);
-void	ft_set_player_info(t_game *game);
-
-// Mlx Extra
-void	mlx_px(t_data *img, int x, int y, int color);
-
-//args.c
+// args.c
 int		is_valid_extension(char *map_file_name);
 int		cub_file_cnt_lines(char **argv);
 char	**get_cub_file_arr(char **argv);
 
-//error.c
+// error.c
 int		print_error_0(int error, char *str);
 int		print_error_1(int error, t_map *map);
 int		print_error_2(int error, t_map *map);
 int		print_error_3(int error, t_map *map);
 int		print_error_4(int error, t_map *map);
 
-//free.c
+// exit.c
+int		exit_program(t_game *game);
+
+// free.c
 void	free_map_struct(t_map *map);
 void	free_2d_array(char **src);
 void	free_visited(int **visited, t_map *map);
 void	free_img(t_game *game, t_data *img);
 void	free_wall_textures(t_game *game);
 
-//map_setter.c
+// gameplay.c
+int		ft_gameplay(t_game *game);
+
+// init.c
+t_data	*init_img(t_game *game, int width, int height);
+int		**init_visited_arr(t_map *map);
+void	minilibx_init_helper(t_game *game);
+void	minilibx_init(t_game *game);
+void	ft_init_cropped_minimap(t_game *game);
+
+// key_press.c
+int		ft_rotate(t_game *game);
+int		ft_key_release(int key_code, t_game *game);
+int		ft_key_press(int key_code, t_game *game);
+
+// map_checks_0.c
+int		check_map_invalid_chars(t_map *map);
+int		check_map_player_cnt(t_map *map);
+int		check_cells(t_map *map, int **visited, int i);
+int		check_map_borders(t_map *map);
+
+// map_checks_1.c
+int		is_in_bounds(int x, int y, t_map *map);
+int		flood_fill(t_map *map, int **visited, int x, int y);
+
+// map_setter.c
 void	set_elements(t_map *map, char *line);
 void	set_p_orient_angle(t_map *map, char c);
 int		set_p_orient_arr(t_map *map);
 void	set_width_and_height(t_map *map);
 
-//map_checks_0.c
-int		check_map_invalid_chars(t_map *map);
-int		check_map_player_cnt(t_map *map);
-
-int		flood_fill(t_map *map, int **visited, int x, int y);
-int		check_map_borders(t_map *map);
+// map.c
+void	parse_map(t_map *map, char **argv);
+int		parse_color_str(char *color_str);
+void	parse_color(t_map *map);
+void	check_map_requirements(t_map *map);
 int		check_map_nl(t_map *map);
 
-//map_checks_1.c
-int		is_in_bounds(int x, int y, t_map *map);
-int		flood_fill(t_map *map, int **visited, int x, int y);
+// mini_map_0.c
+void	ft_clear_img(t_data *img, int width, int height);
+void	ft_bckg_square(t_game *game, int curr_x, int curr_y);
+void	crop_minimap_around_player(t_game *game);
+void	ft_build_minimap(t_game *game);
+void	ft_set_player_info(t_game *game);
 
-//map.c
-void	parse_map(t_map *map, char **argv);
-void	check_map_requirements(t_map *map);
+// mini_map_1.c
+void	copy_non_zero_pixels(t_data *src, t_data *dst, \
+int x_offset, int y_offset);
+t_data	*ft_merge_images(t_game *game, t_data *bottom, \
+t_data *top, double *pos);
+void	ft_build_player(t_game *game);
+void	ft_draw_ray(t_game *game, double ray_size, double angle);
+
+// mlx_extra.c
+void	mlx_px(t_data *img, int x, int y, int color);
+
+// movement.c
+int		is_near_wall(t_game *game, double x, double y);
+void	ft_move(t_game *game);
+void	update_head_bob(t_game *game);
+
+// raycasting_utils.c
+int		get_px_color(t_data *img, int x, int y);
+char	is_inside_map_ver(t_game *game, t_ray *ray, int x_n, int y_n);
+char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
+double	*find_vertical_inter(t_game *game, t_ray *ray);
+double	*find_horizontal_inter(t_game *game, t_ray *ray);
+
+// raycasting.c
+void	ft_set_ray_angle_info(t_ray *ray, double angle);
+void	ft_ray_init(t_ray *ray, double angle, t_game *game);
+void	cast_rays(t_game *game);
+void	calculate_wall_height(t_game *game, t_ray *ray, \
+		int *draw_start, int *draw_end);
+void	set_texture_coordinates(t_game *game, t_ray *ray, int draw_start);
+
+// rendering.c
+void	ft_render_screen(t_game *game);
+void	render_menu(t_game *game);
+void	render(t_game *game, t_ray *ray, int x);
+void	draw_wall_slice(t_game *game, int x, int draw_start, int draw_end);
+void	render_floor_ceiling(t_game *game);
+
+// test.c
+void	test_print_2d_map_array(char **arr);
+void	test_print_map_struct_data(t_map *map);
+
+// textures.c
+void	load_wall_textures(t_game *game);
+t_data	*load_texture(t_game *game, char *path);
+void	ft_set_wall_type(t_ray *ray);
 
 //utils_0.c
-char	*trim_leading_spaces(char *str);
-
+size_t	get_max_len_in_array(char **arr);
+char	*pad_string(char *str, size_t max_len);
+char	**normalize_array(char **arr);
 char	**copy_array_from_index(char **src_arr, int i);
-int		ft_cntchr(char *str, char c);
-int		is_numeric(char *str);
+char	*trim_leading_spaces(char *str);
 
 //utils_1.c
 double	area_triangle(double xy1[2], double xy2[2], double xy3[2]);
 int		is_inside_triangle(double xy1[2], \
 double xy2[2], double xy3[2], double p[2]);
 double	ft_distance(int x1, int y1, int x2, int y2);
-
-//test.c
-void	test_print_2d_map_array(char **arr);
-void	test_print_map_struct_data(t_map *map);
-
-//raycasting_utils.c
-int		get_px_color(t_data *img, int x, int y);
-char	is_inside_map_ver(t_game *game, t_ray *ray, int x_n, int y_n);
-char	is_inside_map_hor(t_game *game, t_ray *ray, int x_n, int y_n);
-
-//raycasting.c
-double	*find_vertical_inter(t_game *game, t_ray *ray);
-double	*find_horizontal_inter(t_game *game, t_ray *ray);
-void	ft_draw_ray(t_game *game, double ray_size, double angle);
-void	ft_ray_init(t_ray *ray, double angle, t_game *game);
-void	cast_rays(t_game *game);
-
-void	load_wall_textures(t_game *game);
-t_data	*load_texture(t_game *game, char *path);
-void	render(t_game *game, t_ray *ray, int x);
-void	draw_wall_slice(t_game *game, int x, int draw_start, int draw_end);
-void	set_texture_coordinates(t_game *game, t_ray *ray, int draw_start);
-void	calculate_wall_height(t_game *game, t_ray *ray, \
-		int *draw_start, int *draw_end);
-void	render_floor_ceiling(t_game *game);
-void	ft_set_wall_type(t_ray *ray);
-
-int		parse_color_str(char *color_str);
-void	parse_color(t_map *map);
-
-void	crop_minimap_around_player(t_game *game);
-void	ft_init_cropped_minimap(t_game *game);
-
-void	update_head_bob(t_game *game);
-int		ft_gameplay(t_game *game);
-void	render_menu(t_game *game);
+int		ft_cntchr(char *str, char c);
+int		is_numeric(char *str);
 
 #endif
