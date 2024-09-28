@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map_setters.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:13:55 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/28 16:50:02 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:53:26 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	set_elements_util(char *trimmed_line, char *tmp, size_t len, t_map *map)
+void	set_element_util(char *trimmed_line, char *tmp, size_t len, t_map *map)
 {
 	if (ft_strncmp(trimmed_line, "NO", 2) == 0)
 		map->no_texture = ft_substr(tmp, 0, len);
@@ -60,7 +60,7 @@ void	set_elements(t_map *map, char *line)
 		map->flag_duplicate_elements = 1;
 		return ;
 	}
-	set_elements_util(trimmed_line, tmp, len, map);
+	set_element_util(trimmed_line, tmp, len, map);
 }
 
 /**

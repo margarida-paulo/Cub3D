@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/28 16:50:40 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:53:01 by mvalerio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ int		is_in_bounds(int x, int y, t_map *map);
 int		flood_fill(t_map *map, int **visited, int x, int y);
 
 // map_setter.c
-void	set_elements_util(char *trimmed_line, char *tmp, size_t len, t_map *map);
+void	set_element_util(char *trimmed_line, char *tmp, size_t len, t_map *map);
 void	set_elements(t_map *map, char *line);
 void	set_p_orient_angle(t_map *map, char c);
 int		set_p_orient_arr(t_map *map);
