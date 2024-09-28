@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 21:36:49 by plashkar          #+#    #+#             */
-/*   Updated: 2023/04/20 18:52:30 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:07:18 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 int main(void)
 {
 	char	big[] = "We apologize again for the fault in the subtitles. Those
-	responsible for sacking the people who have just been sacked have been sacked.";
+	responsible for sacking the people who have just been sacked have
+	been sacked.";
 	char	little[] = "Those responsible for sacking the people";
 	printf("OG ft: %s\n", strnstr(big, little, 10));
 	printf("my ft: %s\n", ft_strnstr(big, little, 10));

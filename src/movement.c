@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 23:59:51 by plashkar          #+#    #+#             */
-/*   Updated: 2024/09/24 14:37:34 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:21:47 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,18 @@ void	ft_move(t_game *game)
 	double	n_pos[3];
 	int		m;
 
-	if (game->key_press == XK_w || game->key_press == XK_a)
+	if (game->key_press == XK_W || game->key_press == XK_A)
 		m = 1;
 	else
 		m = -1;
 	n_pos[0] = game->p_orient[0];
 	n_pos[1] = game->p_orient[1];
-	if (game->key_press == XK_w || game->key_press == XK_s)
+	if (game->key_press == XK_W || game->key_press == XK_S)
 	{
 		n_pos[0] += (game->move_rate * cos(game->p_orient[2]) * m);
 		n_pos[1] += (game->move_rate * sin(game->p_orient[2]) * m);
 	}
-	else if (game->key_press == XK_a || game->key_press == XK_d)
+	else if (game->key_press == XK_A || game->key_press == XK_D)
 	{
 		n_pos[0] += (game->move_rate * cos(game->p_orient[2] - M_PI / 2) * m);
 		n_pos[1] += (game->move_rate * sin(game->p_orient[2] - M_PI / 2) * m);
@@ -103,8 +103,8 @@ void	ft_move(t_game *game)
 
 void	update_head_bob(t_game *game)
 {
-	if (game->key_press == XK_w || game->key_press == XK_a || \
-		game->key_press == XK_s || game->key_press == XK_d)
+	if (game->key_press == XK_W || game->key_press == XK_A || \
+		game->key_press == XK_S || game->key_press == XK_D)
 	{
 		game->head_bob_phase += HEAD_BOB_FREQUENCY;
 		if (game->head_bob_phase > 2 * M_PI)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvalerio <mvalerio@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 14:24:08 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/26 14:08:58 by mvalerio         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:24:36 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <fcntl.h>
 # include "../mlx_linux/mlx.h"
 # include "../libft/libft.h"
-# include "keysymdef.h"
 
 //Color codes for ft_printf
 # define DEFAULT "\033[0m"
@@ -31,41 +30,31 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 
+//keys
+# define XK_LEFT 0xff51  /* Move left, left arrow */
+# define XK_UP 0xff52  /* Move up, up arrow */
+# define XK_RIGHT 0xff53  /* Move right, right arrow */
+# define XK_DOWN 0xff54  /* Move down, down arrow */
+# define XK_SPACE 0x0020  /* U+0020 SPACE */
+# define XK_W 0x0077  /* U+0077 LATIN SMALL LETTER W */
+# define XK_A 0x0061  /* U+0061 LATIN SMALL LETTER A */
+# define XK_S 0x0073  /* U+0073 LATIN SMALL LETTER S */
+# define XK_D 0x0064  /* U+0064 LATIN SMALL LETTER D */
+# define XK_0 0x0030  /* U+0030 DIGIT ZERO */
+# define XK_1 0x0031  /* U+0031 DIGIT ONE */
+# define XK_2 0x0032  /* U+0032 DIGIT TWO */
+# define XK_3 0x0033  /* U+0033 DIGIT THREE */
+# define XK_4 0x0034  /* U+0034 DIGIT FOUR */
+# define XK_5 0x0035  /* U+0035 DIGIT FIVE */
+# define XK_6 0x0036  /* U+0036 DIGIT SIX */
+# define XK_7 0x0037  /* U+0037 DIGIT SEVEN */
+# define XK_8 0x0038  /* U+0038 DIGIT EIGHT */
+# define XK_9 0x0039  /* U+0039 DIGIT NINE */
+# define XK_ESCAPE 0xff1b
+
 # define VALID_CHARS "01NSWE \n"
-
-enum e_exit_codes
-{
-	INVALID_ARG_CNT = 1,
-	INVALID_EXTENTION,
-	CAN_NOT_OPEN,
-	CAN_NOT_OPEN_TEXTURE,
-	CAN_NOT_MALLOC_TEXTURE,
-	MLX_XPM_TO_IMG_FAIL,
-	MISSING_ELEMENTS,
-	MAP_TOO_SMALL,
-	INVALID_CHARS,
-	INVALID_P_CNT,
-	INVALID_BORDERS,
-	NEWLINES_IN_MAP,
-};
-
 # define HORIZONTAL 0
 # define VERTICAL 1
-
-enum e_wall_types
-{
-	NO = 0,
-	SO = 1,
-	WE = 2,
-	EA = 3
-};
-
-enum e_game_states
-{
-	STATE_MENU,
-	STATE_PLAYING
-};
-
 # define MAP_PX 30
 # define PLAYER_CLR 0x00FFC0CB
 # define WALL_CLR 0x00FFFFFF
@@ -86,6 +75,36 @@ enum e_game_states
 # define MINIMAP_HEIGHT 200
 # define HEAD_BOB_AMPLITUDE 5.0
 # define HEAD_BOB_FREQUENCY 0.2
+
+enum e_exit_codes
+{
+	INVALID_ARG_CNT = 1,
+	INVALID_EXTENTION,
+	CAN_NOT_OPEN,
+	CAN_NOT_OPEN_TEXTURE,
+	CAN_NOT_MALLOC_TEXTURE,
+	MLX_XPM_TO_IMG_FAIL,
+	MISSING_ELEMENTS,
+	MAP_TOO_SMALL,
+	INVALID_CHARS,
+	INVALID_P_CNT,
+	INVALID_BORDERS,
+	NEWLINES_IN_MAP,
+};
+
+enum e_wall_types
+{
+	NO = 0,
+	SO = 1,
+	WE = 2,
+	EA = 3
+};
+
+enum e_game_states
+{
+	STATE_MENU,
+	STATE_PLAYING
+};
 
 typedef struct s_data
 {

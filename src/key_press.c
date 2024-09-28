@@ -6,7 +6,7 @@
 /*   By: plashkar <plashkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 17:21:51 by mvalerio          #+#    #+#             */
-/*   Updated: 2024/09/24 14:34:56 by plashkar         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:18:47 by plashkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@
  */
 int	ft_rotate(t_game *game)
 {
-	if (game->key_press == XK_Right)
+	if (game->key_press == XK_RIGHT)
 	{
 		if (game->p_orient[2] + (SENSITVITY / 1000) > (2 * M_PI))
 			game->p_orient[2] = 0;
 		else
 			game->p_orient[2] += (SENSITVITY / 1000);
 	}
-	else if (game->key_press == XK_Left)
+	else if (game->key_press == XK_LEFT)
 	{
 		if (game->p_orient[2] - (SENSITVITY / 1000) > (2 * M_PI))
 			game->p_orient[2] = 0;
@@ -76,7 +76,7 @@ int	ft_key_release(int key_code, t_game *game)
  */
 int	ft_key_press(int key_code, t_game *game)
 {
-	if (key_code == XK_Escape)
+	if (key_code == XK_ESCAPE)
 		exit_program(game);
 	else
 		game->key_press = key_code;
